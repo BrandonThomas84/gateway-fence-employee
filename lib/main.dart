@@ -4,7 +4,7 @@ import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/event_list/item.dart';
 import 'package:gateway_fence_employee/sidebar/sidebar.dart';
 
-import 'event_list/event_list.dart';
+import 'event_list/list.dart';
 // import 'package:gateway_fence_employee/sidebar/sidebar.dart';
 
 void main() {
@@ -33,7 +33,7 @@ class GatewayFenceEmployeeApp extends StatelessWidget {
       theme: ThemeData(fontFamily: 'Poppins'),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        drawer: Sidebar(),
+        drawer: const Sidebar(),
         backgroundColor: AppColors.greyDark,
         body: SafeArea(
           child: Column(
@@ -42,7 +42,7 @@ class GatewayFenceEmployeeApp extends StatelessWidget {
                 backgroundColor: AppColors.black,
                 title: const Text('Gateway Fence Employee App'),
               ),
-              EventList(eventList: eventList),
+              EventList(eventList: eventList, date: DateTime.now()),
             ],
           ),
         ),

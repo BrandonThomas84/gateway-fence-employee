@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class EventSectionTitle extends StatelessWidget {
-  final String date;
+  final String title;
   final bool allowEdit;
 
   const EventSectionTitle({
     super.key,
-    required this.date,
+    required this.title,
     required this.allowEdit,
   });
 
@@ -39,7 +39,7 @@ class EventSectionTitle extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Text(
-            date,
+            title,
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
