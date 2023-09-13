@@ -51,6 +51,9 @@ class Logger {
       output['data'].addAll(data);
     }
 
+    // add the timestamp to the end of the output 
+    output['utc'] = DateTime.now().toUtc().toIso8601String();
+
     // log the output
     print(jsonEncode(output));
   }

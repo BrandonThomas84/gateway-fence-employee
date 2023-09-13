@@ -17,8 +17,8 @@ class Sidebar extends StatelessWidget {
         color: AppColors.white,
         child: const Column(
           children: [
-            AppHeader(),
-            AppMenu(),
+            Header(),
+            Menu(),
           ],
         ),
       ),

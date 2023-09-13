@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'menu_item.dart';
 
-class AppMenu extends StatelessWidget {
-  const AppMenu({
+class Menu extends StatelessWidget {
+  const Menu({
     super.key,
   });
 
