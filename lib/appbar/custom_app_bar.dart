@@ -24,7 +24,7 @@ class CustomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> customBottomAppBarButtons = [
       {
-        "key": RouteOwner.home,
+        "key": RouteOwner.menu,
         "text": 'Menu',
         "icon": Icons.menu_outlined,
         "onTap": () {
@@ -37,6 +37,7 @@ class CustomAppBar extends StatelessWidget {
         "text": 'Home',
         "icon": Icons.home_outlined,
         "onTap": () {
+          if (routeOwner == RouteOwner.home) return;
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => HomeRoute()),
@@ -48,6 +49,7 @@ class CustomAppBar extends StatelessWidget {
         "text": 'Time card',
         "icon": Icons.event_available_outlined,
         "onTap": () {
+          if (routeOwner == RouteOwner.timeCard) return;
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const TimeSheetRoute()),
@@ -74,7 +76,7 @@ class CustomAppBar extends StatelessWidget {
                 width: buttonWidth,
                 onTap: btn['onTap'],
                 color:
-                    routeOwner == btn['text'] ? AppColors.blue : AppColors.grey,
+                    routeOwner == btn['key'] ? AppColors.blue : AppColors.grey,
                 isLast: btn == customBottomAppBarButtons.last,
               ),
           ],
