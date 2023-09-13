@@ -9,25 +9,38 @@ class AppMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      children: [
-        MenuItem(
-          title: 'My Profile',
-          icon: Icons.account_circle_rounded,
-        ),
-        MenuItem(
-          title: 'Settings',
-          icon: Icons.settings,
-        ),
-        MenuItem(
-          title: 'Time Sheet',
-          icon: Icons.timer_rounded,
-        ),
-        MenuItem(
-          title: 'Logout',
-          icon: Icons.logout_rounded,
-        ),
-      ],
+    return SizedBox(
+      height: (MediaQuery.of(context).size.height * .75) - 115,
+      child: const Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Column(
+            children: [
+              MenuItem(
+                title: 'My Profile',
+                icon: Icons.account_circle_rounded,
+              ),
+              MenuItem(
+                title: 'Time Sheet',
+                icon: Icons.timer_rounded,
+              ),
+              MenuItem(
+                title: 'Settings',
+                icon: Icons.settings,
+              ),
+            ],
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: MenuItem(
+              title: 'Logout',
+              icon: Icons.logout_rounded,
+            ),
+          )
+        ],
+      ),
     );
   }
 }
