@@ -22,14 +22,17 @@ class CustomAppBarItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () {
-        // Add your button press logic here
-        Logger.info("CustomAppBar button press", data: {'text': text});
-        onTap!();
-      },
-      child: Tooltip(
-        message: text,
+    final GlobalKey<TooltipState> tooltipkey = GlobalKey<TooltipState>();
+
+    return Tooltip(
+      message: text,
+      key: tooltipkey,
+      child: TextButton(
+        onPressed: () {
+          // Add your button press logic here
+          Logger.info("CustomAppBar button press", data: {'text': text});
+          onTap!();
+        },
         child: Icon(
           icon,
           color: color,

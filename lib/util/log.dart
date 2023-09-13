@@ -22,7 +22,7 @@ class Logger {
     // check the level to determine if the log should be made
     try {
       LogLevel logAt = _getLogLevelFromString(appVarLogLevel);
-      if (level.index >= logAt.index) {
+      if (level.index > logAt.index) {
         return;
       }
     } catch (e) {

@@ -10,7 +10,7 @@ class Menu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: (MediaQuery.of(context).size.height * .75) - 115,
+      height: (MediaQuery.of(context).size.height * .75) - 120,
       child: const Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
