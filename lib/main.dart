@@ -3,9 +3,19 @@ import 'package:flutter/services.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/event_list/item.dart';
 import 'package:gateway_fence_employee/sidebar/sidebar.dart';
+import 'package:gateway_fence_employee/util/log.dart';
 
 import 'event_list/list.dart';
-// import 'package:gateway_fence_employee/sidebar/sidebar.dart';
+
+// Application variables
+const appVarEnvironment = String.fromEnvironment(
+  'APPLICATION_ENVIRONMENT',
+  defaultValue: 'release',
+);
+const appVarLogLevel = String.fromEnvironment(
+  'APPLICATION_LOG_LEVEL',
+  defaultValue: 'error',
+);
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
@@ -38,11 +48,37 @@ class GatewayFenceEmployeeApp extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              AppBar(
-                backgroundColor: AppColors.black,
-                title: const Text('Gateway Fence Employee App'),
+              Expanded(
+                child: EventList(eventList: eventList, date: DateTime.now()),
               ),
-              EventList(eventList: eventList, date: DateTime.now()),
+              Positioned(
+                bottom: 0,
+                child: Container(
+                  color: AppColors.blueLight,
+                  height: 50,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Tooltip(
+                        message: 'Clock In',
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // Add your button press logic here
+                            Logger.error("Clock in button pressed", data: {
+                              'button': 'clock_in',
+                            });
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            textStyle: const TextStyle(fontSize: 9),
+                          ),
+                          child: const Icon(Icons.more_time_outlined),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),

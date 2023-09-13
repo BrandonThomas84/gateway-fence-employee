@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class EventSectionTitle extends StatelessWidget {
+class EventListSectionTitle extends StatelessWidget {
   final String title;
   final bool allowEdit;
 
-  const EventSectionTitle({
+  const EventListSectionTitle({
     super.key,
     required this.title,
     required this.allowEdit,

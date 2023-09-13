@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gateway_fence_employee/config/colors.dart';
 
 import 'item.dart';
-import 'section_title.dart';
+import 'section.dart';
 
 class EventList extends StatelessWidget {
   const EventList({
@@ -23,25 +22,14 @@ class EventList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      color: AppColors.white,
-      child: ExpansionTile(
-        title: EventSectionTitle(
-          title: _dateTitle,
-          allowEdit: false,
-        ),
-        children: [
-          ListView.separated(
-            shrinkWrap: true,
-            separatorBuilder: (context, index) => const Divider(),
-            itemCount: eventList.length,
-            itemBuilder: (context, index) {
-              return eventList[index];
-            },
-          ),
-        ],
-      ),
+    return Column(
+      children: [
+        EventListSection(title: _dateTitle, events: eventList),
+        EventListSection(title: 'Yesterday', events: eventList),
+        EventListSection(title: 'September, 11th 2023', events: eventList),
+        EventListSection(title: 'September, 10th 2023', events: eventList),
+        EventListSection(title: 'September, 9th 2023', events: eventList)
+      ],
     );
   }
 }
