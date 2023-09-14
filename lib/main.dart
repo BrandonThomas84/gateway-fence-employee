@@ -17,13 +17,14 @@ const appVarLogLevel = String.fromEnvironment(
 );
 
 Future<void> main() async {
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-    statusBarColor: AppColors.black,
-  ));
-
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+    statusBarColor: AppColors.black,
+  ));
 
   runApp(const GatewayFenceEmployeeApp());
 }

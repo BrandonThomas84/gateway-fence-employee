@@ -2,6 +2,8 @@
 
 A new Flutter project.
 
+> NOTE: If you cazn't run adb on windows open a powershell instance with admin rights and run the following command: `netstat -ano | Select-String "5037"` and kill the process with the PID that is using the port 5037. Then run `adb kill-server` and `adb start-server` and try again.
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.

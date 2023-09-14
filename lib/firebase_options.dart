@@ -10,11 +10,10 @@ import 'package:flutter/foundation.dart'
 /// ```dart
 /// import 'firebase_options.dart';
 /// // ...
-// / await Firebase.initializeApp(
-// /   options: DefaultFirebaseOptions.currentPlatform,
-// / );
+/// await Firebase.initializeApp(
+///   options: DefaultFirebaseOptions.currentPlatform,
+/// );
 /// ```
-
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
@@ -26,10 +25,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -72,5 +68,14 @@ class DefaultFirebaseOptions {
     projectId: 'gateway-fence-employee',
     storageBucket: 'gateway-fence-employee.appspot.com',
     iosBundleId: 'com.example.gatewayFenceEmployee',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyC0lhcNBr7LZGo4_v5D23ii8Fqiq7LVMtY',
+    appId: '1:8841313432:ios:a1f05a356f80b25d5764ed',
+    messagingSenderId: '8841313432',
+    projectId: 'gateway-fence-employee',
+    storageBucket: 'gateway-fence-employee.appspot.com',
+    iosBundleId: 'com.example.gatewayFenceEmployee.RunnerTests',
   );
 }
