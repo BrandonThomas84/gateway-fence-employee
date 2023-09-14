@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyC0lhcNBr7LZGo4_v5D23ii8Fqiq7LVMtY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>8841313432</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.gatewayFenceEmployee</string>
+	<key>PROJECT_ID</key>
+	<string>gateway-fence-employee</string>
+	<key>STORAGE_BUCKET</key>
+	<string>gateway-fence-employee.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:8841313432:ios:8112f63ac94f83f25764ed</string>
+</dict>
+</plist>

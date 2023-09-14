@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "8841313432",
+    "project_id": "gateway-fence-employee",
+    "storage_bucket": "gateway-fence-employee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8841313432:android:44e4e8e3e10244dd5764ed",
+        "android_client_info": {
+          "package_name": "com.example.gateway_fence_employee"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlB07rru6ecBswcYEHiWdrjsAdOIPlaj4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -3,6 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/routes/home.dart';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
 // Application variables
 const appVarEnvironment = String.fromEnvironment(
   'APPLICATION_ENVIRONMENT',
@@ -13,10 +16,14 @@ const appVarLogLevel = String.fromEnvironment(
   defaultValue: 'error',
 );
 
-void main() {
+Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
     statusBarColor: AppColors.black,
   ));
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   runApp(const GatewayFenceEmployeeApp());
 }
