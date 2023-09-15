@@ -46,8 +46,8 @@ class Shifts extends StatelessWidget {
     return Column(
       children: [
         for (MapEntry<int, List<Shift>> entry in _sorted(eventList).entries)
-          // Logger.info("entry", data: {"entry": entry.value[0].toJson()});
           ShiftDay(
+            startExpanded: entry.key == _sorted(eventList).keys.first,
             date: DateTime.parse(entry.value[0].start!),
             shifts: entry.value,
           ),
