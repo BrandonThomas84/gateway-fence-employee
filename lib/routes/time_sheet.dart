@@ -20,7 +20,7 @@ class TimeSheetRoute extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const Sidebar(),
-      backgroundColor: AppColors.greyDark,
+      backgroundColor: AppColors.greyLight,
       bottomNavigationBar: const CustomAppBar(
         routeOwner: RouteOwner.timeCard,
       ),
@@ -49,7 +49,7 @@ class TimeSheetRoute extends StatelessWidget {
                   Text(
                     "Time Sheet",
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 22,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

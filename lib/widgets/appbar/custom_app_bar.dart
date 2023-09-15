@@ -64,7 +64,7 @@ class CustomAppBar extends StatelessWidget {
 
     return BottomAppBar(
       child: Container(
-        color: AppColors.greyLight,
+        color: AppColors.grey,
         height: 50,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -76,7 +76,7 @@ class CustomAppBar extends StatelessWidget {
                 width: buttonWidth,
                 onTap: btn['onTap'],
                 color:
-                    routeOwner == btn['key'] ? AppColors.blue : AppColors.grey,
+                    routeOwner == btn['key'] ? AppColors.blue : AppColors.greyLight,
                 isLast: btn == customBottomAppBarButtons.last,
               ),
           ],

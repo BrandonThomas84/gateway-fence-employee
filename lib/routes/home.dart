@@ -10,14 +10,61 @@ class HomeRoute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      drawer: Sidebar(),
-      backgroundColor: AppColors.greyDark,
-      bottomNavigationBar: CustomAppBar(routeOwner: RouteOwner.home),
+    return Scaffold(
+      drawer: const Sidebar(),
+      backgroundColor: AppColors.greyLight,
+      bottomNavigationBar: const CustomAppBar(
+        routeOwner: RouteOwner.home,
+      ),
       body: SafeArea(
-        child: Column(
+        child: ListView(
           children: [
-            Text("some stuff"),
+            Container(
+              padding: const EdgeInsets.only(
+                top: 10,
+                right: 30,
+                bottom: 30,
+                left: 30,
+              ),
+              decoration: const BoxDecoration(
+                color: AppColors.white,
+                border: Border(
+                  bottom: BorderSide(
+                    color: AppColors.greyLight,
+                    width: 1,
+                  ),
+                ),
+              ),
+              child: const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Gateway Fence Employees",
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                ],
+              ),
+            ),
+            Container(
+              decoration: const BoxDecoration(
+                color: AppColors.white,
+                border: Border(
+                  bottom: BorderSide(
+                    color: AppColors.greyLight,
+                    width: 1,
+                  ),
+                ),
+              ),
+              child: const Column(
+                children: [
+                  Text("some stuff"),
+                ],
+              ),
+            ),
           ],
         ),
       ),
