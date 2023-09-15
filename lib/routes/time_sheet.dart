@@ -27,6 +27,62 @@ class TimeSheetRoute extends StatelessWidget {
       body: SafeArea(
         child: ListView(
           children: [
+            Container(
+              padding: const EdgeInsets.only(
+                top: 10,
+                right: 30,
+                bottom: 30,
+                left: 30,
+              ),
+              decoration: const BoxDecoration(
+                color: AppColors.white,
+                border: Border(
+                  bottom: BorderSide(
+                    color: AppColors.greyLight,
+                    width: 1,
+                  ),
+                ),
+              ),
+              child: const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Time Sheet",
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Date Ranges:",
+                        style: TextStyle(fontSize: 14, color: AppColors.grey),
+                      ),
+                      Text(
+                        "09/12/2021 - 09/14/2021",
+                        style: TextStyle(fontSize: 14, color: AppColors.grey),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Total Hours:",
+                        style: TextStyle(fontSize: 14, color: AppColors.grey),
+                      ),
+                      Text(
+                        "24.5",
+                        style: TextStyle(fontSize: 14, color: AppColors.grey),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
             ShiftDay(
               date: DateTime.now(),
               events: eventList,
