@@ -10,7 +10,7 @@ class ShiftDay extends StatefulWidget {
   const ShiftDay({
     super.key,
     required this.date,
-    required this.events,
+    required this.shifts,
     this.subTitle,
     this.startExpanded = false,
   });
@@ -22,7 +22,7 @@ class ShiftDay extends StatefulWidget {
   final String? subTitle;
 
   /// the list of events that will be displayed
-  final List<Shift> events;
+  final List<Shift> shifts;
 
   /// Whether or not the section will begin expanded.
   /// This is useful on the current day or after search
@@ -67,30 +67,33 @@ class _ShiftDayState extends State<ShiftDay> {
         subtitle:
             widget.subTitle != null ? ShiftDaySubitle(widget.subTitle!) : null,
         children: [
-          for (var event in widget.events) ...[
+          for (var shift in widget.shifts) ...[
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 15,
+              ),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text("Start:"),
-                      Text(event.start ?? ""),
+                      Text(shift.getStartTimeString()),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text("End:"),
-                      Text(event.end ?? ""),
+                      Text(shift.getEndTimeString()),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text("Duration:"),
-                      Text(event.getDurationString()),
+                      Text(shift.getDurationString()),
                     ],
                   ),
                 ],
