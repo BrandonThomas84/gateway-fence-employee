@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gateway_fence_employee/config/colors.dart';
-import 'package:gateway_fence_employee/routes/home.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
+
+import 'package:gateway_fence_employee/config/colors.dart';
+import 'package:gateway_fence_employee/providers/timer_provider.dart';
+import 'package:gateway_fence_employee/routes/home.dart';
+import 'package:gateway_fence_employee/routes/time_sheet.dart';
 
 // Application variables
 const appVarEnvironment = String.fromEnvironment(
@@ -26,7 +30,9 @@ Future<void> main() async {
     statusBarColor: AppColors.black,
   ));
 
-  runApp(const GatewayFenceEmployeeApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => Timer()),
+  ], child: const GatewayFenceEmployeeApp()));
 }
 
 class GatewayFenceEmployeeApp extends StatelessWidget {
@@ -39,6 +45,11 @@ class GatewayFenceEmployeeApp extends StatelessWidget {
       theme: ThemeData(fontFamily: 'Poppins'),
       debugShowCheckedModeBanner: false,
       home: HomeRoute(),
+      initialRoute: '/',
+      routes: <String, WidgetBuilder>{
+        '/': (BuildContext context) => HomeRoute(),
+        '/time-sheet': (BuildContext context) => const TimeSheetRoute(),
+      },
     );
   }
 }
