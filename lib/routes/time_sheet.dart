@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:gateway_fence_employee/test/mocks/shifts.dart';
+import 'package:uuid/uuid.dart';
+
 import 'package:gateway_fence_employee/widgets/appbar/custom_app_bar.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
-import 'package:gateway_fence_employee/widgets/shifts/shift.dart';
+import 'package:gateway_fence_employee/models/shift.dart';
 import 'package:gateway_fence_employee/widgets/sidebar/sidebar.dart';
-import 'package:gateway_fence_employee/widgets/shifts/shift_list.dart';
+
+import '../widgets/shifts/shift_day.dart';
+
+Uuid owner = const Uuid();
 
 class TimeSheetRoute extends StatelessWidget {
   TimeSheetRoute({super.key});
 
-  final List<Shift> eventList = [
-    const Shift(text: 'My Event 1', time: '12:34:45 PM'),
-    const Shift(text: 'My Event 2', time: '12:35:45 PM'),
-    const Shift(text: 'My Event 3', time: '12:36:45 PM'),
-    const Shift(text: 'My Event 4', time: '12:37:45 PM'),
-    const Shift(text: 'My Event 5', time: '12:38:45 PM'),
-  ];
+  final List<Shift> eventList = getMockShifts(owner);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,22 @@ class TimeSheetRoute extends StatelessWidget {
       body: SafeArea(
         child: ListView(
           children: [
-            ShiftList(eventList: eventList),
+            ShiftDay(
+              date: DateTime.now(),
+              events: eventList,
+              startExpanded: true,
+            ),
+            ShiftDay(
+                date: DateTime.parse("2023-09-14 00:00:00.000"),
+                subTitle: "this is some shit ain't it",
+                events: eventList),
+            ShiftDay(
+                date: DateTime.parse("2023-09-13 00:00:00.000"),
+                events: eventList),
+            ShiftDay(
+                date: DateTime.parse("2023-09-12 00:00:00.000"),
+                subTitle: "derpy derp",
+                events: eventList),
           ],
         ),
       ),

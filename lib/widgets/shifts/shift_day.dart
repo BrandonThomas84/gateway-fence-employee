@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
+import 'package:gateway_fence_employee/models/shift.dart';
 import 'package:gateway_fence_employee/util/time.dart';
 
-import 'shift.dart';
 import 'shift_day_subtitle.dart';
 import 'shift_day_title.dart';
 
@@ -67,14 +67,36 @@ class _ShiftDayState extends State<ShiftDay> {
         subtitle:
             widget.subTitle != null ? ShiftDaySubitle(widget.subTitle!) : null,
         children: [
-          ListView.builder(
-            shrinkWrap: true,
-            // separatorBuilder: (context, index) => const Divider(),
-            itemCount: widget.events.length,
-            itemBuilder: (context, index) {
-              return widget.events[index];
-            },
-          ),
+          for (var event in widget.events) ...[
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text("Start:"),
+                      Text(event.start ?? ""),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text("End:"),
+                      Text(event.end ?? ""),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text("Duration:"),
+                      Text(event.getDurationString()),
+                    ],
+                  ),
+                ],
+              ),
+            )
+          ],
         ],
       ),
     );

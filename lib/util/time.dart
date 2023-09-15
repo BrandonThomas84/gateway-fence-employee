@@ -17,7 +17,7 @@
     final minutes = date.minute.toString().padLeft(2, '0');
     final seconds = date.second.toString().padLeft(2, '0');
     
-    return '$result $hours:$minutes:$seconds';
+    return '$result $hours:$minutes:$seconds UTC';
   }
 
   String getMonthfromInt(int month) {
