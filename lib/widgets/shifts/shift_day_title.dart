@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class EventListSectionTitle extends StatelessWidget {
+class ShiftDayTitle extends StatelessWidget {
   final String title;
   final bool allowEdit;
 
-  const EventListSectionTitle({
+  const ShiftDayTitle({
     super.key,
     required this.title,
     required this.allowEdit,

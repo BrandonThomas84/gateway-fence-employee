@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
 
-class EventItem extends StatelessWidget {
+class Shift extends StatelessWidget {
   final String text;
   final String time;
   final VoidCallback? onTap;
 
-  const EventItem({
+  const Shift({
     super.key,
     required this.text,
     required this.time,

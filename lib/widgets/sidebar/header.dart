@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gateway_fence_employee/sidebar/profile.dart';
-import 'package:gateway_fence_employee/sidebar/status_timer.dart';
+import 'package:gateway_fence_employee/widgets/sidebar/profile.dart';
+import 'package:gateway_fence_employee/widgets/sidebar/status_timer.dart';
 
 class Header extends StatelessWidget {
   const Header({

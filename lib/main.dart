@@ -44,12 +44,12 @@ class GatewayFenceEmployeeApp extends StatelessWidget {
       title: 'Gateway Fence Employee App',
       theme: ThemeData(fontFamily: 'Poppins'),
       debugShowCheckedModeBanner: false,
-      home: HomeRoute(),
       initialRoute: '/',
       routes: <String, WidgetBuilder>{
-        '/': (BuildContext context) => HomeRoute(),
-        '/time-sheet': (BuildContext context) => const TimeSheetRoute(),
+        '/': (BuildContext context) => const HomeRoute(),
+        '/time-sheet': (BuildContext context) => TimeSheetRoute(),
       },
+      themeAnimationDuration: const Duration(milliseconds: 0),
     );
   }
 }

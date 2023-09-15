@@ -40,7 +40,7 @@ class CustomAppBar extends StatelessWidget {
           if (routeOwner == RouteOwner.home) return;
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => HomeRoute()),
+            MaterialPageRoute(builder: (context) => const HomeRoute()),
           );
         },
       },
@@ -52,7 +52,7 @@ class CustomAppBar extends StatelessWidget {
           if (routeOwner == RouteOwner.timeCard) return;
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const TimeSheetRoute()),
+            MaterialPageRoute(builder: (context) => TimeSheetRoute()),
           );
         },
       },
