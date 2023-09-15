@@ -48,24 +48,6 @@ class Timer with ChangeNotifier {
     return _formatDuration(duration);
   }
 
-  /// Returns the time since the timer started in the format HH:MM:SS.
-  String getTimeSinceStart() {
-    if (_startTime == null) {
-      return '00:00:00';
-    }
-    final duration = DateTime.now().difference(_startTime!);
-    return _formatDuration(duration);
-  }
-
-  /// Returns the time since the timer ended in the format HH:MM:SS.
-  String getTimeSinceEnd() {
-    if (_endTime == null) {
-      return '00:00:00';
-    }
-    final duration = DateTime.now().difference(_endTime!);
-    return _formatDuration(duration);
-  }
-
   /// Returns the start time in the format HH:MM:SS.
   String getStartTime() {
     if (_startTime == null) {
