@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -21,14 +22,16 @@ const appVarLogLevel = String.fromEnvironment(
 );
 
 Future<void> main() async {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+    statusBarColor: AppColors.black,
+  ));
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-    statusBarColor: AppColors.black,
-  ));
+  FirebaseDatabase _ = FirebaseDatabase.instance;
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => Timer()),

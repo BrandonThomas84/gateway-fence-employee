@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "8841313432",
+    "firebase_url": "https://gateway-fence-employee-default-rtdb.firebaseio.com",
     "project_id": "gateway-fence-employee",
     "storage_bucket": "gateway-fence-employee.appspot.com"
   },

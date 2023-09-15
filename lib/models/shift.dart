@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:uuid/uuid.dart';
 
 class Shift {
@@ -24,7 +25,7 @@ class Shift {
   /// Get the duration of the shift as a string
   String getDurationString() {
     if (start == null || end == null) return "";
-    
+
     final Duration duration = getEnd!.difference(getStart!);
 
     return "${duration.inHours}h ${duration.inMinutes.remainder(60)}m";
@@ -55,4 +56,11 @@ class Shift {
         'created': created != null ? getCreated!.toIso8601String() : null,
         'updated': updated != null ? getUpdated!.toIso8601String() : null,
       };
+
+  // Save the shift to the database
+  Future<void> save() async {
+    DatabaseReference ref = FirebaseDatabase.instance.ref("/shifts/$ownerID");
+
+    await ref.set(toJson());
+  }
 }

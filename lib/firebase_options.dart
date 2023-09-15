@@ -49,6 +49,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '8841313432',
     projectId: 'gateway-fence-employee',
     authDomain: 'gateway-fence-employee.firebaseapp.com',
+    databaseURL: 'https://gateway-fence-employee-default-rtdb.firebaseio.com',
     storageBucket: 'gateway-fence-employee.appspot.com',
     measurementId: 'G-30BM0KWCP1',
   );
@@ -58,6 +59,7 @@ class DefaultFirebaseOptions {
     appId: '1:8841313432:android:44e4e8e3e10244dd5764ed',
     messagingSenderId: '8841313432',
     projectId: 'gateway-fence-employee',
+    databaseURL: 'https://gateway-fence-employee-default-rtdb.firebaseio.com',
     storageBucket: 'gateway-fence-employee.appspot.com',
   );
 
@@ -66,6 +68,7 @@ class DefaultFirebaseOptions {
     appId: '1:8841313432:ios:8112f63ac94f83f25764ed',
     messagingSenderId: '8841313432',
     projectId: 'gateway-fence-employee',
+    databaseURL: 'https://gateway-fence-employee-default-rtdb.firebaseio.com',
     storageBucket: 'gateway-fence-employee.appspot.com',
     iosBundleId: 'com.example.gatewayFenceEmployee',
   );
@@ -75,6 +78,7 @@ class DefaultFirebaseOptions {
     appId: '1:8841313432:ios:a1f05a356f80b25d5764ed',
     messagingSenderId: '8841313432',
     projectId: 'gateway-fence-employee',
+    databaseURL: 'https://gateway-fence-employee-default-rtdb.firebaseio.com',
     storageBucket: 'gateway-fence-employee.appspot.com',
     iosBundleId: 'com.example.gatewayFenceEmployee.RunnerTests',
   );
