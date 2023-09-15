@@ -45,7 +45,8 @@ class Shift {
 
   String getStartTimeString() {
     if (start == null) return "";
-    String h = getStart!.hour.toString().padLeft(2, '0');
+    int actualHour = getStart!.hour > 12 ? getStart!.hour - 12 : getStart!.hour;
+    String h = actualHour.toString().padLeft(2, '0');
     String m = getStart!.minute.toString().padLeft(2, '0');
     String a = getStart!.hour > 12 ? "PM" : "AM";
     return "$h:$m $a";
@@ -53,7 +54,8 @@ class Shift {
 
   String getEndTimeString() {
     if (end == null) return "";
-    String h = getEnd!.hour.toString().padLeft(2, '0');
+    int actualHour = getEnd!.hour > 12 ? getEnd!.hour - 12 : getEnd!.hour;
+    String h = actualHour.toString().padLeft(2, '0');
     String m = getEnd!.minute.toString().padLeft(2, '0');
     String a = getStart!.hour > 12 ? "PM" : "AM";
     return "$h:$m $a";
