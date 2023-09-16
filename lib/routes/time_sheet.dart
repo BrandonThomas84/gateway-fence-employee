@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:gateway_fence_employee/test/mocks/shifts.dart';
+import 'package:gateway_fence_employee/util/mocks/shifts.dart';
 import 'package:gateway_fence_employee/widgets/shifts/shifts.dart';
 import 'package:uuid/uuid.dart';
 
-import 'package:gateway_fence_employee/widgets/appbar/custom_app_bar.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/models/shift.dart';
+import 'package:gateway_fence_employee/widgets/appbar/custom_app_bar.dart';
 import 'package:gateway_fence_employee/widgets/sidebar/sidebar.dart';
 
 Uuid owner = const Uuid();
