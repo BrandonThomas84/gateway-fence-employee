@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/screens/_util.dart';
 
-class SettingsRoute extends StatelessWidget {
-  const SettingsRoute({
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({
     super.key,
   });
 

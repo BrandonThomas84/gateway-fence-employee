@@ -24,7 +24,8 @@ Future<void> main() async {
   FirebaseDatabase _ = FirebaseDatabase.instance;
 
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (_) => Timer()),
+    ChangeNotifierProvider(create: (context) => Timer()),
+    ChangeNotifierProvider(create: (context) => CurrentRouteProvider()),
   ], child: const GatewayFenceEmployeeApp()));
 }
 
@@ -37,7 +38,9 @@ class GatewayFenceEmployeeApp extends StatelessWidget {
       title: '$companyName App',
       theme: ThemeData(fontFamily: 'Poppins'),
       debugShowCheckedModeBanner: false,
-      routerConfig: getRoutes(),
+      // routerDelegate: routerConfig.routerDelegate,
+      // routeInformationParser: routerConfig.routeInformationParser,
+      routerConfig: routerConfig,
       themeAnimationDuration: const Duration(milliseconds: 200),
     );
   }

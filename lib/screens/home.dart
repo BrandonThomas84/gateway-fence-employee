@@ -3,8 +3,8 @@ import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/util/config.dart';
 import '_util.dart';
 
-class HomeRoute extends StatelessWidget {
-  const HomeRoute({
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({
     super.key,
   });
 

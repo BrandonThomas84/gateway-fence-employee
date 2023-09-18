@@ -9,8 +9,8 @@ import 'package:gateway_fence_employee/models/shift.dart';
 
 Uuid owner = const Uuid();
 
-class TimeCardRoute extends StatelessWidget {
-  TimeCardRoute({super.key});
+class TimeCardScreen extends StatelessWidget {
+  TimeCardScreen({super.key});
 
   final List<Shift> eventList = getMockShifts(owner, workingDays: 25);
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gateway_fence_employee/screens/_util.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import 'menu_item.dart';
 
@@ -23,6 +25,8 @@ class Menu extends StatelessWidget {
                 title: 'Home',
                 icon: Icons.home_outlined,
                 onTap: () {
+                  Provider.of<CurrentRouteProvider>(context, listen: false)
+                      .setCurrentRoute('/');
                   // navigate to profile page
                   context.go('/');
                 },
@@ -32,6 +36,8 @@ class Menu extends StatelessWidget {
                 title: 'Time Card',
                 icon: Icons.timer_rounded,
                 onTap: () {
+                  Provider.of<CurrentRouteProvider>(context, listen: false)
+                      .setCurrentRoute('/time-card');
                   // navigate to profile page
                   context.go('/time-card');
                 },
@@ -41,6 +47,8 @@ class Menu extends StatelessWidget {
                 title: 'Settings',
                 icon: Icons.settings,
                 onTap: () {
+                  Provider.of<CurrentRouteProvider>(context, listen: false)
+                      .setCurrentRoute('/settings');
                   // navigate to profile page
                   context.go('/settings');
                 },
@@ -53,10 +61,12 @@ class Menu extends StatelessWidget {
             child: MenuItem(
               title: 'Logout',
               icon: Icons.logout_rounded,
-                onTap: () {
-                  // navigate to profile page
-                  context.go('/profile');
-                },
+              onTap: () {
+                  Provider.of<CurrentRouteProvider>(context, listen: false)
+                      .setCurrentRoute('/logout');
+                // navigate to profile page
+                context.go('/logout');
+              },
             ),
           )
         ],
