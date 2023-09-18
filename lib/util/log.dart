@@ -3,7 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:gateway_fence_employee/main.dart';
+import 'package:gateway_fence_employee/util/config.dart';
 
 enum LogLevel {
   error,
