@@ -1,27 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:gateway_fence_employee/models/shift_group.dart';
 import 'package:gateway_fence_employee/screens/_util.dart';
 import 'package:gateway_fence_employee/util/mocks/shifts.dart';
-import 'package:gateway_fence_employee/widgets/shifts/shifts.dart';
+import 'package:gateway_fence_employee/widgets/shifts/shift_day.dart';
 import 'package:go_router/go_router.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/models/shift.dart';
 
+import '../util/time.dart';
+
 Uuid owner = const Uuid();
 
 GoRoute timeCardScreenGoRoute = GoRoute(
   path: '/time-card',
-  builder: (context, state) => TimeCardScreen(),
+  builder: (context, state) => const TimeCardScreen(),
 );
 
-class TimeCardScreen extends StatelessWidget {
-  TimeCardScreen({super.key});
+class TimeCardScreen extends StatefulWidget {
+  const TimeCardScreen({super.key});
 
-  final List<Shift> eventList = getMockShifts(owner, workingDays: 25);
+  @override
+  State<TimeCardScreen> createState() => _TimeCardScreenState();
+}
+
+class _TimeCardScreenState extends State<TimeCardScreen> {
+  final List<Shift> shiftList = getMockShifts(owner, workingDays: 5);
+  late ShiftGroup shiftGroup = ShiftGroup(shiftList);
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    String startDate = padd0(shiftGroup.getStartDate().day.toString());
+    String startMonth = padd0(shiftGroup.getStartDate().month.toString());
+    String startYear = shiftGroup.getStartDate().year.toString();
+    String endDate = padd0(shiftGroup.getLastDate().day.toString());
+    String endMonth = padd0(shiftGroup.getLastDate().month.toString());
+    String endYear = shiftGroup.getLastDate().year.toString();
+    String totalHours = shiftGroup.getTotalHours().toStringAsFixed(2);
+
     return DefaultScreenScaffold(
       title: "Time Card",
       children: [
@@ -39,39 +61,44 @@ class TimeCardScreen extends StatelessWidget {
               ),
             ),
           ),
-          child: const Column(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     "Date Ranges:",
                     style: TextStyle(fontSize: 14, color: AppColors.grey),
                   ),
                   Text(
-                    "09/12/2021 - 09/14/2021",
-                    style: TextStyle(fontSize: 14, color: AppColors.grey),
+                    "$startMonth/$startDate/$startYear - $endMonth/$endDate/$endYear",
+                    style: const TextStyle(fontSize: 14, color: AppColors.grey),
                   ),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     "Total Hours:",
                     style: TextStyle(fontSize: 14, color: AppColors.grey),
                   ),
                   Text(
-                    "24.5",
-                    style: TextStyle(fontSize: 14, color: AppColors.grey),
+                    totalHours,
+                    style: const TextStyle(fontSize: 14, color: AppColors.grey),
                   ),
                 ],
               ),
             ],
           ),
         ),
-        Shifts(eventList: eventList),
+        for (MapEntry<int, List<Shift>> entry in shiftGroup.getSorted().entries)
+          ShiftDay(
+            startExpanded: entry.key == shiftGroup.getSorted().keys.first,
+            date: DateTime.parse(entry.value[0].start!),
+            shifts: entry.value,
+          ),
       ],
     );
   }
