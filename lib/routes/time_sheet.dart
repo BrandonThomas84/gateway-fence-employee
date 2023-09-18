@@ -13,7 +13,7 @@ Uuid owner = const Uuid();
 class TimeSheetRoute extends StatelessWidget {
   TimeSheetRoute({super.key});
 
-  final List<Shift> eventList = getMockShifts(owner);
+  final List<Shift> eventList = getMockShifts(owner, workingDays: 25);
 
   @override
   Widget build(BuildContext context) {

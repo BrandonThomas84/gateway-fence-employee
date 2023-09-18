@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gateway_fence_employee/main.dart';
 import 'package:gateway_fence_employee/widgets/appbar/custom_app_bar.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/widgets/sidebar/sidebar.dart';
@@ -39,7 +40,7 @@ class HomeRoute extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Gateway Fence Employees",
+                    companyName,
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,

@@ -20,6 +20,10 @@ const appVarLogLevel = String.fromEnvironment(
   'APPLICATION_LOG_LEVEL',
   defaultValue: 'error',
 );
+const companyName = String.fromEnvironment(
+  'COMPANY_NAME',
+  defaultValue: 'failboat',
+);
 
 Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
@@ -44,7 +48,7 @@ class GatewayFenceEmployeeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Gateway Fence Employee App',
+      title: '$companyName App',
       theme: ThemeData(fontFamily: 'Poppins'),
       debugShowCheckedModeBanner: false,
       initialRoute: '/',

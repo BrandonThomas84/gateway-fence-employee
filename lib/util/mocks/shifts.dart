@@ -1,4 +1,5 @@
 import 'package:gateway_fence_employee/models/shift.dart';
+import 'package:gateway_fence_employee/util/time.dart';
 import 'package:uuid/uuid.dart';
 
 List<Shift> getMockShifts(Uuid owner, {int workingDays = 10}) {
@@ -8,10 +9,12 @@ List<Shift> getMockShifts(Uuid owner, {int workingDays = 10}) {
   DateTime now = DateTime.now();
 
   for (var i = 0; i < workingDays; i++) {
-    String year = now.year.toString().padLeft(2, '0');
-    String month = now.month.toString().padLeft(2, '0');
-    String day = (now.day - i).toString().padLeft(2, '0');
-    String min = i > 59 ? "00" : i.toString().padLeft(2, '0');
+
+    DateTime activeDay = now.subtract(Duration(days: i));
+    String year = padd0(activeDay.year.toString());
+    String month = padd0(activeDay.month.toString());
+    String day = padd0(activeDay.day.toString());
+    String min = i > 59 ? "00" : padd0(i.toString());
 
     // add a morning shift
     shifts.add(

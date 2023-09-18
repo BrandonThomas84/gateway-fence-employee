@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gateway_fence_employee/models/shift.dart';
 import 'package:gateway_fence_employee/util/log.dart';
+import 'package:gateway_fence_employee/util/time.dart';
 
 import 'shift_day.dart';
 
@@ -10,30 +11,33 @@ class Shifts extends StatelessWidget {
   const Shifts({super.key, required this.eventList});
 
   // group the events by date
-  Map<int, List<Shift>> _sorted(List<Shift> events) {
+  Map<int, List<Shift>> _sorted(List<Shift> shitfts) {
     Map<int, List<Shift>> map = {};
 
     // loop through the events and group them by date
-    for (Shift event in events) {
+    for (Shift shift in shitfts) {
       // skip events that don't have a start date
-      if (event.start == null) {
+      if (shift.start == null) {
         Logger.debug(
             "event start is null, will not be included in shifts output",
-            data: {"event": event.toJson()});
+            data: {"event": shift.toJson()});
         continue;
       }
 
       // create a date object from the event
-      DateTime d = DateTime.parse(event.start!);
+      DateTime d = DateTime.parse(shift.start!);
 
       // create a key
-      int key = int.parse("${d.year}${d.month}${d.day}");
+      int key = int.parse(
+          "${padd0(d.year.toString())}${padd0(d.month.toString())}${padd0(d.day.toString())}");
 
-      if (map.containsKey(key)) {
-        map[key]!.add(event);
-      } else {
-        map[key] = [event];
+      // create the list if the key doesn't exist
+      if (!map.containsKey(key)) {
+        map[key] = [];
       }
+
+      // add the shift to the list
+      map[key]!.add(shift);
     }
 
     // sort the resulting map and return
