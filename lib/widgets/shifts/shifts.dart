@@ -25,7 +25,13 @@ class Shifts extends StatelessWidget {
       }
 
       // create a date object from the event
-      DateTime d = DateTime.parse(shift.start!);
+      DateTime? d = DateTime.tryParse(shift.start!);
+      if (d == null) {
+        Logger.debug(
+            "event start is not a valid date, will not be included in shifts output",
+            data: {"event": shift.toJson()});
+        continue;
+      }
 
       // create a key
       int key = int.parse(
