@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/models/shift.dart';
+import 'package:gateway_fence_employee/util/log.dart';
 import 'package:gateway_fence_employee/util/time.dart';
 
 import 'shift_day_subtitle.dart';
@@ -11,15 +12,11 @@ class ShiftDay extends StatefulWidget {
     super.key,
     required this.date,
     required this.shifts,
-    this.subTitle,
     this.startExpanded = false,
   });
 
   // The date that will be used to construct the title
   final DateTime date;
-
-  /// Optional subtitle to be displayed on the collapsable header
-  final String? subTitle;
 
   /// the list of events that will be displayed
   final List<Shift> shifts;
@@ -36,14 +33,59 @@ class ShiftDay extends StatefulWidget {
 class _ShiftDayState extends State<ShiftDay> {
   /// whether or not the section is expanded
   bool _isExpanded = false;
-
-  /// default title to blank string until it is set in the initState
-  String? _title;
+  late String _title = "";
+  late String _subTitle = "";
+  late Duration _totalDuration = const Duration();
+  late final List<Container> _shifts = [];
 
   @override
   void initState() {
     super.initState();
+
+    _buildShifts();
+
     _title = getDateTimeAsString(widget.date, false);
+    _subTitle = getDurationString(_totalDuration);
+  }
+
+  /// Build the list of shifts
+  void _buildShifts() {
+    for (var shift in widget.shifts) {
+      _totalDuration += shift.getDuration();
+      _shifts.add(
+        Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 15,
+          ),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text("Start:"),
+                  Text(shift.getStartTimeString()),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text("End:"),
+                  Text(shift.getEndTimeString()),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text("Duration:"),
+                  Text(getDurationString(shift.getDuration())),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -61,11 +103,10 @@ class _ShiftDayState extends State<ShiftDay> {
         },
         iconColor: _isExpanded ? AppColors.blue : AppColors.greyDark,
         title: ShiftDayTitle(
-          title: _title!,
+          title: _title,
           allowEdit: false,
         ),
-        subtitle:
-            widget.subTitle != null ? ShiftDaySubitle(widget.subTitle!) : null,
+        subtitle: ShiftDaySubitle(_subTitle),
         children: [
           for (var shift in widget.shifts) ...[
             Container(
@@ -78,22 +119,22 @@ class _ShiftDayState extends State<ShiftDay> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text("Start:"),
+                      const Text("Clock In:"),
                       Text(shift.getStartTimeString()),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text("End:"),
+                      const Text("Clock Out:"),
                       Text(shift.getEndTimeString()),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text("Duration:"),
-                      Text(shift.getDurationString()),
+                      const Text("Total Hours:"),
+                      Text(getDurationString(shift.getDuration())),
                     ],
                   ),
                 ],

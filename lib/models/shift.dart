@@ -61,15 +61,13 @@ class Shift {
     return "$h:$m $a";
   }
 
-  /// Get the duration of the shift as a string
-  String getDurationString() {
-    if (start == null || end == null) return "";
+  /// Get the duration of the shift
+  Duration getDuration() {
+    if (start == null || end == null) return const Duration();
 
-    final Duration duration = getEnd!.difference(getStart!);
-
-    return "${duration.inHours}h ${duration.inMinutes.remainder(60)}m";
+    return getEnd!.difference(getStart!);
   }
-
+  
   /// Get the duration of the shift as a json string
   Map<String, dynamic> toJson() => {
         'ownerID': userId,

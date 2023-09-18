@@ -21,7 +21,7 @@ class ShiftDaySubitle extends StatelessWidget {
             bottom: 5,
           ),
           child: Text(
-            subTitle,
+            "Total Hours: $subTitle",
             style: const TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w400,

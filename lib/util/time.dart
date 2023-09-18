@@ -51,3 +51,8 @@ String getMonthfromInt(int month) {
 String padd0(String datePart) {
   return datePart.padLeft(2, '0');
 }
+
+/// Returns a duration as a string in the format HHh MMm.
+String getDurationString(Duration d) {
+  return "${d.inHours}h ${d.inMinutes.remainder(60)}m";
+}
