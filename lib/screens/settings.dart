@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/screens/_util.dart';
+import 'package:go_router/go_router.dart';
+
+GoRoute settingsScreenGoRoute = GoRoute(
+  path: '/settings',
+  builder: (context, state) => const SettingsScreen(),
+);
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({
@@ -9,7 +15,7 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return defaultScreenScaffold(
+    return DefaultScreenScaffold(
       title: "Settings",
       children: [
         Container(

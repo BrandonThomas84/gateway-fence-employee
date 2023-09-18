@@ -2,12 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:gateway_fence_employee/screens/_util.dart';
 import 'package:gateway_fence_employee/util/mocks/shifts.dart';
 import 'package:gateway_fence_employee/widgets/shifts/shifts.dart';
+import 'package:go_router/go_router.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/models/shift.dart';
 
 Uuid owner = const Uuid();
+
+GoRoute timeCardScreenGoRoute = GoRoute(
+  path: '/time-card',
+  builder: (context, state) => TimeCardScreen(),
+);
 
 class TimeCardScreen extends StatelessWidget {
   TimeCardScreen({super.key});
@@ -16,7 +22,7 @@ class TimeCardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return defaultScreenScaffold(
+    return DefaultScreenScaffold(
       title: "Time Card",
       children: [
         Container(

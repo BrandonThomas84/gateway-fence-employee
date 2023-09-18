@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/util/config.dart';
+import 'package:go_router/go_router.dart';
 import '_util.dart';
+
+GoRoute homeScreenGoRoute = GoRoute(
+  path: '/',
+  builder: (context, state) => const HomeScreen(),
+);
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({
@@ -10,7 +16,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return defaultScreenScaffold(
+    return DefaultScreenScaffold(
       title: companyName,
       children: [
         Container(
