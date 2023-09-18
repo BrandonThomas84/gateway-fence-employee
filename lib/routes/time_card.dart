@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:gateway_fence_employee/util/mocks/shifts.dart';
+import 'package:gateway_fence_employee/widgets/appbar/custom_app_bar.dart';
 import 'package:gateway_fence_employee/widgets/shifts/shifts.dart';
+import 'package:gateway_fence_employee/widgets/sidebar/sidebar.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/models/shift.dart';
-import 'package:gateway_fence_employee/widgets/appbar/custom_app_bar.dart';
-import 'package:gateway_fence_employee/widgets/sidebar/sidebar.dart';
 
 Uuid owner = const Uuid();
 
-class TimeSheetRoute extends StatelessWidget {
-  TimeSheetRoute({super.key});
+class TimeCardRoute extends StatelessWidget {
+  TimeCardRoute({super.key});
 
   final List<Shift> eventList = getMockShifts(owner, workingDays: 25);
 
@@ -20,9 +20,7 @@ class TimeSheetRoute extends StatelessWidget {
     return Scaffold(
       drawer: const Sidebar(),
       backgroundColor: AppColors.greyLight,
-      bottomNavigationBar: const CustomAppBar(
-        routeOwner: RouteOwner.timeCard,
-      ),
+      appBar: const CustomAppBar(routeOwner: RouteOwner.timeCard),
       body: SafeArea(
         child: ListView(
           children: [

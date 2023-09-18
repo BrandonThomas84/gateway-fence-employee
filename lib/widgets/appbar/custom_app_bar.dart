@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
-import 'package:gateway_fence_employee/routes/home.dart';
-import 'package:gateway_fence_employee/routes/time_sheet.dart';
+// import 'package:gateway_fence_employee/routes/home.dart';
+// import 'package:gateway_fence_employee/routes/time_sheet.dart';
 import 'package:gateway_fence_employee/util/log.dart';
 import 'package:gateway_fence_employee/widgets/sidebar/profile_image.dart';
 
@@ -18,7 +19,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   const CustomAppBar({
     super.key,
-    this.routeOwner = RouteOwner.home,
+    required this.routeOwner,
   });
 
   @override
@@ -26,65 +27,51 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> customBottomAppBarButtons = [
-      {
-        "key": RouteOwner.menu,
-        "tooltipMessage": "View menu",
-        "icon": const ProfileImage(imageSize: 20, borderThickness: 1.5),
-        "onTap": () {
+    final List<CustomAppBarItem> buttons = [
+      CustomAppBarItem(
+        tooltipMessage: "Open menu",
+        width: 20.0,
+        icon: const ProfileImage(imageSize: 40, borderThickness: 1.5),
+        onTap: () {
           Scaffold.of(context).openDrawer();
           Logger.error("Menu button pressed");
-        }
-      },
-      {
-        "key": RouteOwner.home,
-        "tooltipMessage": 'Home',
-        "icon": const Icon(Icons.home_outlined),
-        "onTap": () {
-          if (routeOwner == RouteOwner.home) return;
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const HomeRoute()),
-          );
         },
-      },
-      {
-        "key": RouteOwner.timeCard,
-        "tooltipMessage": 'Time card',
-        "icon": const Icon(Icons.event_available_outlined),
-        "onTap": () {
-          if (routeOwner == RouteOwner.timeCard) return;
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => TimeSheetRoute()),
-          );
+      ),
+      CustomAppBarItem(
+        tooltipMessage: 'Home',
+        width: 50.0,
+        icon: Icon(
+          Icons.home_outlined,
+          color: routeOwner == RouteOwner.home
+              ? AppColors.blue
+              : AppColors.greyLight,
+        ),
+        onTap: () {
+          GoRouter.of(context).go('/');
         },
-      },
+      ),
+      CustomAppBarItem(
+        tooltipMessage: 'Time card',
+        width: 50.0,
+        icon: Icon(
+          Icons.event_available_outlined,
+          color: routeOwner == RouteOwner.timeCard
+              ? AppColors.blue
+              : AppColors.greyLight,
+        ),
+        onTap: () {
+          GoRouter.of(context).go('/time-card');
+        },
+        isLast: true,
+      ),
     ];
-
-    // calculate the button width
-    final buttonWidth = MediaQuery.of(context).size.width *
-        (1 / (customBottomAppBarButtons.length));
-
     return BottomAppBar(
       child: Container(
         color: AppColors.grey,
         height: 50,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            for (var btn in customBottomAppBarButtons)
-              CustomAppBarItem(
-                tooltipMessage: btn['text'] ?? "",
-                icon: btn['icon'],
-                width: buttonWidth,
-                onTap: btn['onTap'],
-                color: routeOwner == btn['key']
-                    ? AppColors.blue
-                    : AppColors.greyLight,
-                isLast: btn == customBottomAppBarButtons.last,
-              ),
-          ],
+          children: buttons,
         ),
       ),
     );

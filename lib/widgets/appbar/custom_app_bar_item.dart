@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/util/log.dart';
 
 class CustomAppBarItem extends StatelessWidget {
@@ -8,7 +7,6 @@ class CustomAppBarItem extends StatelessWidget {
   final double width;
   final VoidCallback? onTap;
   final bool isLast;
-  final Color color;
 
   const CustomAppBarItem({
     super.key,
@@ -17,7 +15,6 @@ class CustomAppBarItem extends StatelessWidget {
     required this.width,
     this.onTap,
     this.isLast = false,
-    this.color = AppColors.grey,
   });
 
   @override

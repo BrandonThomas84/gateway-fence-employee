@@ -2,14 +2,15 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:firebase_core/firebase_core.dart';
-import 'package:provider/provider.dart';
 import 'firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/providers/timer_provider.dart';
 import 'package:gateway_fence_employee/routes/home.dart';
-import 'package:gateway_fence_employee/routes/time_sheet.dart';
+import 'package:gateway_fence_employee/routes/time_card.dart';
 
 // Application variables
 const appVarEnvironment = String.fromEnvironment(
@@ -47,16 +48,23 @@ class GatewayFenceEmployeeApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: '$companyName App',
       theme: ThemeData(fontFamily: 'Poppins'),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      routes: <String, WidgetBuilder>{
-        '/': (BuildContext context) => const HomeRoute(),
-        '/time-sheet': (BuildContext context) => TimeSheetRoute(),
-      },
-      themeAnimationDuration: const Duration(milliseconds: 0),
+      routerConfig: GoRouter(
+        routes: [
+          GoRoute(
+            path: '/',
+            builder: (context, state) => const HomeRoute(),
+          ),
+          GoRoute(
+            path: '/time-card',
+            builder: (context, state) => TimeCardRoute(),
+          ),
+        ],
+      ),
+      themeAnimationDuration: const Duration(milliseconds: 200),
     );
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/models/shift.dart';
-import 'package:gateway_fence_employee/util/log.dart';
 import 'package:gateway_fence_employee/util/time.dart';
 
 import 'shift_day_subtitle.dart';
