@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
 
+import 'profile_image.dart';
+
 class Profile extends StatelessWidget {
+  final double imageSize;
+
   const Profile({
     Key? key,
+    required this.imageSize,
   }) : super(key: key);
-
-  static const _profileImageDimension = 60.0;
 
   @override
   Widget build(BuildContext context) {
@@ -15,22 +18,9 @@ class Profile extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            padding: const EdgeInsets.all(2),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: Colors.white,
-                width: 12,
-              ),
-            ),
-            height: _profileImageDimension,
-            width: _profileImageDimension,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(_profileImageDimension / 2),
-              child: Image.asset('assets/brandon.png'),
-            ),
+          ProfileImage(
+            imageSize: imageSize,
+            borderThickness: 12,
           ),
           const SizedBox(height: 10),
           const Text(

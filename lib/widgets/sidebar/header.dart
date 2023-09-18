@@ -19,7 +19,7 @@ class Header extends StatelessWidget {
         child: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Profile(),
+            Profile(imageSize: 60),
             StatusTimer(),
           ],
         ),

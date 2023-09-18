@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gateway_fence_employee/main.dart';
-import 'package:gateway_fence_employee/widgets/appbar/custom_app_bar.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
+import 'package:gateway_fence_employee/widgets/appbar/custom_app_bar.dart';
+import 'package:gateway_fence_employee/widgets/sidebar/profile_image.dart';
 import 'package:gateway_fence_employee/widgets/sidebar/sidebar.dart';
 
 class HomeRoute extends StatelessWidget {
@@ -14,9 +15,16 @@ class HomeRoute extends StatelessWidget {
     return Scaffold(
       drawer: const Sidebar(),
       backgroundColor: AppColors.greyLight,
-      bottomNavigationBar: const CustomAppBar(
+      appBar: const CustomAppBar(
         routeOwner: RouteOwner.home,
+        // leading: const ProfileImage(
+        //   imageSize: 30,
+        //   borderThickness: 2,
+        // ),
       ),
+      // appBar: const CustomAppBar(
+      //   routeOwner: RouteOwner.home,
+      // ),
       body: SafeArea(
         child: ListView(
           children: [

@@ -3,8 +3,8 @@ import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/util/log.dart';
 
 class CustomAppBarItem extends StatelessWidget {
-  final String text;
-  final IconData icon;
+  final String tooltipMessage;
+  final Widget icon;
   final double width;
   final VoidCallback? onTap;
   final bool isLast;
@@ -12,7 +12,7 @@ class CustomAppBarItem extends StatelessWidget {
 
   const CustomAppBarItem({
     super.key,
-    required this.text,
+    required this.tooltipMessage,
     required this.icon,
     required this.width,
     this.onTap,
@@ -25,18 +25,15 @@ class CustomAppBarItem extends StatelessWidget {
     final GlobalKey<TooltipState> tooltipkey = GlobalKey<TooltipState>();
 
     return Tooltip(
-      message: text,
+      message: tooltipMessage,
       key: tooltipkey,
       child: TextButton(
         onPressed: () {
           // Add your button press logic here
-          Logger.info("CustomAppBar button press", data: {'text': text});
+          Logger.info("CustomAppBar button press", data: {'tooltipMessage': tooltipMessage});
           onTap!();
         },
-        child: Icon(
-          icon,
-          color: color,
-        ),
+        child: icon,
       ),
     );
   }
