@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/util/config.dart';
 import 'package:go_router/go_router.dart';
-import '_util.dart';
+import '_helper.dart';
 
 GoRoute homeScreenGoRoute = GoRoute(
   path: '/',

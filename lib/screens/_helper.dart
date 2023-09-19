@@ -101,6 +101,7 @@ class _DefaultScreenScaffoldState extends State<DefaultScreenScaffold>
                 ),
               ),
             ...widget.children,
+            SizedBox(height: MediaQuery.of(context).size.height * 0.1),
           ],
         ),
       ),

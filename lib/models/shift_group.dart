@@ -3,83 +3,90 @@ import 'package:gateway_fence_employee/util/time.dart';
 
 import 'shift.dart';
 
+/// A class that groups shifts by date
 class ShiftGroup {
   List<Shift> shifts;
   DateTime? _startDate;
-  DateTime? _lastDate;
-  double? _totalHours;
+  DateTime? _endDate;
+  String? _totalHours;
   Map<int, List<Shift>>? _sorted;
 
+  /// Creates a new ShiftGroup
   ShiftGroup(this.shifts);
 
+  /// Returns the start date of the first shift in the list
   DateTime getStartDate() {
     if (_startDate != null) return _startDate!;
 
-    DateTime earliestDate = DateTime.now();
+    int earliestDate = DateTime.now().millisecondsSinceEpoch;
 
     for (Shift shift in shifts) {
-      DateTime? d = DateTime.tryParse(shift.start!);
-
-      if (d == null) {
-        Logger.error("failed to parse date: ${shift.start}");
+      if (shift.start == null) {
+        Logger.info("no shift start date, skipping");
         continue;
       }
 
-      if (d.isBefore(earliestDate)) {
-        earliestDate = d;
+      if (shift.start! < earliestDate) {
+        earliestDate = shift.start!;
       }
     }
 
-    _startDate = earliestDate;
+    _startDate = DateTime.fromMillisecondsSinceEpoch(earliestDate, isUtc: true);
 
     return _startDate!;
   }
 
-  DateTime getLastDate() {
-    if (_lastDate != null) return _lastDate!;
+  /// Returns the end date of the last shift in the list
+  DateTime getEndDate() {
+    if (_endDate != null) return _endDate!;
 
-    DateTime latestDate = DateTime(1970);
+    int latestDate = DateTime(1970).millisecondsSinceEpoch;
 
     for (Shift shift in shifts) {
-      DateTime? d = DateTime.tryParse(shift.end!);
-
-      if (d == null) {
-        Logger.error("failed to parse date: ${shift.end}");
+      if (shift.end == null) {
+        Logger.info("no shift end date, skipping");
         continue;
       }
 
-      if (d.isAfter(latestDate)) {
-        latestDate = d;
+      if (shift.end! > latestDate) {
+        latestDate = shift.end!;
       }
     }
 
-    _lastDate = latestDate;
+    _endDate = DateTime.fromMillisecondsSinceEpoch(latestDate);
 
-    return _lastDate!;
+    return _endDate!;
   }
 
-  double getTotalHours() {
+  /// Returns the total hours worked in the list
+  String getTotalHours() {
     if (_totalHours != null) return _totalHours!;
 
     double totalHours = 0;
 
     for (Shift shift in shifts) {
-      DateTime? start = DateTime.tryParse(shift.start!);
-      DateTime? end = DateTime.tryParse(shift.end!);
-
-      if (start == null || end == null) {
-        Logger.error("failed to parse date: ${shift.start} or ${shift.end}");
+      // make sure we have a start and end time
+      if (shift.start == null || shift.end == null) {
+        Logger.info("shift start or end is null, skipping", data: {
+          "start": shift.start,
+          "end": shift.end,
+        });
         continue;
       }
 
-      totalHours += end.difference(start).inMinutes / 60;
+      // count the milliseconds between the two times
+      int milliseconds = shift.end! - shift.start!;
+
+      //  convert to minutes
+      totalHours += (milliseconds / 1000 / 60 / 30);
     }
 
-    _totalHours = totalHours;
+    _totalHours = totalHours.toStringAsPrecision(4);
 
     return _totalHours!;
   }
 
+  /// Returns a map of shifts grouped by date, the set will be ordered descending by date
   Map<int, List<Shift>> getSorted() {
     if (_sorted != null) return _sorted!;
 
@@ -96,13 +103,8 @@ class ShiftGroup {
       }
 
       // create a date object from the event
-      DateTime? d = DateTime.tryParse(shift.start!);
-      if (d == null) {
-        Logger.debug(
-            "event start is not a valid date, will not be included in shifts output",
-            data: {"event": shift.toJson()});
-        continue;
-      }
+      DateTime? d =
+          DateTime.fromMillisecondsSinceEpoch(shift.start!, isUtc: true);
 
       // create a key
       int key = int.parse(
@@ -115,6 +117,11 @@ class ShiftGroup {
 
       // add the shift to the list
       map[key]!.add(shift);
+
+      Logger.info("shift position", data: {
+        "key": key,
+        "shift": shift.toJson(),
+      });
     }
 
     _sorted = Map.fromEntries(

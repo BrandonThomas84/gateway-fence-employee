@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gateway_fence_employee/models/shift_group.dart';
-import 'package:gateway_fence_employee/screens/_util.dart';
+import 'package:gateway_fence_employee/screens/_helper.dart';
+import 'package:gateway_fence_employee/util/time.dart';
 import 'package:gateway_fence_employee/util/mocks/shifts.dart';
 import 'package:gateway_fence_employee/widgets/shifts/shift_day.dart';
 import 'package:go_router/go_router.dart';
@@ -8,8 +9,6 @@ import 'package:uuid/uuid.dart';
 
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/models/shift.dart';
-
-import '../util/time.dart';
 
 Uuid owner = const Uuid();
 
@@ -36,13 +35,8 @@ class _TimeCardScreenState extends State<TimeCardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String startDate = padd0(shiftGroup.getStartDate().day.toString());
-    String startMonth = padd0(shiftGroup.getStartDate().month.toString());
-    String startYear = shiftGroup.getStartDate().year.toString();
-    String endDate = padd0(shiftGroup.getLastDate().day.toString());
-    String endMonth = padd0(shiftGroup.getLastDate().month.toString());
-    String endYear = shiftGroup.getLastDate().year.toString();
-    String totalHours = shiftGroup.getTotalHours().toStringAsFixed(2);
+    String startDate = prettyDate(shiftGroup.getStartDate(), false);
+    String endDate = prettyDate(shiftGroup.getEndDate(), false);
 
     return DefaultScreenScaffold(
       title: "Time Card",
@@ -68,11 +62,24 @@ class _TimeCardScreenState extends State<TimeCardScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
-                    "Date Ranges:",
+                    "Start:",
                     style: TextStyle(fontSize: 14, color: AppColors.grey),
                   ),
                   Text(
-                    "$startMonth/$startDate/$startYear - $endMonth/$endDate/$endYear",
+                    startDate,
+                    style: const TextStyle(fontSize: 14, color: AppColors.grey),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "End:",
+                    style: TextStyle(fontSize: 14, color: AppColors.grey),
+                  ),
+                  Text(
+                    endDate,
                     style: const TextStyle(fontSize: 14, color: AppColors.grey),
                   ),
                 ],
@@ -85,7 +92,7 @@ class _TimeCardScreenState extends State<TimeCardScreen> {
                     style: TextStyle(fontSize: 14, color: AppColors.grey),
                   ),
                   Text(
-                    totalHours,
+                    shiftGroup.getTotalHours(),
                     style: const TextStyle(fontSize: 14, color: AppColors.grey),
                   ),
                 ],
@@ -96,7 +103,7 @@ class _TimeCardScreenState extends State<TimeCardScreen> {
         for (MapEntry<int, List<Shift>> entry in shiftGroup.getSorted().entries)
           ShiftDay(
             startExpanded: entry.key == shiftGroup.getSorted().keys.first,
-            date: DateTime.parse(entry.value[0].start!),
+            date: DateTime.fromMillisecondsSinceEpoch(entry.value[0].start!),
             shifts: entry.value,
           ),
       ],

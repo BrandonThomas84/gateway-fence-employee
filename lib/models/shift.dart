@@ -1,28 +1,39 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:uuid/uuid.dart';
 
 class Shift {
   Uuid userId;
   Uuid? shiftID;
-  String? start;
-  String? end;
-  String? created;
-  String? updated;
+  Position? startLocation;
+  Position? endLocation;
+  int? start;
+  int? end;
+  int? created;
+  int? updated;
 
   Shift(
     this.userId, {
+    this.shiftID,
+    this.startLocation,
+    this.endLocation,
     this.start,
     this.end,
     this.created,
     this.updated,
-    this.shiftID,
   });
 
   Uuid get getOwnerID => userId;
-  DateTime? get getStart => DateTime.parse(start!);
-  DateTime? get getEnd => DateTime.parse(end!);
-  DateTime? get getCreated => DateTime.parse(created!);
-  DateTime? get getUpdated => DateTime.parse(updated!);
+  DateTime? get getStart =>
+      DateTime.fromMillisecondsSinceEpoch(start!, isUtc: true);
+  DateTime? get getEnd =>
+      DateTime.fromMillisecondsSinceEpoch(end!, isUtc: true);
+  DateTime? get getCreated =>
+      DateTime.fromMillisecondsSinceEpoch(created!, isUtc: true);
+  DateTime? get getUpdated =>
+      DateTime.fromMillisecondsSinceEpoch(updated!, isUtc: true);
+  Position? get getStartLocation => startLocation;
+  Position? get getEndLocation => endLocation;
 
   factory Shift.fromJson(Map<String, dynamic> json) {
     // insure ownerID is present
@@ -33,6 +44,12 @@ class Shift {
     return Shift(
       json['ownerID'],
       shiftID: json['shiftID'],
+      startLocation: json['startLocation'] != null
+          ? Position.fromMap(json['startLocation'])
+          : null,
+      endLocation: json['endLocation'] != null
+          ? Position.fromMap(json['endLocation'])
+          : null,
       start: json['start'],
       end: json['end'],
       created: json['created'] ??
@@ -48,7 +65,7 @@ class Shift {
     int actualHour = getStart!.hour > 12 ? getStart!.hour - 12 : getStart!.hour;
     String h = actualHour.toString().padLeft(2, '0');
     String m = getStart!.minute.toString().padLeft(2, '0');
-    String a = getStart!.hour > 12 ? "PM" : "AM";
+    String a = getStart!.hour >= 12 ? "PM" : "AM";
     return "$h:$m $a";
   }
 
@@ -57,7 +74,7 @@ class Shift {
     int actualHour = getEnd!.hour > 12 ? getEnd!.hour - 12 : getEnd!.hour;
     String h = actualHour.toString().padLeft(2, '0');
     String m = getEnd!.minute.toString().padLeft(2, '0');
-    String a = getStart!.hour > 12 ? "PM" : "AM";
+    String a = getEnd!.hour >= 12 ? "PM" : "AM";
     return "$h:$m $a";
   }
 
@@ -67,12 +84,14 @@ class Shift {
 
     return getEnd!.difference(getStart!);
   }
-  
+
   /// Get the duration of the shift as a json string
   Map<String, dynamic> toJson() => {
-        'ownerID': userId,
+        'ownerID': userId.toString(),
         'start': start != null ? getStart!.toIso8601String() : null,
         'end': end != null ? getEnd!.toIso8601String() : null,
+        'startLocation': startLocation != null ? startLocation!.toJson() : null,
+        'endLocation': endLocation != null ? endLocation!.toJson() : null,
         'created': created != null ? getCreated!.toIso8601String() : null,
         'updated': updated != null ? getUpdated!.toIso8601String() : null,
       };

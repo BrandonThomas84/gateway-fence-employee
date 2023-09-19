@@ -43,7 +43,7 @@ class _ShiftDayState extends State<ShiftDay> {
 
     _buildShifts();
 
-    _title = getDateTimeAsString(widget.date, false);
+    _title = prettyDate(widget.date, false);
     _subTitle = getDurationString(_totalDuration);
   }
 
