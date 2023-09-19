@@ -27,3 +27,9 @@ firebase emulators:start --only auth,firestore,functions,hosting,ui
 ``` 
 
 > The `--only` flag is optional and can be used to start only the emulators you need.
+
+### Install JAVA
+
+Insure you have the proper version ogf java installed. 
+
+You can download it from here: https://www.oracle.com/java/technologies/downloads/#jdk21-windows
