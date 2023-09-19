@@ -24,7 +24,16 @@
     {
       "label": "firebase emu start",
       "type": "shell",
-      "command": "firebase emulators:start",
+      "command": ".\\.scripts\\firebase\\start-emulators.bat",
+      "problemMatcher": [
+        "$dart-build_runner"
+      ],
+      "isBackground": true
+    },
+    {
+      "label": "firebase emu kill",
+      "type": "shell",
+      "command": ".\\.scripts\\firebase\\kill-emulators.bat",
       "problemMatcher": [
         "$dart-build_runner"
       ],

@@ -18,7 +18,23 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 
-## Authentication
+## Firebase Emulation
+
+First make sure you have the firebase cli installed. If you don't have it installed you can install it by running the following command in the terminal:
+
+```shell
+npm install -g firebase-tools
+```
+
+Then you need to login to firebase by running the following command in the terminal:
+
+```shell
+firebase login
+```
+
+> NOTE: If you are using a google account that has 2FA enabled you will need to use the `firebase login --no-localhost` command instead.
+
+Then you need to install the firebase emulators by running the following command in the terminal:
 
 To start the firebase emulators you can either use the included VS Code task `firebase emu start` or you can run the following command in the terminal: 
 
