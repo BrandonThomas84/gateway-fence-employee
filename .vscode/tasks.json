@@ -1,0 +1,25 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build apk",
+      "type": "shell",
+      "command": "flutter build apk --split-per-abi",
+      "problemMatcher": [
+        "$dart-build_runner"
+      ],
+      "isBackground": true
+    },
+    {
+      "label": "install on device",
+      "type": "shell",
+      "command": "flutter install --use-application-binary=build\\app\\outputs\\apk\\release\\app-arm64-v8a-release.apk",
+      "problemMatcher": [
+        "$dart-build_runner"
+      ],
+      "isBackground": true
+    }
+  ]
+}
