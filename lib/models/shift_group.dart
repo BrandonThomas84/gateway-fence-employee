@@ -22,7 +22,7 @@ class ShiftGroup {
 
     for (Shift shift in shifts) {
       if (shift.start == null) {
-        Logger.info("no shift start date, skipping");
+        Logger.info('no shift start date, skipping');
         continue;
       }
 
@@ -44,7 +44,7 @@ class ShiftGroup {
 
     for (Shift shift in shifts) {
       if (shift.end == null) {
-        Logger.info("no shift end date, skipping");
+        Logger.info('no shift end date, skipping');
         continue;
       }
 
@@ -67,9 +67,9 @@ class ShiftGroup {
     for (Shift shift in shifts) {
       // make sure we have a start and end time
       if (shift.start == null || shift.end == null) {
-        Logger.info("shift start or end is null, skipping", data: {
-          "start": shift.start,
-          "end": shift.end,
+        Logger.info('shift start or end is null, skipping', data: {
+          'start': shift.start,
+          'end': shift.end,
         });
         continue;
       }
@@ -97,8 +97,8 @@ class ShiftGroup {
       // skip events that don't have a start date
       if (shift.start == null) {
         Logger.debug(
-            "event start is null, will not be included in shifts output",
-            data: {"event": shift.toJson()});
+            'event start is null, will not be included in shifts output',
+            data: {'event': shift.toJson()});
         continue;
       }
 
@@ -108,7 +108,7 @@ class ShiftGroup {
 
       // create a key
       int key = int.parse(
-          "${padd0(d.year.toString())}${padd0(d.month.toString())}${padd0(d.day.toString())}");
+          '${padd0(d.year.toString())}${padd0(d.month.toString())}${padd0(d.day.toString())}');
 
       // create the list if the key doesn't exist
       if (!map.containsKey(key)) {
@@ -118,9 +118,9 @@ class ShiftGroup {
       // add the shift to the list
       map[key]!.add(shift);
 
-      Logger.info("shift position", data: {
-        "key": key,
-        "shift": shift.toJson(),
+      Logger.info('shift position', data: {
+        'key': key,
+        'shift': shift.toJson(),
       });
     }
 

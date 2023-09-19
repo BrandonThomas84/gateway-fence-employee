@@ -18,7 +18,7 @@ class LogoutScreen extends StatelessWidget {
       children: [
         Center(
           heightFactor: 30,
-          child: Text("You have successfully logged out."),
+          child: Text('You have successfully logged out.'),
         ),
       ],
     );

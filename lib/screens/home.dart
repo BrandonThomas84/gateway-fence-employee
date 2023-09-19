@@ -31,7 +31,7 @@ class HomeScreen extends StatelessWidget {
           ),
           child: const Column(
             children: [
-              Text("some stuff"),
+              Text('some stuff'),
             ],
           ),
         ),

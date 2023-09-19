@@ -61,21 +61,21 @@ class Shift {
   }
 
   String getStartTimeString() {
-    if (start == null) return "";
+    if (start == null) return '';
     int actualHour = getStart!.hour > 12 ? getStart!.hour - 12 : getStart!.hour;
     String h = actualHour.toString().padLeft(2, '0');
     String m = getStart!.minute.toString().padLeft(2, '0');
-    String a = getStart!.hour >= 12 ? "PM" : "AM";
-    return "$h:$m $a";
+    String a = getStart!.hour >= 12 ? 'PM' : 'AM';
+    return '$h:$m $a';
   }
 
   String getEndTimeString() {
-    if (end == null) return "";
+    if (end == null) return '';
     int actualHour = getEnd!.hour > 12 ? getEnd!.hour - 12 : getEnd!.hour;
     String h = actualHour.toString().padLeft(2, '0');
     String m = getEnd!.minute.toString().padLeft(2, '0');
-    String a = getEnd!.hour >= 12 ? "PM" : "AM";
-    return "$h:$m $a";
+    String a = getEnd!.hour >= 12 ? 'PM' : 'AM';
+    return '$h:$m $a';
   }
 
   /// Get the duration of the shift
@@ -99,7 +99,7 @@ class Shift {
   // Save the shift to the database
   Future<void> save() async {
     DatabaseReference ref =
-        FirebaseDatabase.instance.ref("/users/$userId/shifts");
+        FirebaseDatabase.instance.ref('/users/$userId/shifts');
 
     await ref.set(toJson()).then((value) => null);
   }

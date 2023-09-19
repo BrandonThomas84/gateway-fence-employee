@@ -16,7 +16,7 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultScreenScaffold(
-      title: "Settings",
+      title: 'Settings',
       children: [
         Container(
           decoration: const BoxDecoration(
@@ -30,16 +30,16 @@ class SettingsScreen extends StatelessWidget {
           ),
           child: const Column(
             children: [
-              Text("setting #1"),
-              Text("setting #2"),
-              Text("setting #3"),
-              Text("setting #4"),
-              Text("setting #5"),
-              Text("setting #6"),
-              Text("setting #7"),
-              Text("setting #8"),
-              Text("setting #9"),
-              Text("setting #10"),
+              Text('setting #1'),
+              Text('setting #2'),
+              Text('setting #3'),
+              Text('setting #4'),
+              Text('setting #5'),
+              Text('setting #6'),
+              Text('setting #7'),
+              Text('setting #8'),
+              Text('setting #9'),
+              Text('setting #10'),
             ],
           ),
         ),

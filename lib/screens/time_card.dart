@@ -39,7 +39,7 @@ class _TimeCardScreenState extends State<TimeCardScreen> {
     String endDate = prettyDate(shiftGroup.getEndDate(), false);
 
     return DefaultScreenScaffold(
-      title: "Time Card",
+      title: 'Time Card',
       children: [
         Container(
           padding: const EdgeInsets.symmetric(
@@ -62,7 +62,7 @@ class _TimeCardScreenState extends State<TimeCardScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
-                    "Start:",
+                    'Start:',
                     style: TextStyle(fontSize: 14, color: AppColors.grey),
                   ),
                   Text(
@@ -75,7 +75,7 @@ class _TimeCardScreenState extends State<TimeCardScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
-                    "End:",
+                    'End:',
                     style: TextStyle(fontSize: 14, color: AppColors.grey),
                   ),
                   Text(
@@ -88,7 +88,7 @@ class _TimeCardScreenState extends State<TimeCardScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
-                    "Total Hours:",
+                    'Total Hours:',
                     style: TextStyle(fontSize: 14, color: AppColors.grey),
                   ),
                   Text(

@@ -17,9 +17,9 @@ List<Shift> getMockShifts(Uuid owner, {int workingDays = 10}) {
     String day = padd0(activeDay.day.toString());
 
     DateTime firstShiftStart = DateTime.parse(
-        "$year-$month-$day 00:${padd0(getRandomInt(1, 59).toString())}:00");
+        '$year-$month-$day 00:${padd0(getRandomInt(1, 59).toString())}:00');
     DateTime firstShiftEnd = DateTime.parse(
-        "$year-$month-$day 05:${padd0(getRandomInt(1, 59).toString())}:00");
+        '$year-$month-$day 05:${padd0(getRandomInt(1, 59).toString())}:00');
 
     // add a morning shift
     shifts.add(
@@ -54,9 +54,9 @@ List<Shift> getMockShifts(Uuid owner, {int workingDays = 10}) {
     }
 
     DateTime secondShiftStart = DateTime.parse(
-        "$year-$month-$day 06:${padd0(getRandomInt(1, 59).toString())}:00");
+        '$year-$month-$day 06:${padd0(getRandomInt(1, 59).toString())}:00');
     DateTime secondShiftEnd = DateTime.parse(
-        "$year-$month-$day 11:${padd0(getRandomInt(1, 59).toString())}:00");
+        '$year-$month-$day 11:${padd0(getRandomInt(1, 59).toString())}:00');
 
     // add lunch shift
     shifts.add(

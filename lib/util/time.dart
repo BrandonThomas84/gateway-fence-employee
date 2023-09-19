@@ -62,5 +62,5 @@ String padd0(String datePart) {
 
 /// Returns a duration as a string in the format HHh MMm.
 String getDurationString(Duration d) {
-  return "${d.inHours}h ${d.inMinutes.remainder(60)}m";
+  return '${d.inHours}h ${d.inMinutes.remainder(60)}m';
 }

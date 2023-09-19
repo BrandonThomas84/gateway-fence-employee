@@ -21,7 +21,7 @@ class LoginScreen extends StatelessWidget {
           child: Column(children: [
             Row(
               children: [
-                Text("Login"),
+                Text('Login'),
               ],
             ),
           ]),

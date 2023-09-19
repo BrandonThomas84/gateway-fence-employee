@@ -66,7 +66,7 @@ class User {
 
   // Save the shift to the database
   Future<void> save() async {
-    DatabaseReference ref = FirebaseDatabase.instance.ref("/users/$userId");
+    DatabaseReference ref = FirebaseDatabase.instance.ref('/users/$userId');
 
     await ref.set(toJson()).then((value) => null);
   }

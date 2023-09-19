@@ -32,8 +32,8 @@ class ShiftDay extends StatefulWidget {
 class _ShiftDayState extends State<ShiftDay> {
   /// whether or not the section is expanded
   bool _isExpanded = false;
-  late String _title = "";
-  late String _subTitle = "";
+  late String _title = '';
+  late String _subTitle = '';
   late Duration _totalDuration = const Duration();
   late final List<Container> _shifts = [];
 
@@ -62,21 +62,21 @@ class _ShiftDayState extends State<ShiftDay> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text("Start:"),
+                  const Text('Start:'),
                   Text(shift.getStartTimeString()),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text("End:"),
+                  const Text('End:'),
                   Text(shift.getEndTimeString()),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text("Duration:"),
+                  const Text('Duration:'),
                   Text(getDurationString(shift.getDuration())),
                 ],
               ),
@@ -118,21 +118,21 @@ class _ShiftDayState extends State<ShiftDay> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text("Clock In:"),
+                      const Text('Clock In:'),
                       Text(shift.getStartTimeString()),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text("Clock Out:"),
+                      const Text('Clock Out:'),
                       Text(shift.getEndTimeString()),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text("Total Hours:"),
+                      const Text('Total Hours:'),
                       Text(getDurationString(shift.getDuration())),
                     ],
                   ),
