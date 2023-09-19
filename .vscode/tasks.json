@@ -20,6 +20,15 @@
         "$dart-build_runner"
       ],
       "isBackground": true
-    }
+    },
+    {
+      "label": "firebase emu start",
+      "type": "shell",
+      "command": "firebase emulators:start",
+      "problemMatcher": [
+        "$dart-build_runner"
+      ],
+      "isBackground": true
+    },
   ]
 }
