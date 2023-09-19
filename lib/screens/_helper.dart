@@ -70,39 +70,46 @@ class _DefaultScreenScaffoldState extends State<DefaultScreenScaffold>
         child: const Icon(Icons.menu),
       ),
       body: SafeArea(
-        child: ListView(
-          children: [
-            if (widget.title != null)
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 25,
-                  vertical: 10,
-                ),
-                decoration: const BoxDecoration(
-                  color: AppColors.white,
-                  border: Border(
-                    bottom: BorderSide(
-                      color: AppColors.greyLight,
-                      width: 1,
+        child: Center(
+          child: Container(
+            constraints: const BoxConstraints(
+              maxWidth: 1200,
+            ),
+            child: ListView(
+              children: [
+                if (widget.title != null)
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 25,
+                      vertical: 10,
                     ),
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.title!,
-                      style: const TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
+                    decoration: const BoxDecoration(
+                      color: AppColors.white,
+                      border: Border(
+                        bottom: BorderSide(
+                          color: AppColors.greyLight,
+                          width: 1,
+                        ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ...widget.children,
-            SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-          ],
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.title!,
+                          style: const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ...widget.children,
+                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+              ],
+            ),
+          ),
         ),
       ),
     );
