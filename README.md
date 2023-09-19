@@ -16,3 +16,14 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+
+## Authentication
+
+To start the firebase emulators you can either use the included VS Code task `firebase emu start` or you can run the following command in the terminal: 
+
+```shell
+firebase emulators:start --only auth,firestore,functions,hosting,ui
+``` 
+
+> The `--only` flag is optional and can be used to start only the emulators you need.
