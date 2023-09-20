@@ -9,3 +9,13 @@ class ConfirmPasswordValidator extends TextFieldValidator {
   @override
   bool isValid(String? value) => (value != null && value == match);
 }
+
+
+class ConfirmNoMatchValidator extends TextFieldValidator {
+  final String match;
+
+  ConfirmNoMatchValidator(this.match, {required String errorText}) : super(errorText);
+
+  @override
+  bool isValid(String? value) => (value != null && value != match);
+}

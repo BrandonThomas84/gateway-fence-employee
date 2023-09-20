@@ -36,7 +36,7 @@ class Menu extends StatelessWidget {
               if (isAuthenticated) 
                 MenuItem(
                   title: 'Time Card',
-                  icon: Icons.timer_rounded,
+                  icon: Icons.timer_outlined,
                   onTap: () {
                     Provider.of<CurrentRouteProvider>(context, listen: false)
                         .setCurrentRoute('/time-card', context);
@@ -44,8 +44,17 @@ class Menu extends StatelessWidget {
                   isActive: GoRouterState.of(context).fullPath == '/time-card',
                 ),
                 MenuItem(
+                  title: 'Profile',
+                  icon: Icons.person_2_outlined,
+                  onTap: () {
+                    Provider.of<CurrentRouteProvider>(context, listen: false)
+                        .setCurrentRoute('/profile', context);
+                  },
+                  isActive: GoRouterState.of(context).fullPath == '/profile',
+                ),
+                MenuItem(
                   title: 'Settings',
-                  icon: Icons.settings,
+                  icon: Icons.settings_outlined,
                   onTap: () {
                     Provider.of<CurrentRouteProvider>(context, listen: false)
                         .setCurrentRoute('/settings', context);

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'home.dart';
 import 'login.dart';
 import 'logout.dart';
+import 'profile.dart';
 import 'register.dart';
 import 'settings.dart';
 import 'time_card.dart';
@@ -16,6 +17,7 @@ GoRouter getRouteConfig() {
       homeScreenGoRoute,
       loginScreenGoRoute,
       logoutScreenGoRoute,
+      profileScreenGoRoute,
       registerScreenGoRoute,
       settingsScreenGoRoute,
       timeCardScreenGoRoute,
