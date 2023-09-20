@@ -117,11 +117,6 @@ class ShiftGroup {
 
       // add the shift to the list
       map[key]!.add(shift);
-
-      Logger.info('shift position', data: {
-        'key': key,
-        'shift': shift.toJson(),
-      });
     }
 
     _sorted = Map.fromEntries(

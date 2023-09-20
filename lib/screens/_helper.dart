@@ -1,36 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/widgets/sidebar/sidebar.dart';
-import 'package:go_router/go_router.dart';
 
-import 'home.dart';
-import 'logout.dart';
-import 'settings.dart';
-import 'time_card.dart';
-
-/// Get the routes for the app
-final routerConfig = GoRouter(
-  initialLocation: '/',
-  navigatorKey: GlobalKey<NavigatorState>(),
-  routes: [
-    homeScreenGoRoute,
-    timeCardScreenGoRoute,
-    settingsScreenGoRoute,
-    logoutScreenGoRoute,
-  ],
-);
-
-/// Provider to keep track of the current route
-class CurrentRouteProvider extends ChangeNotifier {
-  String _currentRoute = '/';
-
-  String get currentRoute => _currentRoute;
-
-  void setCurrentRoute(String route) {
-    _currentRoute = route;
-    notifyListeners();
-  }
-}
 
 /// Scaffold with a drawer and a floating action button
 class DefaultScreenScaffold extends StatefulWidget {

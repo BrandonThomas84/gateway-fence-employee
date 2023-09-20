@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gateway_fence_employee/screens/_helper.dart';
+import 'package:gateway_fence_employee/providers/auth_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:gateway_fence_employee/providers/current_route_provider.dart';
 
 import 'menu_item.dart';
 
@@ -12,6 +13,8 @@ class Menu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isAuthenticated = Provider.of<AuthProvider>(context).isAuthenticated;
+
     return SizedBox(
       height: (MediaQuery.of(context).size.height * .75) - 120,
       child: Column(
@@ -26,9 +29,7 @@ class Menu extends StatelessWidget {
                 icon: Icons.home_outlined,
                 onTap: () {
                   Provider.of<CurrentRouteProvider>(context, listen: false)
-                      .setCurrentRoute('/');
-                  // navigate to profile page
-                  context.go('/');
+                      .setCurrentRoute('/', context);
                 },
                 isActive: GoRouterState.of(context).fullPath == '/',
               ),
@@ -37,9 +38,7 @@ class Menu extends StatelessWidget {
                 icon: Icons.timer_rounded,
                 onTap: () {
                   Provider.of<CurrentRouteProvider>(context, listen: false)
-                      .setCurrentRoute('/time-card');
-                  // navigate to profile page
-                  context.go('/time-card');
+                      .setCurrentRoute('/time-card', context);
                 },
                 isActive: GoRouterState.of(context).fullPath == '/time-card',
               ),
@@ -48,9 +47,7 @@ class Menu extends StatelessWidget {
                 icon: Icons.settings,
                 onTap: () {
                   Provider.of<CurrentRouteProvider>(context, listen: false)
-                      .setCurrentRoute('/settings');
-                  // navigate to profile page
-                  context.go('/settings');
+                      .setCurrentRoute('/settings', context);
                 },
                 isActive: GoRouterState.of(context).fullPath == '/settings',
               ),
@@ -59,13 +56,12 @@ class Menu extends StatelessWidget {
           Align(
             alignment: Alignment.bottomCenter,
             child: MenuItem(
-              title: 'Logout',
+              title: isAuthenticated ? 'Logout' : 'Login',
               icon: Icons.logout_rounded,
               onTap: () {
-                  Provider.of<CurrentRouteProvider>(context, listen: false)
-                      .setCurrentRoute('/logout');
-                // navigate to profile page
-                context.go('/logout');
+                String newRoute = isAuthenticated ? '/logout' : '/login';
+                Provider.of<CurrentRouteProvider>(context, listen: false)
+                    .setCurrentRoute(newRoute, context);
               },
             ),
           )
