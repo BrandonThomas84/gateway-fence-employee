@@ -33,24 +33,25 @@ class Menu extends StatelessWidget {
                 },
                 isActive: GoRouterState.of(context).fullPath == '/',
               ),
-              MenuItem(
-                title: 'Time Card',
-                icon: Icons.timer_rounded,
-                onTap: () {
-                  Provider.of<CurrentRouteProvider>(context, listen: false)
-                      .setCurrentRoute('/time-card', context);
-                },
-                isActive: GoRouterState.of(context).fullPath == '/time-card',
-              ),
-              MenuItem(
-                title: 'Settings',
-                icon: Icons.settings,
-                onTap: () {
-                  Provider.of<CurrentRouteProvider>(context, listen: false)
-                      .setCurrentRoute('/settings', context);
-                },
-                isActive: GoRouterState.of(context).fullPath == '/settings',
-              ),
+              if (isAuthenticated) 
+                MenuItem(
+                  title: 'Time Card',
+                  icon: Icons.timer_rounded,
+                  onTap: () {
+                    Provider.of<CurrentRouteProvider>(context, listen: false)
+                        .setCurrentRoute('/time-card', context);
+                  },
+                  isActive: GoRouterState.of(context).fullPath == '/time-card',
+                ),
+                MenuItem(
+                  title: 'Settings',
+                  icon: Icons.settings,
+                  onTap: () {
+                    Provider.of<CurrentRouteProvider>(context, listen: false)
+                        .setCurrentRoute('/settings', context);
+                  },
+                  isActive: GoRouterState.of(context).fullPath == '/settings',
+                ),
             ],
           ),
           Align(

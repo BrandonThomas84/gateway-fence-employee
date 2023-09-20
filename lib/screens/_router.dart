@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -9,16 +8,17 @@ import 'register.dart';
 import 'settings.dart';
 import 'time_card.dart';
 
-/// Get the routes for the app
-final routerConfig = GoRouter(
-  initialLocation: '/',
-  navigatorKey: GlobalKey<NavigatorState>(),
-  routes: [
-    homeScreenGoRoute,
-    loginScreenGoRoute,
-    logoutScreenGoRoute,
-    registerScreenGoRoute,
-    settingsScreenGoRoute,
-    timeCardScreenGoRoute,
-  ],
-);
+GoRouter getRouteConfig() {
+  return GoRouter(
+    initialLocation: '/',
+    navigatorKey: GlobalKey<NavigatorState>(),
+    routes: [
+      homeScreenGoRoute,
+      loginScreenGoRoute,
+      logoutScreenGoRoute,
+      registerScreenGoRoute,
+      settingsScreenGoRoute,
+      timeCardScreenGoRoute,
+    ],
+  );
+}

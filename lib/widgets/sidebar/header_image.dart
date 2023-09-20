@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ProfileImage extends StatelessWidget {
-  const ProfileImage({
+class HeaderImage extends StatelessWidget {
+  const HeaderImage({
     super.key,
     required this.imageSize,
     this.borderThickness = 2,
@@ -26,7 +26,7 @@ class ProfileImage extends StatelessWidget {
       width: imageSize,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(imageSize / 2),
-        child: Image.asset('assets/brandon.png'),
+        child: Image.asset('assets/logo_transparent.png'),
       ),
     );
   }

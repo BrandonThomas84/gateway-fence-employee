@@ -23,17 +23,37 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _formkey = GlobalKey<FormState>();
+  late final _formkey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
 
-  Future<void> handleLogin() async {
+  @override
+  void initState() {
+    super.initState();
+    _formkey.currentState?.reset();
+  }
+
+  Future<void> handleLoginPress() async {
+    if (!_formkey.currentState!.validate()) {
+      return;
+    }
     try {
       await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: _email, password: _password);
+          .signInWithEmailAndPassword(email: _email, password: _password)
+          .then((value) => redirectToHome());
     } catch (e) {
       Logger.error('error logging in: ${e.toString()}');
     }
+  }
+
+  void redirectToHome() {
+    Provider.of<CurrentRouteProvider>(context, listen: false)
+        .setCurrentRoute('/', context);
+  }
+
+  void handleRegisterPress() {
+    Provider.of<CurrentRouteProvider>(context, listen: false)
+        .setCurrentRoute('/register', context);
   }
 
   @override
@@ -100,19 +120,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () {
-                    if (_formkey.currentState!.validate()) {
-                      Logger.info('form submiitted');
-                      handleLogin();
-                    }
-                  },
+                  onPressed: handleLoginPress,
                   child: const Text('Login'),
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    Provider.of<CurrentRouteProvider>(context, listen: false)
-                        .setCurrentRoute('/register', context);
-                  },
+                  onPressed: handleRegisterPress,
                   child: const Text('Register'),
                 ),
               ]),

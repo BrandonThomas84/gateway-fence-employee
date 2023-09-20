@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/screens/_helper.dart';
 import 'package:gateway_fence_employee/util/log.dart';
+import 'package:gateway_fence_employee/util/validators.dart';
 import 'package:go_router/go_router.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
@@ -21,16 +22,26 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final _formkey = GlobalKey<FormState>();
+  late final _formkey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
-  String? _error;
+
+  // necessary for state comparison
+  // ignore: unused_field
+  String _confirmPassword = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _formkey.currentState?.reset();
+  }
 
   Future<String?> handleRegister() async {
     try {
+      // ignore: unused_local_variable
       final credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: _email, password: _password);
-
+      
       return null;
     } on FirebaseAuthException catch (e) {
       Logger.error('firebase registration error: ${e.toString()}');
@@ -115,6 +126,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       },
                     ),
                     const SizedBox(height: 20),
+                    TextFormField(
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        hintText: 'Confirm Password',
+                        labelText: 'Confirm Password',
+                        prefixIcon: Icon(
+                          Icons.key_outlined,
+                          color: AppColors.blue,
+                        ),
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: MultiValidator([
+                        RequiredValidator(
+                            errorText: 'Confirm Password is required'),
+                        MinLengthValidator(8,
+                            errorText:
+                                'Password must be at least 8 digits long'),
+                        PatternValidator(r'(?=.*?[#!@$%^&*-])',
+                            errorText:
+                                'Password must contain at least one special character'),
+                        ConfirmPasswordValidator(_password,
+                            errorText: 'Passwords do not match'),
+                      ]).call,
+                      onChanged: (value) {
+                        _confirmPassword = value;
+                      },
+                    ),
+                    const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () {
                         if (_formkey.currentState!.validate()) {
@@ -127,15 +166,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   }
                               });
                         }
-                        Logger.info('form is invalid');
                       },
                       child: const Text('Register'),
                     ),
                   ]),
                 ),
-                SnackBar(
-                  content: Container(),
-                )
               ],
             ),
           ),

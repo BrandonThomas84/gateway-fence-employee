@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gateway_fence_employee/screens/_helper.dart';
 import 'package:go_router/go_router.dart';
@@ -12,8 +13,13 @@ class LogoutScreen extends StatelessWidget {
     super.key,
   });
 
+  void doSignOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
+    doSignOut();
     return const DefaultScreenScaffold(
       children: [
         Center(
