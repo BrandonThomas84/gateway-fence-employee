@@ -40,12 +40,18 @@ class _LoginScreenState extends State<LoginScreen> {
       title: 'Login',
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+          padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Center(
             child: Form(
               key: _formkey,
               child: Column(children: [
-                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.all(35),
+                  child: Image.asset(
+                    'assets/logo_transparent.png',
+                    width: 200,
+                  ),
+                ),
                 TextFormField(
                   decoration: const InputDecoration(
                     hintText: 'Email',
@@ -55,8 +61,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: AppColors.blue,
                     ),
                     border: OutlineInputBorder(),
-                    errorStyle:
-                        TextStyle(color: Colors.red, fontWeight: FontWeight.w800),
+                    errorStyle: TextStyle(
+                        color: Colors.red, fontWeight: FontWeight.w800),
                   ),
                   validator: MultiValidator([
                     RequiredValidator(errorText: 'Email is required'),
