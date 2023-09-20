@@ -27,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> handleLogin() async {
     try {
-      final credentials = await FirebaseAuth.instance
+      await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: _email, password: _password);
     } catch (e) {
       Logger.error('error logging in: ${e.toString()}');
