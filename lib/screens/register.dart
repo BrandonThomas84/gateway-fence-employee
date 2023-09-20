@@ -1,11 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
+import 'package:gateway_fence_employee/providers/current_route_provider.dart';
 import 'package:gateway_fence_employee/screens/_helper.dart';
 import 'package:gateway_fence_employee/util/log.dart';
 import 'package:gateway_fence_employee/util/validators.dart';
 import 'package:go_router/go_router.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:provider/provider.dart';
 
 GoRoute registerScreenGoRoute = GoRoute(
   path: '/register',
@@ -40,8 +42,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
     try {
       // ignore: unused_local_variable
       final credential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: _email, password: _password);
-      
+          .createUserWithEmailAndPassword(email: _email, password: _password)
+          .then(
+            (value) => redirectToLogin(),
+          );
+
       return null;
     } on FirebaseAuthException catch (e) {
       Logger.error('firebase registration error: ${e.toString()}');
@@ -57,6 +62,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       return 'Unknown error occured, please try again later.';
     }
+  }
+
+  void redirectToLogin() {
+    Provider.of<CurrentRouteProvider>(context, listen: false)
+        .setCurrentRoute('/login', context);
   }
 
   @override
