@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
+import 'package:gateway_fence_employee/providers/current_route_provider.dart';
 import 'package:gateway_fence_employee/screens/_helper.dart';
 import 'package:gateway_fence_employee/util/log.dart';
 import 'package:go_router/go_router.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:provider/provider.dart';
 
 GoRoute loginScreenGoRoute = GoRoute(
   path: '/login',
@@ -105,6 +107,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     }
                   },
                   child: const Text('Login'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Provider.of<CurrentRouteProvider>(context, listen: false)
+                        .setCurrentRoute('/register', context);
+                  },
+                  child: const Text('Register'),
                 ),
               ]),
             ),
