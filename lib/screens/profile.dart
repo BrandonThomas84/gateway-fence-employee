@@ -7,7 +7,6 @@ import 'package:gateway_fence_employee/screens/_helper.dart';
 import 'package:gateway_fence_employee/util/log.dart';
 import 'package:gateway_fence_employee/util/validators.dart';
 import 'package:gateway_fence_employee/widgets/profile_input_row.dart';
-import 'package:gateway_fence_employee/widgets/reauthenticate_dialog.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -26,35 +25,9 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  bool requiresReAuth = true;
-
-  Future<bool> onEditPress(User user) async {
-    // we need to reauthenticate to make sure the user has a current token and
-    // because it's a good idea
-    await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return ReauthenticateDialog(
-          onSuccess: () {
-            Logger.info('successfully reauthenticated');
-            setState(() {
-              requiresReAuth = false;
-            });
-          },
-        );
-      },
-    );
-    
-    return Future.value(!requiresReAuth);
-  }
-
+  
   Future<bool> onEmailSave(User user, String? value) async {
-    if (requiresReAuth) {
-      Logger.info('requires reauth');
-      onEditPress(user);
-    }
     if (value == null) {
-      Logger.info('email address is null');
       return Future.value(false);
     }
 
@@ -150,6 +123,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 const SizedBox(height: 40),
                 ProfileInputRow(
+                  // isSecure: true,
                   name: 'Email',
                   icon: Icons.email_outlined,
                   initialValue: user?.email ?? '',
@@ -162,10 +136,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   onSavePress: (String? value) {
                     return onEmailSave(user!, value);
                   },
-                  onEditPress: () {
-                    Logger.info('editing email');
-                    return onEditPress(user!);
-                  },
+                  // onEditPress: () {
+                  //   Logger.info('editing email');
+                  //   return onEditPress(user!);
+                  // },
                   // onCancelPress: () {
                   //   Logger.info('cancelling email edit');
                   // },
