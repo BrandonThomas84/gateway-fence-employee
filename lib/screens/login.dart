@@ -26,6 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   late final _formkey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
+  bool _passwordVisible = false;
 
   @override
   void initState() {
@@ -94,16 +95,28 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    hintText: 'Password',
-                    labelText: 'Password',
-                    prefixIcon: Icon(
-                      Icons.key_outlined,
-                      color: AppColors.blue,
-                    ),
-                    border: OutlineInputBorder(),
-                  ),
+                  obscureText: !_passwordVisible,
+                  decoration: InputDecoration(
+                      hintText: 'Password',
+                      labelText: 'Password',
+                      prefixIcon: const Icon(
+                        Icons.key_outlined,
+                        color: AppColors.blue,
+                      ),
+                      border: const OutlineInputBorder(),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: AppColors.blue,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _passwordVisible = !_passwordVisible;
+                          });
+                        },
+                      )),
                   validator: MultiValidator([
                     RequiredValidator(errorText: 'Password is required'),
                     MinLengthValidator(8,
