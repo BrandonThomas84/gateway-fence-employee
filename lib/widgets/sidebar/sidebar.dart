@@ -15,9 +15,9 @@ class Sidebar extends StatelessWidget {
       child: Container(
         width: MediaQuery.of(context).size.width * .75,
         color: AppColors.white,
-        child: const Column(
+        child: Column(
           children: [
-            Header(),
+            const Header(),
             Menu(),
           ],
         ),

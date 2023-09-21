@@ -83,8 +83,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: AppColors.blue,
                     ),
                     border: OutlineInputBorder(),
-                    errorStyle: TextStyle(
-                        color: Colors.red, fontWeight: FontWeight.w800),
                   ),
                   validator: MultiValidator([
                     RequiredValidator(errorText: 'Email is required'),
@@ -120,13 +118,36 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: handleLoginPress,
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(AppColors.blue),
+                    padding: MaterialStateProperty.all(
+                        const EdgeInsets.symmetric(
+                            horizontal: 50, vertical: 15)),
+                  ),
+                  onPressed: () {
+                    if (_formkey.currentState!.validate()) {
+                      handleLoginPress();
+                    }
+                  },
                   child: const Text('Login'),
                 ),
-                ElevatedButton(
+                const SizedBox(height: 20),
+                TextButton(
                   onPressed: handleRegisterPress,
-                  child: const Text('Register'),
+                  child: const Text(
+                    'Don\'t have an account? Register here',
+                    style: TextStyle(color: AppColors.blue),
+                  ),
                 ),
+                const SizedBox(height: 20),
+                // ElevatedButton(
+                //   onPressed: handleLoginPress,
+                //   child: const Text('Login'),
+                // ),
+                // ElevatedButton(
+                //   onPressed: handleRegisterPress,
+                //   child: const Text('Register'),
+                // ),
               ]),
             ),
           ),

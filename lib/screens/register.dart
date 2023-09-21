@@ -27,10 +27,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late final _formkey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
+  bool _passwordVisible = false;
 
   // necessary for state comparison
   // ignore: unused_field
   String _confirmPassword = '';
+  bool _confirmPasswordVisible = false;
 
   @override
   void initState() {
@@ -91,8 +93,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     TextFormField(
                       decoration: const InputDecoration(
-                        hintText: 'Email',
                         labelText: 'Email',
+                        hintText: 'Enter your email address',
                         prefixIcon: Icon(
                           Icons.email_outlined,
                           color: AppColors.blue,
@@ -112,15 +114,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        hintText: 'Password',
+                      obscureText: !_passwordVisible,
+                      decoration: InputDecoration(
                         labelText: 'Password',
-                        prefixIcon: Icon(
+                        hintText: 'Enter a secure password',
+                        prefixIcon: const Icon(
                           Icons.key_outlined,
                           color: AppColors.blue,
                         ),
-                        border: OutlineInputBorder(),
+                        border: const OutlineInputBorder(),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _passwordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: AppColors.blue,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _passwordVisible = !_passwordVisible;
+                            });
+                          },
+                        ),
                       ),
                       validator: MultiValidator([
                         RequiredValidator(errorText: 'Password is required'),
@@ -137,27 +152,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        hintText: 'Confirm Password',
+                      obscureText: !_passwordVisible,
+                      decoration: InputDecoration(
                         labelText: 'Confirm Password',
-                        prefixIcon: Icon(
+                        hintText: 'Re-enter your password',
+                        prefixIcon: const Icon(
                           Icons.key_outlined,
                           color: AppColors.blue,
                         ),
-                        border: OutlineInputBorder(),
+                        border: const OutlineInputBorder(),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _confirmPasswordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: AppColors.blue,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _confirmPasswordVisible =
+                                  !_confirmPasswordVisible;
+                            });
+                          },
+                        ),
                       ),
                       validator: MultiValidator([
-                        RequiredValidator(
-                            errorText: 'Confirm Password is required'),
-                        MinLengthValidator(8,
-                            errorText:
-                                'Password must be at least 8 digits long'),
-                        PatternValidator(r'(?=.*?[#!@$%^&*-])',
-                            errorText:
-                                'Password must contain at least one special character'),
-                        ConfirmPasswordValidator(_password,
-                            errorText: 'Passwords do not match'),
+                        ConfirmPasswordValidator(_confirmPassword,
+                            errorText: 'Passwords do not match')
                       ]).call,
                       onChanged: (value) {
                         _confirmPassword = value;
@@ -165,6 +186,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(AppColors.blue),
+                        padding: MaterialStateProperty.all(
+                            const EdgeInsets.symmetric(
+                                horizontal: 50, vertical: 15)),
+                      ),
                       onPressed: () {
                         if (_formkey.currentState!.validate()) {
                           handleRegister().then((err) => {
@@ -178,6 +206,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         }
                       },
                       child: const Text('Register'),
+                    ),
+                    const SizedBox(height: 20),
+                    TextButton(
+                      onPressed: redirectToLogin,
+                      child: const Text(
+                        'Already have an account? Login',
+                        style: TextStyle(color: AppColors.blue),
+                      ),
                     ),
                   ]),
                 ),

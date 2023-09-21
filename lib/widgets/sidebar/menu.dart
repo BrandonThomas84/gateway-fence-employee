@@ -6,10 +6,40 @@ import 'package:gateway_fence_employee/providers/current_route_provider.dart';
 
 import 'menu_item.dart';
 
+class MenutItemConfig {
+  final String title;
+  final IconData icon;
+  final String route;
+
+  MenutItemConfig({
+    required this.title,
+    required this.icon,
+    required this.route,
+  });
+}
+
 class Menu extends StatelessWidget {
-  const Menu({
+  Menu({
     super.key,
   });
+
+  final List<MenutItemConfig> secureItems = [
+    MenutItemConfig(
+      title: 'Time Card',
+      icon: Icons.timer_outlined,
+      route: '/time-card',
+    ),
+    MenutItemConfig(
+      title: 'Profile',
+      icon: Icons.person_2_outlined,
+      route: '/profile',
+    ),
+    MenutItemConfig(
+      title: 'Settings',
+      icon: Icons.settings_outlined,
+      route: '/settings',
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -33,34 +63,17 @@ class Menu extends StatelessWidget {
                 },
                 isActive: GoRouterState.of(context).fullPath == '/',
               ),
-              if (isAuthenticated) 
-                MenuItem(
-                  title: 'Time Card',
-                  icon: Icons.timer_outlined,
-                  onTap: () {
-                    Provider.of<CurrentRouteProvider>(context, listen: false)
-                        .setCurrentRoute('/time-card', context);
-                  },
-                  isActive: GoRouterState.of(context).fullPath == '/time-card',
-                ),
-                MenuItem(
-                  title: 'Profile',
-                  icon: Icons.person_2_outlined,
-                  onTap: () {
-                    Provider.of<CurrentRouteProvider>(context, listen: false)
-                        .setCurrentRoute('/profile', context);
-                  },
-                  isActive: GoRouterState.of(context).fullPath == '/profile',
-                ),
-                MenuItem(
-                  title: 'Settings',
-                  icon: Icons.settings_outlined,
-                  onTap: () {
-                    Provider.of<CurrentRouteProvider>(context, listen: false)
-                        .setCurrentRoute('/settings', context);
-                  },
-                  isActive: GoRouterState.of(context).fullPath == '/settings',
-                ),
+              if (isAuthenticated)
+                for (MenutItemConfig item in secureItems)
+                  MenuItem(
+                    title: item.title,
+                    icon: item.icon,
+                    onTap: () {
+                      Provider.of<CurrentRouteProvider>(context, listen: false)
+                          .setCurrentRoute(item.route, context);
+                    },
+                    isActive: GoRouterState.of(context).fullPath == item.route,
+                  )
             ],
           ),
           Align(
