@@ -7,10 +7,13 @@ import 'package:gateway_fence_employee/widgets/sidebar/sidebar.dart';
 class DefaultScreenScaffold extends StatefulWidget {
   final List<Widget> children;
   final String? title;
+  final GlobalKey<ScaffoldState> scaffoldKey;
+
 
   const DefaultScreenScaffold({
     super.key,
     required this.children,
+    required this.scaffoldKey,
     this.title,
   });
 
@@ -24,19 +27,20 @@ class _DefaultScreenScaffoldState extends State<DefaultScreenScaffold>
   @override
   bool get wantKeepAlive => true;
 
+  // static final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
 
-    GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
     return Scaffold(
-      key: scaffoldKey,
+      key: widget.scaffoldKey,
       drawer: const Sidebar(),
       backgroundColor: AppColors.greyLight,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          scaffoldKey.currentState?.openDrawer();
+          widget.scaffoldKey.currentState?.openDrawer();
         },
         child: const Icon(Icons.menu),
       ),

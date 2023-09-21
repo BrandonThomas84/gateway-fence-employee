@@ -40,6 +40,7 @@ class _TimeCardScreenState extends State<TimeCardScreen> {
 
     return DefaultScreenScaffold(
       title: 'Time Card',
+      scaffoldKey: GlobalKey<ScaffoldState>(),
       children: [
         Container(
           padding: const EdgeInsets.symmetric(

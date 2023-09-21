@@ -54,7 +54,7 @@ class GatewayFenceEmployeeApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       // routerDelegate: routerConfig.routerDelegate,
       // routeInformationParser: routerConfig.routeInformationParser,
-      routerConfig: getRouteConfig(),
+      routerConfig: routerConfig,
       themeAnimationDuration: const Duration(milliseconds: 200),
     );
   }

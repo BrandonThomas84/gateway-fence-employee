@@ -17,6 +17,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultScreenScaffold(
       title: 'Settings',
+      scaffoldKey: GlobalKey<ScaffoldState>(),
       children: [
         Container(
           decoration: const BoxDecoration(

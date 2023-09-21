@@ -61,6 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return DefaultScreenScaffold(
       title: 'Login',
+      scaffoldKey: GlobalKey<ScaffoldState>(),
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25),

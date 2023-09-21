@@ -20,8 +20,9 @@ class LogoutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     doSignOut();
-    return const DefaultScreenScaffold(
-      children: [
+    return DefaultScreenScaffold(
+      scaffoldKey: GlobalKey<ScaffoldState>(),
+      children: const [
         Center(
           heightFactor: 30,
           child: Text('You have successfully logged out.'),

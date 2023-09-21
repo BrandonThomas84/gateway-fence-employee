@@ -10,12 +10,12 @@ class AuthProvider extends ChangeNotifier {
   User? get user => _user;
   bool get isAuthenticated => _isAuthenticated;
 
-  void setUser(User? user) {
+  void setUser(User? user, String changeType) {
     _user = user;
 
     if (user != null) {
       Logger.info(
-        'setUser provider called, user is known',
+        'setUser provider called ($changeType), user is known',
         data: {
           'uid': user.uid,
           'user': user.displayName,
@@ -28,7 +28,7 @@ class AuthProvider extends ChangeNotifier {
       // set the user as authenticated
       _isAuthenticated = true;
     } else {
-      Logger.info('setUser provider called, user is not logged in');
+      Logger.info('setUser provider called ($changeType), user is not logged in');
 
       // unset the authenticated flag
       _isAuthenticated = false;
@@ -40,14 +40,14 @@ class AuthProvider extends ChangeNotifier {
 
 void setupAuthStateChanges(BuildContext context) {
   FirebaseAuth.instance.authStateChanges().listen((User? user) {
-    context.read<AuthProvider>().setUser(user);
+    context.read<AuthProvider>().setUser(user, 'auth_state_changes');
   });
 
   FirebaseAuth.instance.userChanges().listen((User? user) {
-    context.read<AuthProvider>().setUser(user);
+    context.read<AuthProvider>().setUser(user, 'user_changes');
   });
 
   FirebaseAuth.instance.idTokenChanges().listen((User? user) {
-    context.read<AuthProvider>().setUser(user);
+    context.read<AuthProvider>().setUser(user, 'id_token_changes');
   });
 }

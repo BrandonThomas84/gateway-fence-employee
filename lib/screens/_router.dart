@@ -9,18 +9,16 @@ import 'register.dart';
 import 'settings.dart';
 import 'time_card.dart';
 
-GoRouter getRouteConfig() {
-  return GoRouter(
-    initialLocation: '/',
-    navigatorKey: GlobalKey<NavigatorState>(),
-    routes: [
-      homeScreenGoRoute,
-      loginScreenGoRoute,
-      logoutScreenGoRoute,
-      profileScreenGoRoute,
-      registerScreenGoRoute,
-      settingsScreenGoRoute,
-      timeCardScreenGoRoute,
-    ],
-  );
-}
+final GoRouter routerConfig = GoRouter(
+  initialLocation: '/',
+  navigatorKey: GlobalKey<NavigatorState>(),
+  routes: [
+    homeScreenGoRoute,
+    loginScreenGoRoute,
+    logoutScreenGoRoute,
+    profileScreenGoRoute,
+    registerScreenGoRoute,
+    settingsScreenGoRoute,
+    timeCardScreenGoRoute,
+  ],
+);

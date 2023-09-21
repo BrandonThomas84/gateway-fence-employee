@@ -33,6 +33,7 @@ class HomeNotAuthenticated extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultScreenScaffold(
       title: companyName,
+      scaffoldKey: GlobalKey<ScaffoldState>(),
       children: [
         Container(
           decoration: const BoxDecoration(
@@ -61,6 +62,7 @@ class HomeAuthenticated extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultScreenScaffold(
       title: companyName,
+      scaffoldKey: GlobalKey<ScaffoldState>(),
       children: [
         Container(
           decoration: const BoxDecoration(

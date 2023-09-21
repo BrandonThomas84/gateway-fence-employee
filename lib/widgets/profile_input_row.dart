@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
+import 'package:gateway_fence_employee/util/log.dart';
 
 class ProfileInputRow extends StatefulWidget {
   const ProfileInputRow({
@@ -17,55 +18,37 @@ class ProfileInputRow extends StatefulWidget {
   final String name;
   final IconData icon;
   final String initialValue;
-  final Function onSavePress;
-  final MultiValidator? validator;
+  final Function(String? value) onSavePress;
   final Function? onCancelPress;
   final Function? onEditPress;
+  final MultiValidator? validator;
 
   @override
   State<ProfileInputRow> createState() => _ProfileInputRowState();
 }
 
 class _ProfileInputRowState extends State<ProfileInputRow> {
-  late final _formKey = GlobalKey<FormState>();
-  late final _inputKey = GlobalKey<FormFieldState>();
-
-  late String _value;
+  // whether or not the user is editing the input
   bool _editing = false;
+
+  // the value of the input
+  String _value = '';
+
+  late final GlobalKey<FormState> formKey;
 
   @override
   void initState() {
     super.initState();
-    _formKey.currentState?.reset();
-    _value = widget.initialValue;
-  }
 
-  void handleEditPress() {
-    if (widget.onEditPress != null) {
-      widget.onEditPress!();
-    }
-    setState(() {
-      _editing = true;
+    formKey = GlobalKey<FormState>();
+    
+    Logger.info('profile input row init state is running', data: {
+      'initialValue': widget.initialValue,
+      'currentValue': _value,  
+      'editing': _editing,
     });
   }
 
-  void handleCancelPress() {
-    if (widget.onCancelPress != null) {
-      widget.onCancelPress!();
-    }
-    setState(() {
-      _editing = false;
-    });
-  }
-
-  void handleSavePress() {
-    if (_formKey.currentState!.validate()) {
-      widget.onSavePress(_value);
-      setState(() {
-        _editing = false;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +56,7 @@ class _ProfileInputRowState extends State<ProfileInputRow> {
     double inputWidthWhenEditing = MediaQuery.of(context).size.width * 0.9;
 
     return Form(
-      key: _formKey,
+      key: formKey,
       child: Column(
         children: [
           Row(
@@ -82,9 +65,14 @@ class _ProfileInputRowState extends State<ProfileInputRow> {
               SizedBox(
                 width: _editing ? inputWidthWhenEditing : inputWidth,
                 child: TextFormField(
-                  key: _inputKey,
+                  validator: widget.validator?.call,
                   enabled: _editing,
                   initialValue: widget.initialValue,
+                  onChanged: (value) {
+                    setState(() {
+                      _value = value;
+                    });
+                  },
                   decoration: InputDecoration(
                     hintText: widget.name,
                     labelText: widget.name,
@@ -94,15 +82,22 @@ class _ProfileInputRowState extends State<ProfileInputRow> {
                       color: Colors.red,
                     ),
                   ),
-                  validator: widget.validator?.call,
-                  onChanged: (value) {
-                    _value = value;
-                  },
                 ),
               ),
               if (!_editing)
                 TextButton(
-                  onPressed: handleEditPress,
+                  onPressed: () {
+                    if (widget.onEditPress != null) {
+                      widget.onEditPress!();
+                    }
+                    setState(() {
+                      _editing = true;
+                    });
+                    Logger.info('editng profile input row', data: {
+                      'currentValue': _value,  
+                      'editing': _editing,
+                    });
+                  },
                   child: const Text('Edit'),
                 ),
             ],
@@ -114,14 +109,29 @@ class _ProfileInputRowState extends State<ProfileInputRow> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton(
-                    onPressed: handleCancelPress,
+                    onPressed: () {
+                      formKey.currentState!.reset();
+                      if (widget.onCancelPress != null) {
+                        widget.onCancelPress!();
+                      }
+                      setState(() {
+                        _editing = false;
+                      });
+                    },
                     child: const Text(
                       'Cancel',
                       style: TextStyle(color: Colors.red),
                     ),
                   ),
                   TextButton(
-                    onPressed: handleSavePress,
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        widget.onSavePress(_value);
+                        setState(() {
+                          _editing = false;
+                        });
+                      }
+                    },
                     child: const Text('Save'),
                   )
                 ],

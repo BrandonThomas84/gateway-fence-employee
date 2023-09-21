@@ -81,6 +81,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return DefaultScreenScaffold(
       title: 'Register',
+      scaffoldKey: GlobalKey<ScaffoldState>(),
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/models/shift.dart';
+import 'package:gateway_fence_employee/util/log.dart';
 import 'package:gateway_fence_employee/util/time.dart';
 
 import 'shift_day_subtitle.dart';
@@ -40,6 +41,7 @@ class _ShiftDayState extends State<ShiftDay> {
   @override
   void initState() {
     super.initState();
+    Logger.info('shift day init state is running');
 
     _buildShifts();
 

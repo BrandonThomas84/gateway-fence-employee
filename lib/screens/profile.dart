@@ -99,6 +99,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return DefaultScreenScaffold(
       title: 'Profile',
+      scaffoldKey: GlobalKey<ScaffoldState>(),
       children: [
         Container(
           decoration: const BoxDecoration(
