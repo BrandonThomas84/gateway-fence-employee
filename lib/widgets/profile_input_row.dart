@@ -18,9 +18,9 @@ class ProfileInputRow extends StatefulWidget {
   final String name;
   final IconData icon;
   final String initialValue;
-  final Function(String? value) onSavePress;
-  final Function? onCancelPress;
-  final Function? onEditPress;
+  final Future<bool> Function(String? value) onSavePress;
+  final Future<void> Function()? onCancelPress;
+  final Future<bool> Function()? onEditPress;
   final MultiValidator? validator;
 
   @override
@@ -48,6 +48,49 @@ class _ProfileInputRowState extends State<ProfileInputRow> {
       'editing': _editing,
     });
   }
+
+  void doCancel() {
+    setState(() {
+      _editing = false;
+    });
+    
+    Logger.info('canceling profile input row edit', data: {
+      'currentValue': _value,  
+      'editing': _editing,
+    });
+  }
+
+  void doEdit(bool shouldRun) {
+    if (!shouldRun) {
+      return;
+    }
+
+    setState(() {
+      _editing = true;
+    });
+    
+    Logger.info('editng profile input row', data: {
+      'currentValue': _value,  
+      'editing': _editing,
+    });
+  }
+
+  void doSave(bool shouldRun) {
+    if (!shouldRun) {
+      return;
+    }
+    
+    setState(() {
+      _editing = false;
+    });
+    
+    Logger.info('saving profile input row edit', data: {
+      'currentValue': _value,  
+      'editing': _editing,
+    });
+  }
+
+
 
 
   @override
@@ -86,17 +129,12 @@ class _ProfileInputRowState extends State<ProfileInputRow> {
               ),
               if (!_editing)
                 TextButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (widget.onEditPress != null) {
-                      widget.onEditPress!();
+                      await widget.onEditPress!().then((value) => doEdit(value));
+                    } else {
+                      doEdit(true);
                     }
-                    setState(() {
-                      _editing = true;
-                    });
-                    Logger.info('editng profile input row', data: {
-                      'currentValue': _value,  
-                      'editing': _editing,
-                    });
                   },
                   child: const Text('Edit'),
                 ),
@@ -112,11 +150,10 @@ class _ProfileInputRowState extends State<ProfileInputRow> {
                     onPressed: () {
                       formKey.currentState!.reset();
                       if (widget.onCancelPress != null) {
-                        widget.onCancelPress!();
+                        widget.onCancelPress!().then((value) => doCancel());
+                      } else {
+                        doCancel();
                       }
-                      setState(() {
-                        _editing = false;
-                      });
                     },
                     child: const Text(
                       'Cancel',
@@ -126,10 +163,7 @@ class _ProfileInputRowState extends State<ProfileInputRow> {
                   TextButton(
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
-                        widget.onSavePress(_value);
-                        setState(() {
-                          _editing = false;
-                        });
+                        widget.onSavePress(_value).then((value) => doSave(value));
                       }
                     },
                     child: const Text('Save'),

@@ -7,6 +7,7 @@ import 'package:gateway_fence_employee/screens/_helper.dart';
 import 'package:gateway_fence_employee/util/log.dart';
 import 'package:gateway_fence_employee/util/validators.dart';
 import 'package:gateway_fence_employee/widgets/profile_input_row.dart';
+import 'package:gateway_fence_employee/widgets/reauthenticate_dialog.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -25,73 +26,111 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  bool requiresReAuth = true;
 
-  void handleEmailUpdate(User user, String? value) {
-    Logger.info('updating email address to: $value');
+  Future<bool> onEditPress(User user) async {
+    // we need to reauthenticate to make sure the user has a current token and
+    // because it's a good idea
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ReauthenticateDialog(
+          onSuccess: () {
+            Logger.info('successfully reauthenticated');
+            setState(() {
+              requiresReAuth = false;
+            });
+          },
+        );
+      },
+    );
+    
+    return Future.value(!requiresReAuth);
+  }
+
+  Future<bool> onEmailSave(User user, String? value) async {
+    if (requiresReAuth) {
+      Logger.info('requires reauth');
+      onEditPress(user);
+    }
     if (value == null) {
       Logger.info('email address is null');
-      return;
+      return Future.value(false);
     }
 
-    user.updateEmail(value).onError((error, stackTrace) {
-      Logger.error('error updating email address: ${error.toString()}');
+    Logger.info('attempting to update email address to: $value');
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(error.toString())),
-      );
-    }).then((val) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Successfully updated your email address')));
-    });
-  }
+    try {
+      user.updateEmail(value).then((val) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Successfully updated your email address')));
+      });
+    } on FirebaseAuthException catch (e) {
+      // this should only happen if the user's refresh token is too old
+      // which the re-authentication should take care of
+      Logger.error('Firebase auth error: ${e.toString()}');
 
-  void handleNameUpdate(User user, String? value) {
-    if (value == null) {
-      return;
+      return Future.value(false);
+    } on FirebaseException catch (e) {
+      Logger.error(
+          'Firebase error while updating email address: ${e.toString()}');
+      return Future.value(false);
+    } catch (e) {
+      Logger.error('unknown error updating email address: ${e.toString()}');
+
+      return Future.value(false);
     }
-    user.updateDisplayName(value).onError((error, stackTrace) {
-      Logger.error('error updating display name: ${error.toString()}');
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(error.toString())),
-      );
-    }).then((val) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Successfully updated your name')));
-    });
+    return Future.value(false);
   }
 
-  void handlePhoneUpdate(User user, String? value) {
-    if (value == null) {
-      return;
-    }
-    user.updateDisplayName(value).onError((error, stackTrace) {
-      Logger.error('error updating phone: ${error.toString()}');
+  // void handleNameUpdate(User user, String? value) {
+  //   if (value == null) {
+  //     return;
+  //   }
+  //   user.updateDisplayName(value).onError((error, stackTrace) {
+  //     Logger.error('error updating display name: ${error.toString()}');
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(error.toString())),
-      );
-    }).then((val) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Successfully updated your phone number')));
-    });
-  }
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text(error.toString())),
+  //     );
+  //   }).then((val) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(content: Text('Successfully updated your name')));
+  //   });
+  // }
 
-  void handlePasswordUpdate(User user, String? value) {
-    if (value == null) {
-      return;
-    }
-    user.updateDisplayName(value).onError((error, stackTrace) {
-      Logger.error('error updating phone: ${error.toString()}');
+  // void handlePhoneUpdate(User user, String? value) {
+  //   if (value == null) {
+  //     return;
+  //   }
+  //   user.updateDisplayName(value).onError((error, stackTrace) {
+  //     Logger.error('error updating phone: ${error.toString()}');
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(error.toString())),
-      );
-    }).then((val) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Successfully updated your phone number')));
-    });
-  }
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text(error.toString())),
+  //     );
+  //   }).then((val) {
+  //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+  //         content: Text('Successfully updated your phone number')));
+  //   });
+  // }
+
+  // void handlePasswordUpdate(User user, String? value) {
+  //   if (value == null) {
+  //     return;
+  //   }
+  //   user.updateDisplayName(value).onError((error, stackTrace) {
+  //     Logger.error('error updating phone: ${error.toString()}');
+
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text(error.toString())),
+  //     );
+  //   }).then((val) {
+  //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+  //         content: Text('Successfully updated your phone number')));
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -121,14 +160,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         errorText: 'Email cannot be the same as before')
                   ]),
                   onSavePress: (String? value) {
-                    handleEmailUpdate(user!, value);
+                    return onEmailSave(user!, value);
                   },
                   onEditPress: () {
                     Logger.info('editing email');
+                    return onEditPress(user!);
                   },
-                  onCancelPress: () {
-                    Logger.info('cancelling email edit');
-                  },
+                  // onCancelPress: () {
+                  //   Logger.info('cancelling email edit');
+                  // },
                 ),
                 const SizedBox(height: 40),
               ],
