@@ -152,7 +152,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
-                      obscureText: !_passwordVisible,
+                      obscureText: !_confirmPasswordVisible,
                       decoration: InputDecoration(
                         labelText: 'Confirm Password',
                         hintText: 'Re-enter your password',
@@ -177,7 +177,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       validator: MultiValidator([
-                        ConfirmPasswordValidator(_confirmPassword,
+                        ConfirmPasswordValidator(_password,
                             errorText: 'Passwords do not match')
                       ]).call,
                       onChanged: (value) {
