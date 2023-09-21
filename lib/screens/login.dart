@@ -4,6 +4,7 @@ import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/providers/current_route_provider.dart';
 import 'package:gateway_fence_employee/screens/_helper.dart';
 import 'package:gateway_fence_employee/util/log.dart';
+import 'package:gateway_fence_employee/widgets/snack_bar_themed.dart';
 import 'package:go_router/go_router.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:provider/provider.dart';
@@ -34,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
     _formkey.currentState?.reset();
   }
 
-  Future<void> handleLoginPress() async {
+  Future<void> handleLoginPress(context) async {
     if (!_formkey.currentState!.validate()) {
       return;
     }
@@ -42,14 +43,46 @@ class _LoginScreenState extends State<LoginScreen> {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: _email, password: _password)
           .then((value) => redirectToHome());
+    } on FirebaseAuthException catch (e) {
+      Logger.error('FirebaseAuthException while logging in: ${e.toString()}');
+
+      e.code == 'user-not-found'
+          ? SnackBarThemed(
+              type: SnackBarThemedType.error,
+              message:
+                  'No user found for that email. Please check the email address entered and try again',
+              context: context,
+            ).show()
+          : e.code == 'wrong-password'
+              ? SnackBarThemed(
+                  type: SnackBarThemedType.error,
+                  message: 'Wrong password provided for that user.',
+                  context: context,
+                ).show()
+              : SnackBarThemed(
+                  type: SnackBarThemedType.error,
+                  message: 'An error occurred while logging in.',
+                  context: context,
+                ).show();
     } catch (e) {
-      Logger.error('error logging in: ${e.toString()}');
+      Logger.error('unknown error while trying to sign in: ${e.toString()}');
+
+      SnackBarThemed(
+        type: SnackBarThemedType.error,
+        message: 'We\'re sorry but an unknown error occurred while attmepting to log you in. Please try again later.',
+        context: context,
+      ).show();
     }
   }
 
   void redirectToHome() {
     Provider.of<CurrentRouteProvider>(context, listen: false)
         .setCurrentRoute('/', context);
+    SnackBarThemed(
+        type: SnackBarThemedType.success,
+        message: 'Welcome back!',
+        context: context,
+      ).show();
   }
 
   void handleRegisterPress() {
@@ -140,7 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   onPressed: () {
                     if (_formkey.currentState!.validate()) {
-                      handleLoginPress();
+                      handleLoginPress(context);
                     }
                   },
                   child: const Text('Login'),

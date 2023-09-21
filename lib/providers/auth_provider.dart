@@ -1,14 +1,24 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gateway_fence_employee/screens/reauthenticate.dart';
 import 'package:gateway_fence_employee/util/log.dart';
+import 'package:gateway_fence_employee/widgets/reauthenticate_dialog.dart';
+import 'package:gateway_fence_employee/widgets/snack_bar_themed.dart';
 import 'package:provider/provider.dart';
 
 class AuthProvider extends ChangeNotifier {
   bool _isAuthenticated = false;
+  bool _hasReauthenticated = false;
   User? _user;
 
   User? get user => _user;
   bool get isAuthenticated => _isAuthenticated;
+  bool get hasReauthenticated => _hasReauthenticated;
+
+  void didReautheticate() {
+    _hasReauthenticated = true;
+    notifyListeners();
+  }
 
   void setUser(User? user, String changeType) {
     _user = user;
@@ -24,11 +34,12 @@ class AuthProvider extends ChangeNotifier {
           'verified': user.emailVerified,
         },
       );
-      
+
       // set the user as authenticated
       _isAuthenticated = true;
     } else {
-      Logger.info('setUser provider called ($changeType), user is not logged in');
+      Logger.info(
+          'setUser provider called ($changeType), user is not logged in');
 
       // unset the authenticated flag
       _isAuthenticated = false;

@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/providers/auth_provider.dart';
+import 'package:gateway_fence_employee/screens/reauthenticate.dart';
 import 'package:gateway_fence_employee/util/log.dart';
-import 'package:gateway_fence_employee/widgets/reauthenticate_dialog.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class ProfileInputRow extends StatefulWidget {
@@ -55,13 +56,10 @@ class ProfileInputRow extends StatefulWidget {
 
 class _ProfileInputRowState extends State<ProfileInputRow> {
   /// whether or not the user is currently editing the input
-  bool _editing = false;
+  late bool _editing = false;
 
   /// the value of the input
-  String _value = '';
-
-  /// whether or not the user needs to reauthenticate to edit the input
-  late bool requiresReAuth;
+  late String _value = '';
 
   /// The form key that will be used to validate the input
   late final GlobalKey<FormState> formKey;
@@ -71,37 +69,12 @@ class _ProfileInputRowState extends State<ProfileInputRow> {
     super.initState();
 
     formKey = GlobalKey<FormState>();
-    requiresReAuth = widget.isSecure;
 
     Logger.info('profile input row init state is running', data: {
       'initialValue': widget.initialValue,
       'currentValue': _value,
       'editing': _editing,
     });
-  }
-
-  Future<void> showReauthenticationDialog(User user) async {
-    // we need to reauthenticate to make sure the user has a current token and
-    // because it's a good idea
-    await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return ReauthenticateDialog(
-          onSuccess: () {
-            Logger.info('successfully reauthenticated');
-            setState(() {
-              _editing = true;
-            });
-          },
-          onError: () {
-            Logger.warn('failed to reauthenticate');
-            setState(() {
-              _editing = false;
-            });
-          },
-        );
-      },
-    );
   }
 
   /// Cancel the edit
@@ -116,17 +89,18 @@ class _ProfileInputRowState extends State<ProfileInputRow> {
   }
 
   ///
-  void doEdit(User user) {
+  void doEdit(User user, context) {
     Logger.info('attempting edit input row', data: {
       'currentValue': _value,
       'editing': _editing,
     });
-    if (requiresReAuth) {
-      showReauthenticationDialog(user);
-    } else {
+    if (!widget.isSecure ||
+        Provider.of<AuthProvider>(context, listen: false).hasReauthenticated) {
       setState(() {
         _editing = true;
       });
+    } else {
+      GoRouter.of(context).go('/reauthenticate');
     }
   }
 
@@ -185,9 +159,9 @@ class _ProfileInputRowState extends State<ProfileInputRow> {
                   onPressed: () async {
                     if (widget.onEditPress != null) {
                       await widget.onEditPress!()
-                          .then((value) => doEdit(user!));
+                          .then((value) => doEdit(user!, context));
                     } else {
-                      doEdit(user!);
+                      doEdit(user!, context);
                     }
                   },
                   child: const Text('Edit'),
