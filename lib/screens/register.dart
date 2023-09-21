@@ -46,8 +46,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
       final credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: _email, password: _password)
           .then(
-            (value) => redirectToLogin(),
+        (value) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                content: Text('Please login using your new credentials')),
           );
+          redirectToLogin();
+        },
+      );
 
       return null;
     } on FirebaseAuthException catch (e) {
