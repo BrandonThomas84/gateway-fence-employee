@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
+import 'package:gateway_fence_employee/util/log.dart';
+import 'package:gateway_fence_employee/util/validators.dart';
 
 /// A password input that can be used in forms
 class PasswordInput extends StatefulWidget {
   const PasswordInput({
     super.key,
     Function(String password)? this.onChanged,
+    this.extraValidators,
+    this.hintText,
+    this.labelText,
   });
 
   /// The function that will be called when the user changes the password
   final void Function(String password)? onChanged;
 
-  String get password => _PasswordInputState().password;
-  bool get passwordVisible => _PasswordInputState().passwordVisible;
+  /// Add more validators to the field. Useful for when you want to confirm
+  /// a password matches
+  final List<FieldValidator<dynamic>> ? extraValidators;
+
+  final String? hintText;
+  final String? labelText;
 
   @override
   State<PasswordInput> createState() => _PasswordInputState();
@@ -22,17 +31,19 @@ class PasswordInput extends StatefulWidget {
 class _PasswordInputState extends State<PasswordInput> {
   String _password = '';
   bool _passwordVisible = false;
-
-  String get password => _password;
-  bool get passwordVisible => _passwordVisible;
+  List<FieldValidator<dynamic>> ? _validators;
 
   @override
   Widget build(BuildContext context) {
+    Logger.info('password input state is running', data: {
+      'password': _password,
+      'passwordVisible': _passwordVisible,
+    });
     return TextFormField(
       obscureText: !_passwordVisible,
       decoration: InputDecoration(
-          hintText: 'Password',
-          labelText: 'Password',
+          hintText: widget.hintText ?? 'Enter a secure password',
+          labelText: widget.labelText ?? 'Password',
           prefixIcon: const Icon(
             Icons.key_outlined,
             color: AppColors.blue,
@@ -54,7 +65,8 @@ class _PasswordInputState extends State<PasswordInput> {
         MinLengthValidator(8,
             errorText: 'Password must be at least 8 digits long'),
         PatternValidator(r'(?=.*?[#!@$%^&*-])',
-            errorText: 'Password must contain at least one special character')
+            errorText: 'Password must contain at least one special character'),
+        ..._validators ?? [],
       ]).call,
       onChanged: (value) {
         _password = value;

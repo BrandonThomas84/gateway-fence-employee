@@ -49,9 +49,10 @@ class SnackBarThemed {
     }
   }
 
-  void show() {
+  void show({int? durationSeconds}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        duration: Duration(seconds: durationSeconds ?? 3),
         backgroundColor: backgroundColor(),
         content: Text(
           message,

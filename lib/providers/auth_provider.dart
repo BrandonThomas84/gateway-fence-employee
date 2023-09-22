@@ -62,7 +62,9 @@ class AuthProvider extends ChangeNotifier {
   /// This is caluclated using the value of the constant 
   /// `reauthenticateFrequencySeconds`
   bool shouldReauthenticate() {
-    return getRefreshDuration() > const Duration(seconds: reauthenticateFrequencySeconds);
+    Duration duration = getRefreshDuration();
+    
+    return  duration.inSeconds == 0 || duration > const Duration(seconds: reauthenticateFrequencySeconds);
   }
 }
 

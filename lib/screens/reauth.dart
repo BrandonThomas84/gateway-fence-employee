@@ -2,8 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/providers/auth_provider.dart';
+import 'package:gateway_fence_employee/providers/current_route_provider.dart';
 import 'package:gateway_fence_employee/util/log.dart';
 import 'package:gateway_fence_employee/widgets/password_input.dart';
+import 'package:gateway_fence_employee/widgets/snack_bar_themed.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '_helper.dart';
@@ -32,15 +34,18 @@ class _ReauthScreenState extends State<ReauthScreen> {
     _formkey.currentState?.reset();
   }
 
-  Future<void> handleReauthentication(AuthProvider? authProvider) async {
+  Future<String> handleReauthentication(AuthProvider? authProvider) async {
     if (!_formkey.currentState!.validate()) {
       Logger.info('reauthenticate form is invalid');
-      return Future.value();
+      return Future.value('Please check your submission and try again.');
     }
 
     if (authProvider?.user == null) {
       Logger.warn('no user available to reauthenticate in the auth provider');
-      return Future.value();
+      Provider.of<CurrentRouteProvider>(context, listen: false)
+          .setCurrentRoute('/register', context);
+      return Future.value(
+          'It apprears as though your session has ended. Please sign in again.');
     }
 
     try {
@@ -52,19 +57,22 @@ class _ReauthScreenState extends State<ReauthScreen> {
           .then((value) {
         Logger.info('reauthentication successful');
         authProvider.markRefreshed();
-        Navigator.pop(context);
       });
+      return Future.value('success');
     } on FirebaseAuthException catch (e) {
       Logger.error('firebase reauthentication error', data: {
         'code': e.code,
         'message': e.message ?? '',
         'error': e.toString(),
       });
+      return Future.value(e.message);
     } catch (e) {
       Logger.error('unknown reauthentication error', data: {
         'error': e.toString(),
       });
     }
+    return Future.value(
+        'We\'re sorry but an unknown error has occurred. Please try again later');
   }
 
   @override
@@ -95,41 +103,6 @@ class _ReauthScreenState extends State<ReauthScreen> {
                     _password = value;
                   },
                 ),
-                // TextFormField(
-                //   obscureText: !_passwordVisible,
-                //   decoration: InputDecoration(
-                //       hintText: 'Password',
-                //       labelText: 'Password',
-                //       prefixIcon: const Icon(
-                //         Icons.key_outlined,
-                //         color: AppColors.blue,
-                //       ),
-                //       border: const OutlineInputBorder(),
-                //       suffixIcon: IconButton(
-                //         icon: Icon(
-                //           _passwordVisible
-                //               ? Icons.visibility
-                //               : Icons.visibility_off,
-                //           color: AppColors.blue,
-                //         ),
-                //         onPressed: () {
-                //           setState(() {
-                //             _passwordVisible = !_passwordVisible;
-                //           });
-                //         },
-                //       )),
-                //   validator: MultiValidator([
-                //     RequiredValidator(errorText: 'Password is required'),
-                //     MinLengthValidator(8,
-                //         errorText: 'Password must be at least 8 digits long'),
-                //     PatternValidator(r'(?=.*?[#!@$%^&*-])',
-                //         errorText:
-                //             'Password must contain at least one special character')
-                //   ]).call,
-                //   onChanged: (value) {
-                //     _password = value;
-                //   },
-                // ),
                 const SizedBox(height: 20),
                 ElevatedButton(
                   style: ButtonStyle(
@@ -139,9 +112,36 @@ class _ReauthScreenState extends State<ReauthScreen> {
                             horizontal: 50, vertical: 15)),
                   ),
                   onPressed: () {
-                    handleReauthentication(authProvider);
+                    handleReauthentication(authProvider).then((value) {
+                      // if successful
+                      if (value == 'success') {
+                        Provider.of<CurrentRouteProvider>(context,
+                                listen: false)
+                            .goBack(context);
+                        return;
+                      }
+                      SnackBarThemed(
+                        context: context,
+                        message: value,
+                        type: SnackBarThemedType.error,
+                      ).show(durationSeconds: 7);
+                    });
                   },
                   child: const Text('Reauthenticate'),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.red),
+                    padding: MaterialStateProperty.all(
+                        const EdgeInsets.symmetric(
+                            horizontal: 50, vertical: 15)),
+                  ),
+                  onPressed: () {
+                    Provider.of<CurrentRouteProvider>(context, listen: false)
+                        .goBack(context);
+                  },
+                  child: const Text('Cancel'),
                 ),
               ]),
             ),

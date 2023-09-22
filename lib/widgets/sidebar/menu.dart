@@ -39,11 +39,6 @@ class Menu extends StatelessWidget {
       icon: Icons.settings_outlined,
       route: '/settings',
     ),
-    MenutItemConfig(
-      title: 'Reauthenticate',
-      icon: Icons.security_outlined,
-      route: '/reauth',
-    ),
   ];
 
   @override

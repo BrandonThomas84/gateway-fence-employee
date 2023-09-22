@@ -124,6 +124,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 const SizedBox(height: 40),
                 ProfileInputRow(
                   isSecure: true,
+                  startEditing: !Provider.of<AuthProvider>(context).shouldReauthenticate(),
                   name: 'Email',
                   icon: Icons.email_outlined,
                   initialValue: user?.email ?? '',

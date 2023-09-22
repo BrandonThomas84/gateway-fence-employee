@@ -5,6 +5,7 @@ import 'package:gateway_fence_employee/providers/current_route_provider.dart';
 import 'package:gateway_fence_employee/screens/_helper.dart';
 import 'package:gateway_fence_employee/util/auth.dart';
 import 'package:gateway_fence_employee/util/log.dart';
+import 'package:gateway_fence_employee/widgets/password_input.dart';
 import 'package:gateway_fence_employee/widgets/snack_bar_themed.dart';
 import 'package:go_router/go_router.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -28,7 +29,6 @@ class _LoginScreenState extends State<LoginScreen> {
   late final _formkey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
-  bool _passwordVisible = false;
 
   late final SnackBarThemed unknownUser;
 
@@ -114,37 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
                 const SizedBox(height: 20),
-                TextFormField(
-                  obscureText: !_passwordVisible,
-                  decoration: InputDecoration(
-                      hintText: 'Password',
-                      labelText: 'Password',
-                      prefixIcon: const Icon(
-                        Icons.key_outlined,
-                        color: AppColors.blue,
-                      ),
-                      border: const OutlineInputBorder(),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _passwordVisible
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                          color: AppColors.blue,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _passwordVisible = !_passwordVisible;
-                          });
-                        },
-                      )),
-                  validator: MultiValidator([
-                    RequiredValidator(errorText: 'Password is required'),
-                    MinLengthValidator(8,
-                        errorText: 'Password must be at least 8 digits long'),
-                    PatternValidator(r'(?=.*?[#!@$%^&*-])',
-                        errorText:
-                            'Password must contain at least one special character')
-                  ]).call,
+                PasswordInput(
                   onChanged: (value) {
                     _password = value;
                   },
@@ -164,21 +134,22 @@ class _LoginScreenState extends State<LoginScreen> {
                         if (value == 'success') {
                           SnackBarThemed(
                             context: context,
-                            message: 'Login successful',
+                            message: 'Welcome back!',
                             type: SnackBarThemedType.success,
                           ).show();
                           redirectToHome();
                           return;
                         }
 
-                        SnackBarThemed(
-                          context: context,
-                          message: value == 'internal-invalid-form'
-                              ? 'Invalid form'
-                              : getFirebaseAuthenticationErrorMessageFromCode(
-                                  value),
-                          type: SnackBarThemedType.error,
-                        ).show();
+                        if (value != 'internal-invalid-form') {
+                          SnackBarThemed(
+                            context: context,
+                            message:
+                                getFirebaseAuthenticationErrorMessageFromCode(
+                                    value),
+                            type: SnackBarThemedType.error,
+                          ).show(durationSeconds: 7);
+                        }
                       });
                     }
                   },

@@ -110,7 +110,7 @@ String getFirebaseAuthenticationErrorMessageFromCode(String code) {
     case 'unauthorized-continue-uri':
       return 'The domain of the continue URL is not whitelisted. Whitelist the domain in the Firebase Console.';
     case 'user-not-found':
-      return 'There is no existing user record corresponding to the email address provided.';
+      return 'There is no existing user record corresponding to the email address provided. You can register for an account or if you think this is an error please contact the system administrator.';
     default:
       return 'An unknown error occurred.';
   }

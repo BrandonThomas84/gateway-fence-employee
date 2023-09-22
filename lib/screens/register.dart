@@ -5,6 +5,8 @@ import 'package:gateway_fence_employee/providers/current_route_provider.dart';
 import 'package:gateway_fence_employee/screens/_helper.dart';
 import 'package:gateway_fence_employee/util/log.dart';
 import 'package:gateway_fence_employee/util/validators.dart';
+import 'package:gateway_fence_employee/widgets/password_input.dart';
+import 'package:gateway_fence_employee/widgets/snack_bar_themed.dart';
 import 'package:go_router/go_router.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:provider/provider.dart';
@@ -27,12 +29,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late final _formkey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
-  bool _passwordVisible = false;
 
   // necessary for state comparison
   // ignore: unused_field
   String _confirmPassword = '';
-  bool _confirmPasswordVisible = false;
 
   @override
   void initState() {
@@ -40,35 +40,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _formkey.currentState?.reset();
   }
 
-  Future<String?> handleRegister() async {
+  Future<String> handleRegister() async {
     try {
       // ignore: unused_local_variable
       final credential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: _email, password: _password)
-          .then(
-        (value) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                content: Text('Please login using your new credentials')),
-          );
-          redirectToLogin();
-        },
-      );
-
-      return null;
+          .createUserWithEmailAndPassword(email: _email, password: _password);
+      return Future<String>.value('success');
     } on FirebaseAuthException catch (e) {
-      Logger.error('firebase registration error: ${e.toString()}');
-      if (e.code == 'weak-password') {
-        return 'The password provided is too weak.';
-      } else if (e.code == 'email-already-in-use') {
-        return 'The account already exists for that email.';
-      } else {
-        return 'Unknown error occured, please try again later.';
-      }
+      Logger.error('firebase registration error: ${e.toString()}', data: {
+        'code': e.code,
+        'message': e.message ?? '',
+        'error': e.toString(),
+      });
+      return Future<String>.value(e.message);
     } catch (e) {
       Logger.error('unknown registration error: ${e.toString()}');
-
-      return 'Unknown error occured, please try again later.';
+      return Future<String>.value(
+          'We\'re sorry but an unknown error has occurred. Please try again later');
     }
   }
 
@@ -120,73 +108,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       },
                     ),
                     const SizedBox(height: 20),
-                    TextFormField(
-                      obscureText: !_passwordVisible,
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        hintText: 'Enter a secure password',
-                        prefixIcon: const Icon(
-                          Icons.key_outlined,
-                          color: AppColors.blue,
-                        ),
-                        border: const OutlineInputBorder(),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _passwordVisible
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            color: AppColors.blue,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _passwordVisible = !_passwordVisible;
-                            });
-                          },
-                        ),
-                      ),
-                      validator: MultiValidator([
-                        RequiredValidator(errorText: 'Password is required'),
-                        MinLengthValidator(8,
-                            errorText:
-                                'Password must be at least 8 digits long'),
-                        PatternValidator(r'(?=.*?[#!@$%^&*-])',
-                            errorText:
-                                'Password must contain at least one special character')
-                      ]).call,
+                    PasswordInput(
                       onChanged: (value) {
                         _password = value;
                       },
                     ),
                     const SizedBox(height: 20),
-                    TextFormField(
-                      obscureText: !_confirmPasswordVisible,
-                      decoration: InputDecoration(
-                        labelText: 'Confirm Password',
-                        hintText: 'Re-enter your password',
-                        prefixIcon: const Icon(
-                          Icons.key_outlined,
-                          color: AppColors.blue,
-                        ),
-                        border: const OutlineInputBorder(),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _confirmPasswordVisible
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            color: AppColors.blue,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _confirmPasswordVisible =
-                                  !_confirmPasswordVisible;
-                            });
-                          },
-                        ),
-                      ),
-                      validator: MultiValidator([
+                    PasswordInput(
+                      extraValidators: [
                         ConfirmPasswordValidator(_password,
                             errorText: 'Passwords do not match')
-                      ]).call,
+                      ],
                       onChanged: (value) {
                         _confirmPassword = value;
                       },
@@ -202,14 +134,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       onPressed: () {
                         if (_formkey.currentState!.validate()) {
-                          handleRegister().then((err) => {
-                                if (err != null)
-                                  {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text(err)),
-                                    )
-                                  }
-                              });
+                          handleRegister().then((str) {
+                            bool isSuccess = str == 'success';
+
+                            SnackBarThemedType type = isSuccess
+                                ? SnackBarThemedType.success
+                                : SnackBarThemedType.error;
+
+                            SnackBarThemed(
+                              context: context,
+                              message: isSuccess
+                                  ? 'Welcome! Please sign in with your credentials'
+                                  : str,
+                              type: type,
+                            ).show(durationSeconds: isSuccess ? 3 : 8);
+
+                            if (isSuccess) {
+                              redirectToLogin();
+                            }
+                          });
                         }
                       },
                       child: const Text('Register'),
