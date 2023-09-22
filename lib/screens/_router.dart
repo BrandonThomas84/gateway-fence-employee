@@ -5,6 +5,7 @@ import 'home.dart';
 import 'login.dart';
 import 'logout.dart';
 import 'profile.dart';
+import 'reauth.dart';
 import 'register.dart';
 import 'settings.dart';
 import 'time_card.dart';
@@ -17,6 +18,7 @@ final GoRouter routerConfig = GoRouter(
     loginScreenGoRoute,
     logoutScreenGoRoute,
     profileScreenGoRoute,
+    reauthScreenGoRoute,
     registerScreenGoRoute,
     settingsScreenGoRoute,
     timeCardScreenGoRoute,

@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/providers/current_route_provider.dart';
 import 'package:gateway_fence_employee/screens/_helper.dart';
+import 'package:gateway_fence_employee/util/auth.dart';
 import 'package:gateway_fence_employee/util/log.dart';
+import 'package:gateway_fence_employee/widgets/snack_bar_themed.dart';
 import 'package:go_router/go_router.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:provider/provider.dart';
@@ -28,22 +30,39 @@ class _LoginScreenState extends State<LoginScreen> {
   String _password = '';
   bool _passwordVisible = false;
 
+  late final SnackBarThemed unknownUser;
+
   @override
   void initState() {
     super.initState();
     _formkey.currentState?.reset();
   }
 
-  Future<void> handleLoginPress() async {
+  /// Handles the login button press
+  /// Will return a string if there is an error or `success` if the login was successful
+  Future<String> handleLoginPress(BuildContext context) async {
     if (!_formkey.currentState!.validate()) {
-      return;
+      return Future.value('internal-invalid-form');
     }
     try {
       await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: _email, password: _password)
-          .then((value) => redirectToHome());
+          .signInWithEmailAndPassword(email: _email, password: _password);
+
+      return Future.value('success');
+    } on FirebaseAuthException catch (e) {
+      Logger.error('firebase login error', data: {
+        'code': e.code,
+        'message': e.message ?? '',
+        'error': e.toString(),
+      });
+
+      return Future.value(e.code);
     } catch (e) {
-      Logger.error('error logging in: ${e.toString()}');
+      Logger.error('unknown login error', data: {
+        'error': e.toString(),
+      });
+
+      return Future.value('unknown');
     }
   }
 
@@ -140,7 +159,27 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   onPressed: () {
                     if (_formkey.currentState!.validate()) {
-                      handleLoginPress();
+                      handleLoginPress(context).then((value) {
+                        // if successful
+                        if (value == 'success') {
+                          SnackBarThemed(
+                            context: context,
+                            message: 'Login successful',
+                            type: SnackBarThemedType.success,
+                          ).show();
+                          redirectToHome();
+                          return;
+                        }
+
+                        SnackBarThemed(
+                          context: context,
+                          message: value == 'internal-invalid-form'
+                              ? 'Invalid form'
+                              : getFirebaseAuthenticationErrorMessageFromCode(
+                                  value),
+                          type: SnackBarThemedType.error,
+                        ).show();
+                      });
                     }
                   },
                   child: const Text('Login'),

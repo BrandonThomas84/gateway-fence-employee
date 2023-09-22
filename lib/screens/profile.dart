@@ -123,7 +123,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 const SizedBox(height: 40),
                 ProfileInputRow(
-                  // isSecure: true,
+                  isSecure: true,
                   name: 'Email',
                   icon: Icons.email_outlined,
                   initialValue: user?.email ?? '',
