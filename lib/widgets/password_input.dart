@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/util/log.dart';
-import 'package:gateway_fence_employee/util/validators.dart';
 
 /// A password input that can be used in forms
 class PasswordInput extends StatefulWidget {
