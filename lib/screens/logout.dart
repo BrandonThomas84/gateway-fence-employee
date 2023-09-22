@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gateway_fence_employee/screens/_helper.dart';
+import 'package:gateway_fence_employee/screens/default_screen_scaffold.dart';
 import 'package:go_router/go_router.dart';
 
 GoRoute logoutScreenGoRoute = GoRoute(

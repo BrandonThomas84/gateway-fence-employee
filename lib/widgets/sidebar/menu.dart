@@ -25,6 +25,11 @@ class Menu extends StatelessWidget {
 
   final List<MenutItemConfig> secureItems = [
     MenutItemConfig(
+      title: 'Home',
+      icon: Icons.home_outlined,
+      route: '/',
+    ),
+    MenutItemConfig(
       title: 'Time Card',
       icon: Icons.timer_outlined,
       route: '/time-card',
@@ -54,15 +59,6 @@ class Menu extends StatelessWidget {
         children: [
           Column(
             children: [
-              MenuItem(
-                title: 'Home',
-                icon: Icons.home_outlined,
-                onTap: () {
-                  Provider.of<CurrentRouteProvider>(context, listen: false)
-                      .setCurrentRoute('/', context);
-                },
-                isActive: GoRouterState.of(context).fullPath == '/',
-              ),
               if (isAuthenticated)
                 for (MenutItemConfig item in secureItems)
                   MenuItem(

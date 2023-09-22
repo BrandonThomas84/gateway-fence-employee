@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/providers/current_route_provider.dart';
-import 'package:gateway_fence_employee/screens/_helper.dart';
+import 'package:gateway_fence_employee/screens/default_screen_scaffold.dart';
 import 'package:gateway_fence_employee/util/log.dart';
 import 'package:gateway_fence_employee/util/validators.dart';
 import 'package:gateway_fence_employee/widgets/password_input.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
-import 'package:gateway_fence_employee/screens/_helper.dart';
+import 'package:gateway_fence_employee/screens/default_screen_scaffold.dart';
 import 'package:go_router/go_router.dart';
 
 GoRoute settingsScreenGoRoute = GoRoute(

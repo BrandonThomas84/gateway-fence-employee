@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
+import 'package:gateway_fence_employee/widgets/screen_title.dart';
 import 'package:gateway_fence_employee/widgets/sidebar/sidebar.dart';
 
 
 /// Scaffold with a drawer and a floating action button
 class DefaultScreenScaffold extends StatefulWidget {
-  final List<Widget> children;
-  final String? title;
-  final GlobalKey<ScaffoldState> scaffoldKey;
-
-
-  const DefaultScreenScaffold({
+const DefaultScreenScaffold({
     super.key,
     required this.children,
     required this.scaffoldKey,
     this.title,
+    this.subtitle,
   });
+
+  final List<Widget> children;
+  final String? title;
+  final String? subtitle;
+  final GlobalKey<ScaffoldState> scaffoldKey;
 
   @override
   State<DefaultScreenScaffold> createState() => _DefaultScreenScaffoldState();
@@ -27,12 +29,9 @@ class _DefaultScreenScaffoldState extends State<DefaultScreenScaffold>
   @override
   bool get wantKeepAlive => true;
 
-  // static final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
-
 
     return Scaffold(
       key: widget.scaffoldKey,
@@ -53,33 +52,7 @@ class _DefaultScreenScaffoldState extends State<DefaultScreenScaffold>
             child: ListView(
               children: [
                 if (widget.title != null)
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 25,
-                      vertical: 10,
-                    ),
-                    decoration: const BoxDecoration(
-                      color: AppColors.white,
-                      border: Border(
-                        bottom: BorderSide(
-                          color: AppColors.greyLight,
-                          width: 1,
-                        ),
-                      ),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.title!,
-                          style: const TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  ScreenTitle(title: widget.title!, subtitle: widget.subtitle,),
                 ...widget.children,
                 SizedBox(height: MediaQuery.of(context).size.height * 0.1),
               ],

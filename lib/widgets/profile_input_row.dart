@@ -4,7 +4,6 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/providers/auth_provider.dart';
 import 'package:gateway_fence_employee/providers/current_route_provider.dart';
-import 'package:gateway_fence_employee/util/log.dart';
 import 'package:provider/provider.dart';
 
 class ProfileInputRow extends StatefulWidget {
@@ -73,53 +72,26 @@ class _ProfileInputRowState extends State<ProfileInputRow> {
     _editing = widget.startEditing;
 
     formKey = GlobalKey<FormState>();
-
-    Logger.info('profile input row init state is running', data: {
-      'initialValue': widget.initialValue,
-      'currentValue': _value,
-      'requiresReAuth': widget.isSecure &&
-          Provider.of<AuthProvider>(context, listen: false)
-              .shouldReauthenticate(),
-      'secure': widget.isSecure,
-      'editing': _editing,
-      'lastrefreshed': Provider.of<AuthProvider>(context, listen: false)
-          .lastRefreshed
-          .toString(),
-    });
   }
 
   /// Cancel the edit
   void doCancel() {
-    Logger.info('cancelling edit input row', data: {
-      'currentValue': _value,
-      'editing': _editing,
-    });
     setState(() {
       _editing = false;
     });
   }
 
   ///
-  void doEdit(
-    User user,
-    bool shouldReauth,
-    DateTime? lastAuth,
-  ) {
-    Logger.info('attempting edit input row', data: {
-      'currentValue': _value,
-      'editing': _editing,
-      'secure': widget.isSecure,
-      'shouldReauth': shouldReauth,
-      'lastAuth': lastAuth.toString(),
-    });
-    if (widget.isSecure && shouldReauth) {
+  void doEdit(User user) {
+    if (widget.isSecure && !widget.startEditing) {
       Provider.of<CurrentRouteProvider>(context, listen: false)
-          .setCurrentRoute('/reauth', context);
-    } else {
-      setState(() {
-        _editing = true;
-      });
+          .setCurrentRoute('/reauth/${widget.name}', context);
+      return;
     }
+
+    setState(() {
+      _editing = true;
+    });
   }
 
   void doSave(bool shouldRun) {
@@ -130,11 +102,6 @@ class _ProfileInputRowState extends State<ProfileInputRow> {
     setState(() {
       _editing = false;
     });
-
-    Logger.info('saving input row', data: {
-      'currentValue': _value,
-      'editing': _editing,
-    });
   }
 
   @override
@@ -142,8 +109,6 @@ class _ProfileInputRowState extends State<ProfileInputRow> {
     User? user = Provider.of<AuthProvider>(context).user;
     double inputWidth = MediaQuery.of(context).size.width * 0.7;
     double inputWidthWhenEditing = MediaQuery.of(context).size.width * 0.9;
-    DateTime? lastAuth = Provider.of<AuthProvider>(context).lastRefreshed;
-    bool shouldReauth = Provider.of<AuthProvider>(context).shouldReauthenticate();
 
     return Form(
       key: formKey,
@@ -179,9 +144,9 @@ class _ProfileInputRowState extends State<ProfileInputRow> {
                   onPressed: () async {
                     if (widget.onEditPress != null) {
                       await widget.onEditPress!()
-                          .then((value) => doEdit(user!, shouldReauth, lastAuth));
+                          .then((value) => doEdit(user!));
                     } else {
-                      doEdit(user!, shouldReauth, lastAuth);
+                      doEdit(user!);
                     }
                   },
                   child: const Text('Edit'),

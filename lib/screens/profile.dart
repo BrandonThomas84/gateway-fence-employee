@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/providers/auth_provider.dart';
-import 'package:gateway_fence_employee/screens/_helper.dart';
+import 'package:gateway_fence_employee/screens/default_screen_scaffold.dart';
 import 'package:gateway_fence_employee/util/log.dart';
 import 'package:gateway_fence_employee/util/validators.dart';
 import 'package:gateway_fence_employee/widgets/profile_input_row.dart';
@@ -12,20 +12,21 @@ import 'package:provider/provider.dart';
 
 GoRoute profileScreenGoRoute = GoRoute(
   path: '/profile',
-  builder: (context, state) => const SettingsScreen(),
+  builder: (context, state) => const ProfileScreen(),
 );
 
-class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({
     super.key,
   });
 
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
-  
+class _ProfileScreenState extends State<ProfileScreen> {
+  final String emailInputName = 'Email';
+
   Future<bool> onEmailSave(User user, String? value) async {
     if (value == null) {
       return Future.value(false);
@@ -38,6 +39,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('Successfully updated your email address')));
       });
+
+      // kill the reauth request
+      Provider.of<AuthProvider>(context).removeReauth(emailInputName);
+      return Future.value(true);
     } on FirebaseAuthException catch (e) {
       // this should only happen if the user's refresh token is too old
       // which the re-authentication should take care of
@@ -53,64 +58,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
       return Future.value(false);
     }
-
-    return Future.value(false);
   }
-
-  // void handleNameUpdate(User user, String? value) {
-  //   if (value == null) {
-  //     return;
-  //   }
-  //   user.updateDisplayName(value).onError((error, stackTrace) {
-  //     Logger.error('error updating display name: ${error.toString()}');
-
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(content: Text(error.toString())),
-  //     );
-  //   }).then((val) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(content: Text('Successfully updated your name')));
-  //   });
-  // }
-
-  // void handlePhoneUpdate(User user, String? value) {
-  //   if (value == null) {
-  //     return;
-  //   }
-  //   user.updateDisplayName(value).onError((error, stackTrace) {
-  //     Logger.error('error updating phone: ${error.toString()}');
-
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(content: Text(error.toString())),
-  //     );
-  //   }).then((val) {
-  //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-  //         content: Text('Successfully updated your phone number')));
-  //   });
-  // }
-
-  // void handlePasswordUpdate(User user, String? value) {
-  //   if (value == null) {
-  //     return;
-  //   }
-  //   user.updateDisplayName(value).onError((error, stackTrace) {
-  //     Logger.error('error updating phone: ${error.toString()}');
-
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(content: Text(error.toString())),
-  //     );
-  //   }).then((val) {
-  //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-  //         content: Text('Successfully updated your phone number')));
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
     User? user = Provider.of<AuthProvider>(context).user;
+    ReauthRequest reauth =
+        Provider.of<AuthProvider>(context).getReauth(emailInputName);
 
     return DefaultScreenScaffold(
       title: 'Profile',
+      subtitle: 'You can update your profile information here',
       scaffoldKey: GlobalKey<ScaffoldState>(),
       children: [
         Container(
@@ -123,9 +81,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 const SizedBox(height: 40),
                 ProfileInputRow(
-                  isSecure: true,
-                  startEditing: !Provider.of<AuthProvider>(context).shouldReauthenticate(),
-                  name: 'Email',
+                  isSecure: !reauth.isValid(),
+                  startEditing: reauth.isValid(),
+                  name: emailInputName,
                   icon: Icons.email_outlined,
                   initialValue: user?.email ?? '',
                   validator: MultiValidator([

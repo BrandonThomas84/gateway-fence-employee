@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/providers/auth_provider.dart';
+import 'package:gateway_fence_employee/screens/login.dart';
 import 'package:gateway_fence_employee/util/config.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import '_helper.dart';
+import 'default_screen_scaffold.dart';
 
 GoRoute homeScreenGoRoute = GoRoute(
   path: '/',
@@ -22,36 +23,7 @@ class HomeScreen extends StatelessWidget {
 
     return isAuthenticated
         ? const HomeAuthenticated()
-        : const HomeNotAuthenticated();
-  }
-}
-
-class HomeNotAuthenticated extends StatelessWidget {
-  const HomeNotAuthenticated({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return DefaultScreenScaffold(
-      title: companyName,
-      scaffoldKey: GlobalKey<ScaffoldState>(),
-      children: [
-        Container(
-          decoration: const BoxDecoration(
-            color: AppColors.white,
-            border: Border(
-              bottom: BorderSide(
-                color: AppColors.greyLight,
-                width: 1,
-              ),
-            ),
-          ),
-          child: const Center(
-            heightFactor: 30,
-            child: Text('You ARE NOT logged in.'),
-          ),
-        ),
-      ],
-    );
+        : const LoginScreen();
   }
 }
 

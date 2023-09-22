@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gateway_fence_employee/models/shift_group.dart';
-import 'package:gateway_fence_employee/screens/_helper.dart';
+import 'package:gateway_fence_employee/screens/default_screen_scaffold.dart';
 import 'package:gateway_fence_employee/util/time.dart';
 import 'package:gateway_fence_employee/util/mocks/shifts.dart';
 import 'package:gateway_fence_employee/widgets/shifts/shift_day.dart';

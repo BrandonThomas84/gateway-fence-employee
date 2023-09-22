@@ -8,17 +8,21 @@ import 'package:gateway_fence_employee/widgets/password_input.dart';
 import 'package:gateway_fence_employee/widgets/snack_bar_themed.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import '_helper.dart';
+import 'default_screen_scaffold.dart';
 
 GoRoute reauthScreenGoRoute = GoRoute(
-  path: '/reauth',
-  builder: (context, state) => const ReauthScreen(),
+  path: '/reauth/:changeType',
+  builder: (context, state) =>
+      ReauthScreen(changeType: state.pathParameters['changeType'] ?? 'INVALID'),
 );
 
 class ReauthScreen extends StatefulWidget {
   const ReauthScreen({
     super.key,
+    required this.changeType,
   });
+
+  final String changeType;
 
   @override
   State<ReauthScreen> createState() => _ReauthScreenState();
@@ -31,6 +35,8 @@ class _ReauthScreenState extends State<ReauthScreen> {
   @override
   void initState() {
     super.initState();
+    Logger.info('reauth screen initialized',
+        data: {'changeType': widget.changeType});
     _formkey.currentState?.reset();
   }
 
@@ -56,7 +62,7 @@ class _ReauthScreenState extends State<ReauthScreen> {
       )
           .then((value) {
         Logger.info('reauthentication successful');
-        authProvider.markRefreshed();
+        authProvider.completeReauth(widget.changeType);
       });
       return Future.value('success');
     } on FirebaseAuthException catch (e) {
@@ -80,7 +86,8 @@ class _ReauthScreenState extends State<ReauthScreen> {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
 
     return DefaultScreenScaffold(
-      title: 'Reauthenticate',
+      title: 'Security Reauthentication',
+      subtitle: 'Please re-enter your password to continue',
       scaffoldKey: GlobalKey<ScaffoldState>(),
       children: [
         Container(
