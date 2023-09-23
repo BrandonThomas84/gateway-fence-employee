@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
+import 'package:gateway_fence_employee/util/dev/dev_menu.dart';
 import 'package:gateway_fence_employee/widgets/screen_title.dart';
 import 'package:gateway_fence_employee/widgets/sidebar/sidebar.dart';
 
-
 /// Scaffold with a drawer and a floating action button
 class DefaultScreenScaffold extends StatefulWidget {
-const DefaultScreenScaffold({
+  const DefaultScreenScaffold({
     super.key,
     required this.children,
     required this.scaffoldKey,
@@ -52,9 +52,13 @@ class _DefaultScreenScaffoldState extends State<DefaultScreenScaffold>
             child: ListView(
               children: [
                 if (widget.title != null)
-                  ScreenTitle(title: widget.title!, subtitle: widget.subtitle,),
+                  ScreenTitle(
+                    title: widget.title!,
+                    subtitle: widget.subtitle,
+                  ),
                 ...widget.children,
                 SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                const DevMenu(), // only shows in dev mode
               ],
             ),
           ),

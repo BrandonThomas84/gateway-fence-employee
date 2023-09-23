@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gateway_fence_employee/providers/auth_provider.dart';
+import 'package:gateway_fence_employee/util/config.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:gateway_fence_employee/providers/current_route_provider.dart';
@@ -59,7 +60,7 @@ class Menu extends StatelessWidget {
         children: [
           Column(
             children: [
-              if (isAuthenticated)
+              if (isAuthenticated || appVarEnvironment == 'dev')
                 for (MenutItemConfig item in secureItems)
                   MenuItem(
                     title: item.title,

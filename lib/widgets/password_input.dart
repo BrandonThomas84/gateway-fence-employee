@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:gateway_fence_employee/config/colors.dart';
-import 'package:gateway_fence_employee/util/log.dart';
 
 /// A password input that can be used in forms
 class PasswordInput extends StatefulWidget {
@@ -18,7 +17,7 @@ class PasswordInput extends StatefulWidget {
 
   /// Add more validators to the field. Useful for when you want to confirm
   /// a password matches
-  final List<FieldValidator<dynamic>> ? extraValidators;
+  final List<FieldValidator<dynamic>>? extraValidators;
 
   final String? hintText;
   final String? labelText;
@@ -30,14 +29,10 @@ class PasswordInput extends StatefulWidget {
 class _PasswordInputState extends State<PasswordInput> {
   String _password = '';
   bool _passwordVisible = false;
-  List<FieldValidator<dynamic>> ? _validators;
+  List<FieldValidator<dynamic>>? _validators;
 
   @override
   Widget build(BuildContext context) {
-    Logger.info('password input state is running', data: {
-      'password': _password,
-      'passwordVisible': _passwordVisible,
-    });
     return TextFormField(
       obscureText: !_passwordVisible,
       decoration: InputDecoration(

@@ -1,3 +1,5 @@
+import 'package:gateway_fence_employee/providers/dev_provider.dart';
+
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -34,6 +36,7 @@ Future<void> main() async {
       .useAuthEmulator('127.0.0.1', 9099);
 
   runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => DevProvider()),
     ChangeNotifierProvider(create: (context) => AuthProvider()),
     ChangeNotifierProvider(create: (context) => Timer()),
     ChangeNotifierProvider(create: (context) => CurrentRouteProvider()),

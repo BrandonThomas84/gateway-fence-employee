@@ -12,7 +12,25 @@ enum LogLevel {
   info,
 }
 
+/// Returns the LogLevel enum value from a string or error if the string is not valid
+LogLevel getLogLevelFromString(String loglevel) {
+  switch (loglevel) {
+    case 'error':
+      return LogLevel.error;
+    case 'warn':
+      return LogLevel.warn;
+    case 'debug':
+      return LogLevel.debug;
+    case 'info':
+      return LogLevel.info;
+    default:
+      throw Exception('Invalid log level');
+  }
+}
+
 class Logger {
+  static final LogLevel logAt = getLogLevelFromString(appVarLogLevel);
+
   /// Write a controlled log output in json format
   static void log({
     required String message,
@@ -21,7 +39,6 @@ class Logger {
   }) {
     // check the level to determine if the log should be made
     try {
-      LogLevel logAt = _getLogLevelFromString(appVarLogLevel);
       if (level.index > logAt.index) {
         return;
       }
@@ -51,11 +68,17 @@ class Logger {
       output['data'].addAll(data);
     }
 
-    // add the timestamp to the end of the output 
+    // add the timestamp to the end of the output
     output['utc'] = DateTime.now().toUtc().toIso8601String();
 
     // log the output
-    print(jsonEncode(output));
+    try {
+      print(jsonEncode(output));
+    } catch (e) {
+      print(
+          '[EXCEPTION] LOGGER EXCEPTION | failed to log message, error: ${e.toString()}');
+      print('[EXCEPTION] original message: $message');
+    }
   }
 
   /// Write a controlled log output in json format at the error level
@@ -73,20 +96,4 @@ class Logger {
   /// Write a controlled log output in json format at the info level
   static void info(String message, {Map<String, dynamic>? data}) =>
       log(message: message, level: LogLevel.info, data: data);
-
-  /// Returns the LogLevel enum value from a string or error if the string is not valid
-  static LogLevel _getLogLevelFromString(String loglevel) {
-    switch (loglevel) {
-      case 'error':
-        return LogLevel.error;
-      case 'warn':
-        return LogLevel.warn;
-      case 'debug':
-        return LogLevel.debug;
-      case 'info':
-        return LogLevel.info;
-      default:
-        throw Exception('Invalid log level');
-    }
-  }
 }

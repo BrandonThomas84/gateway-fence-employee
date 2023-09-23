@@ -14,8 +14,10 @@ class CurrentRouteProvider extends ChangeNotifier {
     _previousRoute = _currentRoute;
     _currentRoute = route;
     notifyListeners();
-    Logger.info('current route changed to $route');
-    // context.go(route);
+    Logger.info('navigation', data: {
+      'previousRoute': _previousRoute,
+      'currentRoute': _currentRoute,
+    });
     GoRouter.of(context).go(route);
   }
 
