@@ -1,14 +1,18 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:gateway_fence_employee/models/shift_group.dart';
-import 'package:gateway_fence_employee/screens/default_screen_scaffold.dart';
-import 'package:gateway_fence_employee/util/time.dart';
-import 'package:gateway_fence_employee/util/mocks/shifts.dart';
-import 'package:gateway_fence_employee/widgets/shifts/shift_day.dart';
+
+// Package imports:
 import 'package:go_router/go_router.dart';
 import 'package:uuid/uuid.dart';
 
+// Project imports:
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/models/shift.dart';
+import 'package:gateway_fence_employee/models/shift_group.dart';
+import 'package:gateway_fence_employee/util/shifts.dart';
+import 'package:gateway_fence_employee/util/time.dart';
+import 'package:gateway_fence_employee/widgets/shifts/shift_day.dart';
+import 'default_screen_scaffold.dart';
 
 Uuid owner = const Uuid();
 

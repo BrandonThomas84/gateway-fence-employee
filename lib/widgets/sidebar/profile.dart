@@ -1,9 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:gateway_fence_employee/config/colors.dart';
-import 'package:gateway_fence_employee/providers/auth_provider.dart';
+
+// Package imports:
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
+// Project imports:
+import 'package:gateway_fence_employee/config/colors.dart';
+import 'package:gateway_fence_employee/providers/auth_provider.dart';
 import 'header_image.dart';
 
 class Profile extends StatelessWidget {

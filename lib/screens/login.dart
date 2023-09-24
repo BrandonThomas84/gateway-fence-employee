@@ -1,15 +1,20 @@
-import 'package:firebase_auth/firebase_auth.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+
+// Project imports:
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/providers/current_route_provider.dart';
-import 'package:gateway_fence_employee/screens/default_screen_scaffold.dart';
 import 'package:gateway_fence_employee/util/auth.dart';
 import 'package:gateway_fence_employee/util/log.dart';
 import 'package:gateway_fence_employee/widgets/password_input.dart';
 import 'package:gateway_fence_employee/widgets/snack_bar_themed.dart';
-import 'package:go_router/go_router.dart';
-import 'package:form_field_validator/form_field_validator.dart';
-import 'package:provider/provider.dart';
+import 'default_screen_scaffold.dart';
 
 GoRoute loginScreenGoRoute = GoRoute(
   path: '/login',

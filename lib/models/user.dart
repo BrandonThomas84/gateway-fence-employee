@@ -1,6 +1,8 @@
+// Package imports:
 import 'package:firebase_database/firebase_database.dart';
 import 'package:uuid/uuid.dart';
 
+// Project imports:
 import 'shift.dart';
 
 class User {

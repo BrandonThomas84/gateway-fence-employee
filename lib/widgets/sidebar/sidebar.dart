@@ -1,8 +1,10 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:gateway_fence_employee/config/colors.dart';
 
-import 'menu.dart';
+// Project imports:
+import 'package:gateway_fence_employee/config/colors.dart';
 import 'header.dart';
+import 'menu.dart';
 
 class Sidebar extends StatelessWidget {
   const Sidebar({

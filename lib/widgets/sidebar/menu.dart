@@ -1,10 +1,14 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:gateway_fence_employee/providers/auth_provider.dart';
-import 'package:gateway_fence_employee/util/config.dart';
+
+// Package imports:
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:gateway_fence_employee/providers/current_route_provider.dart';
 
+// Project imports:
+import 'package:gateway_fence_employee/providers/auth_provider.dart';
+import 'package:gateway_fence_employee/providers/current_route_provider.dart';
+import 'package:gateway_fence_employee/util/config.dart';
 import 'menu_item.dart';
 
 class MenutItemConfig {

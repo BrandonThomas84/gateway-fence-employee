@@ -1,6 +1,11 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:gateway_fence_employee/util/log.dart';
+
+// Package imports:
 import 'package:go_router/go_router.dart';
+
+// Project imports:
+import 'package:gateway_fence_employee/util/log.dart';
 
 /// Provider to keep track of the current route
 class CurrentRouteProvider extends ChangeNotifier {
@@ -23,5 +28,9 @@ class CurrentRouteProvider extends ChangeNotifier {
 
   void goBack(BuildContext context) {
     setCurrentRoute(_previousRoute, context);
+  }
+
+  void logout(BuildContext context) {
+    setCurrentRoute('/logout', context);
   }
 }

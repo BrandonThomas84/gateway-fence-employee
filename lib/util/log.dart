@@ -1,8 +1,12 @@
 // ignore_for_file: avoid_print
 
+// Dart imports:
 import 'dart:convert';
 
+// Flutter imports:
 import 'package:flutter/foundation.dart';
+
+// Project imports:
 import 'package:gateway_fence_employee/util/config.dart';
 
 enum LogLevel {

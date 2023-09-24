@@ -1,6 +1,5 @@
-import 'package:gateway_fence_employee/util/log.dart';
+// Project imports:
 import 'package:gateway_fence_employee/util/time.dart';
-
 import 'shift.dart';
 
 /// A class that groups shifts by date
@@ -22,7 +21,6 @@ class ShiftGroup {
 
     for (Shift shift in shifts) {
       if (shift.start == null) {
-        Logger.info('no shift start date, skipping');
         continue;
       }
 
@@ -44,7 +42,6 @@ class ShiftGroup {
 
     for (Shift shift in shifts) {
       if (shift.end == null) {
-        Logger.info('no shift end date, skipping');
         continue;
       }
 
@@ -67,10 +64,6 @@ class ShiftGroup {
     for (Shift shift in shifts) {
       // make sure we have a start and end time
       if (shift.start == null || shift.end == null) {
-        Logger.info('shift start or end is null, skipping', data: {
-          'start': shift.start,
-          'end': shift.end,
-        });
         continue;
       }
 
@@ -96,9 +89,6 @@ class ShiftGroup {
     for (Shift shift in shifts) {
       // skip events that don't have a start date
       if (shift.start == null) {
-        Logger.debug(
-            'event start is null, will not be included in shifts output',
-            data: {'event': shift.toJson()});
         continue;
       }
 

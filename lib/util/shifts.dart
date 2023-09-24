@@ -1,7 +1,11 @@
-import 'package:gateway_fence_employee/models/shift.dart';
-import 'package:gateway_fence_employee/util/time.dart';
+// Package imports:
 import 'package:geolocator/geolocator.dart';
 import 'package:uuid/uuid.dart';
+
+// Project imports:
+import 'package:gateway_fence_employee/models/shift.dart';
+import 'int.dart';
+import 'time.dart';
 
 List<Shift> getMockShifts(Uuid owner, {int workingDays = 10}) {
   List<Shift> shifts = [];

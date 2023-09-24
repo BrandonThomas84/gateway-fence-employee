@@ -1,7 +1,12 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:gateway_fence_employee/config/colors.dart';
-import 'package:gateway_fence_employee/screens/default_screen_scaffold.dart';
+
+// Package imports:
 import 'package:go_router/go_router.dart';
+
+// Project imports:
+import 'package:gateway_fence_employee/config/colors.dart';
+import 'default_screen_scaffold.dart';
 
 GoRoute settingsScreenGoRoute = GoRoute(
   path: '/settings',

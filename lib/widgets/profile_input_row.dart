@@ -1,10 +1,15 @@
-import 'package:firebase_auth/firebase_auth.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:provider/provider.dart';
+
+// Project imports:
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/providers/auth_provider.dart';
 import 'package:gateway_fence_employee/providers/current_route_provider.dart';
-import 'package:provider/provider.dart';
 
 class ProfileInputRow extends StatefulWidget {
   const ProfileInputRow({

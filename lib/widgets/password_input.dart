@@ -1,5 +1,10 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:form_field_validator/form_field_validator.dart';
+
+// Project imports:
 import 'package:gateway_fence_employee/config/colors.dart';
 
 /// A password input that can be used in forms

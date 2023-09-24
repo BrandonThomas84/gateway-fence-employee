@@ -1,6 +1,8 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:gateway_fence_employee/config/colors.dart';
 
+// Project imports:
+import 'package:gateway_fence_employee/config/colors.dart';
 import 'pause_button.dart';
 import 'timer_body.dart';
 

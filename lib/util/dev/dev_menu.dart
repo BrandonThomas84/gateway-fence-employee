@@ -1,7 +1,11 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:gateway_fence_employee/providers/dev_provider.dart';
+
+// Package imports:
 import 'package:provider/provider.dart';
 
+// Project imports:
+import 'package:gateway_fence_employee/providers/dev_provider.dart';
 import 'dev_menu_item.dart';
 
 class DevMenu extends StatelessWidget {
@@ -35,14 +39,18 @@ class DevMenu extends StatelessWidget {
                           content: const SingleChildScrollView(
                             child: ListBody(
                               children: [
-                                Text(
-                                    'I fucking dare you to click approve you piece of shit!'),
+                                Text('I fucking dare you to click \'Close\'!'),
                               ],
                             ),
                           ),
                           actions: <Widget>[
                             TextButton(
-                              child: const Text('Approve'),
+                              child: const Text(
+                                'Close',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                ),
+                              ),
                               onPressed: () {
                                 Navigator.pop(context);
                               },

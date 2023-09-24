@@ -1,14 +1,19 @@
-import 'package:firebase_auth/firebase_auth.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+
+// Project imports:
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/providers/auth_provider.dart';
-import 'package:gateway_fence_employee/screens/default_screen_scaffold.dart';
 import 'package:gateway_fence_employee/util/log.dart';
 import 'package:gateway_fence_employee/util/validators.dart';
 import 'package:gateway_fence_employee/widgets/profile_input_row.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
+import 'default_screen_scaffold.dart';
 
 GoRoute profileScreenGoRoute = GoRoute(
   path: '/profile',

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 /// Returns the end time of the timer in the format HH:MM:SS.
 String prettyDate(DateTime date, bool includeTime) {
   final day = padd0(date.day.toString());
@@ -16,11 +14,6 @@ String prettyDate(DateTime date, bool includeTime) {
   final seconds = date.second.toString().padLeft(2, '0');
 
   return '$d $hours:$minutes:$seconds';
-}
-
-/// Returns a random integer between min and max.
-int getRandomInt(int min, int max) {
-  return min + Random().nextInt(max - min + 1);
 }
 
 /// Returns the month name from an integer.
