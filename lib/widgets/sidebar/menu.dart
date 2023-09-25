@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 // Project imports:
 import 'package:gateway_fence_employee/providers/auth_provider.dart';
 import 'package:gateway_fence_employee/providers/current_route_provider.dart';
-import 'package:gateway_fence_employee/util/config.dart';
 import 'menu_item.dart';
 
 class MenutItemConfig {
@@ -53,7 +52,8 @@ class Menu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isAuthenticated = Provider.of<AuthProvider>(context).isAuthenticated;
+    final bool isAuthenticated =
+        Provider.of<AuthProvider>(context).isAuthenticated;
 
     return SizedBox(
       height: (MediaQuery.of(context).size.height * .75) - 120,
@@ -64,7 +64,7 @@ class Menu extends StatelessWidget {
         children: <Widget>[
           Column(
             children: <Widget>[
-              if (isAuthenticated || appVarEnvironment == 'dev')
+              if (isAuthenticated)
                 for (MenutItemConfig item in secureItems)
                   MenuItem(
                     title: item.title,
@@ -74,21 +74,21 @@ class Menu extends StatelessWidget {
                           .setCurrentRoute(item.route, context);
                     },
                     isActive: GoRouterState.of(context).fullPath == item.route,
-                  )
+                  ),
+              if (isAuthenticated)
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: MenuItem(
+                    title: 'Logout',
+                    icon: Icons.logout_rounded,
+                    onTap: () {
+                      Provider.of<CurrentRouteProvider>(context, listen: false)
+                          .setCurrentRoute('/logout', context);
+                    },
+                  ),
+                )
             ],
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: MenuItem(
-              title: isAuthenticated ? 'Logout' : 'Login',
-              icon: Icons.logout_rounded,
-              onTap: () {
-                final String newRoute = isAuthenticated ? '/logout' : '/login';
-                Provider.of<CurrentRouteProvider>(context, listen: false)
-                    .setCurrentRoute(newRoute, context);
-              },
-            ),
-          )
         ],
       ),
     );

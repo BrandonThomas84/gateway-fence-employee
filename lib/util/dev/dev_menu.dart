@@ -31,45 +31,11 @@ class DevMenu extends StatelessWidget {
                   barrierDismissible: false,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: const Text('Funck Spunk Monkey Junky'),
+                      title: const Text('Funky Spunky Monkey Junky'),
                       content: const SingleChildScrollView(
                         child: ListBody(
                           children: <Widget>[
-                            Text('I fucking dare you to click \'Close\'!'),
-                          ],
-                        ),
-                      ),
-                      actions: <Widget>[
-                        TextButton(
-                          child: const Text(
-                            'Close',
-                            style: TextStyle(
-                              color: Colors.red,
-                            ),
-                          ),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-            ),
-            DevMenuItem(
-              buttonText: 'Test Menu 2',
-              onPressed: () {
-                showDialog<void>(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text('Funck Spunk Monkey Junky'),
-                      content: const SingleChildScrollView(
-                        child: ListBody(
-                          children: <Widget>[
-                            Text('I fucking dare you to click \'Close\'!'),
+                            Text('I dare you to click \'Close\'!'),
                           ],
                         ),
                       ),

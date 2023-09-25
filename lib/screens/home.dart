@@ -15,7 +15,7 @@ import 'default_screen_scaffold.dart';
 GoRoute homeScreenGoRoute = GoRoute(
   path: '/',
   builder: (BuildContext context, GoRouterState state) {
-    return !Provider.of<AuthProvider>(context).isAuthenticated
+    return Provider.of<AuthProvider>(context).isAuthenticated
         ? const HomeScreen()
         : const LoginScreen();
   },

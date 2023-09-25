@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 // Project imports:
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/providers/auth_provider.dart';
-import 'package:gateway_fence_employee/providers/current_route_provider.dart';
 
 class ProfileInputRow extends StatefulWidget {
   const ProfileInputRow({
@@ -21,8 +20,6 @@ class ProfileInputRow extends StatefulWidget {
     this.onCancelPress,
     this.onEditPress,
     this.validator,
-    this.isSecure = false,
-    this.startEditing = false,
   });
 
   /// The name of the input
@@ -36,12 +33,6 @@ class ProfileInputRow extends StatefulWidget {
 
   /// The validators that will be used to validate the input
   final MultiValidator? validator;
-
-  /// Whether or not the input is secure, if this is marked as true the user
-  /// will be asked to reauthenticate before editing the input
-  final bool isSecure;
-
-  final bool startEditing;
 
   /// The function that will be called when the user presses save, it should
   /// return a `Future<bool>` that will determine whether or not the input
@@ -74,7 +65,7 @@ class _ProfileInputRowState extends State<ProfileInputRow> {
   void initState() {
     super.initState();
 
-    _editing = widget.startEditing;
+    _editing = false;
 
     formKey = GlobalKey<FormState>();
   }
@@ -88,12 +79,6 @@ class _ProfileInputRowState extends State<ProfileInputRow> {
 
   ///
   void doEdit(User user) {
-    if (widget.isSecure && !widget.startEditing) {
-      Provider.of<CurrentRouteProvider>(context, listen: false)
-          .setCurrentRoute('/reauth/${widget.name}', context);
-      return;
-    }
-
     setState(() {
       _editing = true;
     });

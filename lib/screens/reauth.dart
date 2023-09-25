@@ -68,7 +68,7 @@ class _ReauthScreenState extends State<ReauthScreen> {
       )
           .then((UserCredential value) {
         Logger.info('reauthentication successful');
-        authProvider.completeReauth(widget.changeType);
+        // authProvider.completeReauth(widget.changeType);
       });
       return Future<String>.value('success');
     } on FirebaseAuthException catch (e) {

@@ -44,9 +44,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('Successfully updated your email address')));
       });
-
-      // kill the reauth request
-      Provider.of<AuthProvider>(context).removeReauth(emailInputName);
       return Future<bool>.value(true);
     } on FirebaseAuthException catch (e) {
       // this should only happen if the user's refresh token is too old
@@ -55,6 +52,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
       return Future<bool>.value(false);
     } on FirebaseException catch (e) {
+
+//       showDialog(
+//   context: context,
+//   builder: (BuildContext context) {
+//     return ReauthDialog();
+//   },
+// );
       Logger.error(
           'Firebase error while updating email address: ${e.toString()}');
       return Future<bool>.value(false);
@@ -68,8 +72,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final User? user = Provider.of<AuthProvider>(context).user;
-    final ReauthRequest reauth =
-        Provider.of<AuthProvider>(context).getReauth(emailInputName);
 
     return DefaultScreenScaffold(
       title: 'Profile',
@@ -86,8 +88,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: <Widget>[
                 const SizedBox(height: 40),
                 ProfileInputRow(
-                  isSecure: !reauth.isValid(),
-                  startEditing: reauth.isValid(),
                   name: emailInputName,
                   icon: Icons.email_outlined,
                   initialValue: user?.email ?? '',
