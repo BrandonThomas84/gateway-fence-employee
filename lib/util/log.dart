@@ -61,14 +61,14 @@ class Logger {
     }
 
     // create the general log output
-    final Map<String, dynamic> output = <String,String>{
+    final Map<String, dynamic> output = <String,dynamic>{
       'level': level.toString().split('.').last,
       'message': message,
     };
 
     // add data to the output
     if (data != null) {
-      output['data'] = <String,String>{};
+      output['data'] = <String,dynamic>{};
       output['data'].addAll(data);
     }
 

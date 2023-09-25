@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/util/dev/dev_menu.dart';
+import 'package:gateway_fence_employee/util/dev/dev_menu_trigger.dart';
 import 'package:gateway_fence_employee/widgets/screen_title.dart';
 import 'package:gateway_fence_employee/widgets/sidebar/sidebar.dart';
 
@@ -39,6 +40,7 @@ class _DefaultScreenScaffoldState extends State<DefaultScreenScaffold>
     return Scaffold(
       key: widget.scaffoldKey,
       drawer: const Sidebar(),
+      endDrawer: const DevMenu(),
       backgroundColor: AppColors.greyLight,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -61,7 +63,8 @@ class _DefaultScreenScaffoldState extends State<DefaultScreenScaffold>
                   ),
                 ...widget.children,
                 SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-                const DevMenu(), // only shows in dev mode
+                const DevMenuTrigger(),
+                // const DevMenu(), // only shows in dev mode
               ],
             ),
           ),

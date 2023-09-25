@@ -13,13 +13,22 @@ class DevMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: onPressed,
-      child: Text(
-        buttonText,
-        style: const TextStyle(
-          color: Colors.white,
-        ),
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      color: Colors.black.withOpacity(0.5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          TextButton(
+            onPressed: onPressed,
+            child: Text(
+              buttonText,
+              style: const TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
