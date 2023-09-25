@@ -18,11 +18,11 @@ class UserModel {
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     // insure ownerID is present
-    if (!json.containsKey('userID')) {
-      throw Exception('userID is missing from JSON data.');
+    if (!json.containsKey('userId')) {
+      throw Exception('userId is missing from JSON data.');
     }
 
-    return UserModel(json['userID'],
+    return UserModel(json['userId'],
         displayName: json['displayName'],
         email: json['email'],
         phone: json['phone'],
