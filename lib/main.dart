@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
 // Project imports:
@@ -29,7 +30,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  FirebaseDatabase _ = FirebaseDatabase.instance;
+  final FirebaseDatabase _ = FirebaseDatabase.instance;
 
   /// this is for local testing and the port should be updated if
   /// the port is changed in the firebase.json file
@@ -37,11 +38,15 @@ Future<void> main() async {
           app: Firebase.app(), persistence: Persistence.LOCAL)
       .useAuthEmulator('127.0.0.1', 9099);
 
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (context) => AuthProvider()),
-    ChangeNotifierProvider(create: (context) => CurrentRouteProvider()),
-    ChangeNotifierProvider(create: (context) => Timer()),
-    ChangeNotifierProvider(create: (context) => DevProvider()),
+  runApp(MultiProvider(providers: <SingleChildWidget>[
+    // ignore: always_specify_types
+    ChangeNotifierProvider(create: (BuildContext context) => AuthProvider()),
+    // ignore: always_specify_types
+    ChangeNotifierProvider(create: (BuildContext context) => CurrentRouteProvider()),
+    // ignore: always_specify_types
+    ChangeNotifierProvider(create: (BuildContext context) => Timer()),
+    // ignore: always_specify_types
+    ChangeNotifierProvider(create: (BuildContext context) => DevProvider()),
   ], child: const GatewayFenceEmployeeApp()));
 }
 

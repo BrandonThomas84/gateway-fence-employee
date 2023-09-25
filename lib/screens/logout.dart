@@ -10,7 +10,7 @@ import 'package:gateway_fence_employee/screens/default_screen_scaffold.dart';
 
 GoRoute logoutScreenGoRoute = GoRoute(
   path: '/logout',
-  builder: (context, state) => const LogoutScreen(),
+  builder: (BuildContext context, GoRouterState state) => const LogoutScreen(),
 );
 
 class LogoutScreen extends StatelessWidget {
@@ -18,7 +18,7 @@ class LogoutScreen extends StatelessWidget {
     super.key,
   });
 
-  void doSignOut() async {
+  Future<void> doSignOut() async {
     await FirebaseAuth.instance.signOut();
   }
 
@@ -27,7 +27,7 @@ class LogoutScreen extends StatelessWidget {
     doSignOut();
     return DefaultScreenScaffold(
       scaffoldKey: GlobalKey<ScaffoldState>(),
-      children: const [
+      children: const <Widget>[
         Center(
           heightFactor: 30,
           child: Text('You have successfully logged out.'),

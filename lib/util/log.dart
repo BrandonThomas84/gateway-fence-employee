@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, avoid_classes_with_only_static_members
 
 // Dart imports:
 import 'dart:convert';
@@ -61,14 +61,14 @@ class Logger {
     }
 
     // create the general log output
-    Map<String, dynamic> output = {
+    final Map<String, dynamic> output = <String,String>{
       'level': level.toString().split('.').last,
       'message': message,
     };
 
     // add data to the output
     if (data != null) {
-      output['data'] = {};
+      output['data'] = <String,String>{};
       output['data'].addAll(data);
     }
 

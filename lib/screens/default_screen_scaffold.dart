@@ -53,7 +53,7 @@ class _DefaultScreenScaffoldState extends State<DefaultScreenScaffold>
               maxWidth: 1200,
             ),
             child: ListView(
-              children: [
+              children: <Widget>[
                 if (widget.title != null)
                   ScreenTitle(
                     title: widget.title!,

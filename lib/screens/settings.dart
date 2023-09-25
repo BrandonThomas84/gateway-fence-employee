@@ -10,7 +10,7 @@ import 'default_screen_scaffold.dart';
 
 GoRoute settingsScreenGoRoute = GoRoute(
   path: '/settings',
-  builder: (context, state) => const SettingsScreen(),
+  builder: (BuildContext context, GoRouterState state) => const SettingsScreen(),
 );
 
 class SettingsScreen extends StatelessWidget {
@@ -23,7 +23,7 @@ class SettingsScreen extends StatelessWidget {
     return DefaultScreenScaffold(
       title: 'Settings',
       scaffoldKey: GlobalKey<ScaffoldState>(),
-      children: [
+      children: <Widget>[
         Container(
           decoration: const BoxDecoration(
             color: AppColors.white,
@@ -35,7 +35,7 @@ class SettingsScreen extends StatelessWidget {
             ),
           ),
           child: const Column(
-            children: [
+            children: <Widget>[
               Text('setting #1'),
               Text('setting #2'),
               Text('setting #3'),

@@ -22,7 +22,7 @@ class StatusTimer extends StatelessWidget {
         ),
         padding: const EdgeInsets.all(5),
         child: const Row(
-          children: [
+          children: <Widget>[
             PauseButton(),
             SizedBox(width: 10),
             TimerBody(),

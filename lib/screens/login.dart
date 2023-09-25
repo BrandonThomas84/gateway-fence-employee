@@ -18,7 +18,7 @@ import 'default_screen_scaffold.dart';
 
 GoRoute loginScreenGoRoute = GoRoute(
   path: '/login',
-  builder: (context, state) => const LoginScreen(),
+  builder: (BuildContext context, GoRouterState state) => const LoginScreen(),
 );
 
 class LoginScreen extends StatefulWidget {
@@ -31,7 +31,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  late final _formkey = GlobalKey<FormState>();
+  late final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
 
@@ -47,27 +47,27 @@ class _LoginScreenState extends State<LoginScreen> {
   /// Will return a string if there is an error or `success` if the login was successful
   Future<String> handleLoginPress(BuildContext context) async {
     if (!_formkey.currentState!.validate()) {
-      return Future.value('internal-invalid-form');
+      return Future<String>.value('internal-invalid-form');
     }
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: _email, password: _password);
 
-      return Future.value('success');
+      return Future<String>.value('success');
     } on FirebaseAuthException catch (e) {
-      Logger.error('firebase login error', data: {
+      Logger.error('firebase login error', data: <String, String>{
         'code': e.code,
         'message': e.message ?? '',
         'error': e.toString(),
       });
 
-      return Future.value(e.code);
+      return Future<String>.value(e.code);
     } catch (e) {
-      Logger.error('unknown login error', data: {
+      Logger.error('unknown login error', data: <String, String>{
         'error': e.toString(),
       });
 
-      return Future.value('unknown');
+      return Future<String>.value('unknown');
     }
   }
 
@@ -86,13 +86,13 @@ class _LoginScreenState extends State<LoginScreen> {
     return DefaultScreenScaffold(
       title: 'Login',
       scaffoldKey: GlobalKey<ScaffoldState>(),
-      children: [
+      children: <Widget>[
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Center(
             child: Form(
               key: _formkey,
-              child: Column(children: [
+              child: Column(children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(35),
                   child: Image.asset(
@@ -110,17 +110,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     border: OutlineInputBorder(),
                   ),
-                  validator: MultiValidator([
+                  validator: MultiValidator(<FieldValidator<dynamic>>[
                     RequiredValidator(errorText: 'Email is required'),
                     EmailValidator(errorText: 'Enter a valid email address'),
                   ]).call,
-                  onChanged: (value) {
+                  onChanged: (String value) {
                     _email = value;
                   },
                 ),
                 const SizedBox(height: 20),
                 PasswordInput(
-                  onChanged: (value) {
+                  onChanged: (String value) {
                     _password = value;
                   },
                 ),
@@ -134,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   onPressed: () {
                     if (_formkey.currentState!.validate()) {
-                      handleLoginPress(context).then((value) {
+                      handleLoginPress(context).then((String value) {
                         // if successful
                         if (value == 'success') {
                           SnackBarThemed(

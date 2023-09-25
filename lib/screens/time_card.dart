@@ -18,7 +18,7 @@ Uuid owner = const Uuid();
 
 GoRoute timeCardScreenGoRoute = GoRoute(
   path: '/time-card',
-  builder: (context, state) => const TimeCardScreen(),
+  builder: (BuildContext context, GoRouterState state) => const TimeCardScreen(),
 );
 
 class TimeCardScreen extends StatefulWidget {
@@ -39,13 +39,13 @@ class _TimeCardScreenState extends State<TimeCardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String startDate = prettyDate(shiftGroup.getStartDate(), false);
-    String endDate = prettyDate(shiftGroup.getEndDate(), false);
+    final String startDate = prettyDate(shiftGroup.getStartDate(), false);
+    final String endDate = prettyDate(shiftGroup.getEndDate(), false);
 
     return DefaultScreenScaffold(
       title: 'Time Card',
       scaffoldKey: GlobalKey<ScaffoldState>(),
-      children: [
+      children: <Widget>[
         Container(
           padding: const EdgeInsets.symmetric(
             horizontal: 30,
@@ -62,10 +62,10 @@ class _TimeCardScreenState extends State<TimeCardScreen> {
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <Widget>[
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                children: <Widget>[
                   const Text(
                     'Start:',
                     style: TextStyle(fontSize: 14, color: AppColors.grey),
@@ -78,7 +78,7 @@ class _TimeCardScreenState extends State<TimeCardScreen> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                children: <Widget>[
                   const Text(
                     'End:',
                     style: TextStyle(fontSize: 14, color: AppColors.grey),
@@ -91,7 +91,7 @@ class _TimeCardScreenState extends State<TimeCardScreen> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                children: <Widget>[
                   const Text(
                     'Total Hours:',
                     style: TextStyle(fontSize: 14, color: AppColors.grey),

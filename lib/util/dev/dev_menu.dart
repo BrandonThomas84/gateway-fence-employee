@@ -21,12 +21,12 @@ class DevMenu extends StatelessWidget {
       alignment: Alignment.bottomCenter,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
-        children: [
+        children: <Widget>[
           Container(
             color: Colors.black.withOpacity(0.5),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: <Widget>[
                 DevMenuItem(
                   buttonText: 'Test Menu',
                   onPressed: () {
@@ -38,7 +38,7 @@ class DevMenu extends StatelessWidget {
                           title: const Text('Funck Spunk Monkey Junky'),
                           content: const SingleChildScrollView(
                             child: ListBody(
-                              children: [
+                              children: <Widget>[
                                 Text('I fucking dare you to click \'Close\'!'),
                               ],
                             ),

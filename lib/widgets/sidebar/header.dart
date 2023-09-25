@@ -21,7 +21,7 @@ class Header extends StatelessWidget {
         width: double.infinity,
         child: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             Profile(imageSize: 60),
             StatusTimer(),
           ],

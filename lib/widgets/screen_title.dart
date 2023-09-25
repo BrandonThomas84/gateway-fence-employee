@@ -28,7 +28,7 @@ class ScreenTitle extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           Center(
             child: Container(
               margin: const EdgeInsets.only(top: 5),

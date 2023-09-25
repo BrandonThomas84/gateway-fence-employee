@@ -14,7 +14,7 @@ import 'default_screen_scaffold.dart';
 
 GoRoute homeScreenGoRoute = GoRoute(
   path: '/',
-  builder: (context, state) {
+  builder: (BuildContext context, GoRouterState state) {
     return !Provider.of<AuthProvider>(context).isAuthenticated
         ? const HomeScreen()
         : const LoginScreen();
@@ -31,7 +31,7 @@ class HomeScreen extends StatelessWidget {
     return DefaultScreenScaffold(
       title: companyName,
       scaffoldKey: GlobalKey<ScaffoldState>(),
-      children: [
+      children: <Widget>[
         Container(
           decoration: const BoxDecoration(
             color: AppColors.white,

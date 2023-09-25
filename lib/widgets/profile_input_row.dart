@@ -111,24 +111,24 @@ class _ProfileInputRowState extends State<ProfileInputRow> {
 
   @override
   Widget build(BuildContext context) {
-    User? user = Provider.of<AuthProvider>(context).user;
-    double inputWidth = MediaQuery.of(context).size.width * 0.7;
-    double inputWidthWhenEditing = MediaQuery.of(context).size.width * 0.9;
+    final User? user = Provider.of<AuthProvider>(context).user;
+    final double inputWidth = MediaQuery.of(context).size.width * 0.7;
+    final double inputWidthWhenEditing = MediaQuery.of(context).size.width * 0.9;
 
     return Form(
       key: formKey,
       child: Column(
-        children: [
+        children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+            children: <Widget>[
               SizedBox(
                 width: _editing ? inputWidthWhenEditing : inputWidth,
                 child: TextFormField(
                   validator: widget.validator?.call,
                   enabled: _editing,
                   initialValue: widget.initialValue,
-                  onChanged: (value) {
+                  onChanged: (String value) {
                     setState(() {
                       _value = value;
                     });
@@ -149,7 +149,7 @@ class _ProfileInputRowState extends State<ProfileInputRow> {
                   onPressed: () async {
                     if (widget.onEditPress != null) {
                       await widget.onEditPress!()
-                          .then((value) => doEdit(user!));
+                          .then((bool value) => doEdit(user!));
                     } else {
                       doEdit(user!);
                     }
@@ -163,12 +163,12 @@ class _ProfileInputRowState extends State<ProfileInputRow> {
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                children: <Widget>[
                   TextButton(
                     onPressed: () {
                       formKey.currentState!.reset();
                       if (widget.onCancelPress != null) {
-                        widget.onCancelPress!().then((value) => doCancel());
+                        widget.onCancelPress!().then((void value) => doCancel());
                       } else {
                         doCancel();
                       }
@@ -183,7 +183,7 @@ class _ProfileInputRowState extends State<ProfileInputRow> {
                       if (formKey.currentState!.validate()) {
                         widget
                             .onSavePress(_value)
-                            .then((value) => doSave(value));
+                            .then((bool value) => doSave(value));
                       }
                     },
                     child: const Text('Save'),

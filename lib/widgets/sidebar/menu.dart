@@ -12,15 +12,15 @@ import 'package:gateway_fence_employee/util/config.dart';
 import 'menu_item.dart';
 
 class MenutItemConfig {
-  final String title;
-  final IconData icon;
-  final String route;
-
   MenutItemConfig({
     required this.title,
     required this.icon,
     required this.route,
   });
+
+  final String title;
+  final IconData icon;
+  final String route;
 }
 
 class Menu extends StatelessWidget {
@@ -28,7 +28,7 @@ class Menu extends StatelessWidget {
     super.key,
   });
 
-  final List<MenutItemConfig> secureItems = [
+  final List<MenutItemConfig> secureItems = <MenutItemConfig>[
     MenutItemConfig(
       title: 'Home',
       icon: Icons.home_outlined,
@@ -53,7 +53,7 @@ class Menu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isAuthenticated = Provider.of<AuthProvider>(context).isAuthenticated;
+    final bool isAuthenticated = Provider.of<AuthProvider>(context).isAuthenticated;
 
     return SizedBox(
       height: (MediaQuery.of(context).size.height * .75) - 120,
@@ -61,9 +61,9 @@ class Menu extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        children: <Widget>[
           Column(
-            children: [
+            children: <Widget>[
               if (isAuthenticated || appVarEnvironment == 'dev')
                 for (MenutItemConfig item in secureItems)
                   MenuItem(
@@ -83,7 +83,7 @@ class Menu extends StatelessWidget {
               title: isAuthenticated ? 'Logout' : 'Login',
               icon: Icons.logout_rounded,
               onTap: () {
-                String newRoute = isAuthenticated ? '/logout' : '/login';
+                final String newRoute = isAuthenticated ? '/logout' : '/login';
                 Provider.of<CurrentRouteProvider>(context, listen: false)
                     .setCurrentRoute(newRoute, context);
               },

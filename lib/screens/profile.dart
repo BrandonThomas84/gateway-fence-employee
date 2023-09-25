@@ -17,7 +17,7 @@ import 'default_screen_scaffold.dart';
 
 GoRoute profileScreenGoRoute = GoRoute(
   path: '/profile',
-  builder: (context, state) => const ProfileScreen(),
+  builder: (BuildContext context, GoRouterState state) => const ProfileScreen(),
 );
 
 class ProfileScreen extends StatefulWidget {
@@ -34,48 +34,48 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<bool> onEmailSave(User user, String? value) async {
     if (value == null) {
-      return Future.value(false);
+      return Future<bool>.value(false);
     }
 
     Logger.info('attempting to update email address to: $value');
 
     try {
-      user.updateEmail(value).then((val) {
+      user.updateEmail(value).then((void val) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('Successfully updated your email address')));
       });
 
       // kill the reauth request
       Provider.of<AuthProvider>(context).removeReauth(emailInputName);
-      return Future.value(true);
+      return Future<bool>.value(true);
     } on FirebaseAuthException catch (e) {
       // this should only happen if the user's refresh token is too old
       // which the re-authentication should take care of
       Logger.error('Firebase auth error: ${e.toString()}');
 
-      return Future.value(false);
+      return Future<bool>.value(false);
     } on FirebaseException catch (e) {
       Logger.error(
           'Firebase error while updating email address: ${e.toString()}');
-      return Future.value(false);
+      return Future<bool>.value(false);
     } catch (e) {
       Logger.error('unknown error updating email address: ${e.toString()}');
 
-      return Future.value(false);
+      return Future<bool>.value(false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    User? user = Provider.of<AuthProvider>(context).user;
-    ReauthRequest reauth =
+    final User? user = Provider.of<AuthProvider>(context).user;
+    final ReauthRequest reauth =
         Provider.of<AuthProvider>(context).getReauth(emailInputName);
 
     return DefaultScreenScaffold(
       title: 'Profile',
       subtitle: 'You can update your profile information here',
       scaffoldKey: GlobalKey<ScaffoldState>(),
-      children: [
+      children: <Widget>[
         Container(
           decoration: const BoxDecoration(
             color: AppColors.white,
@@ -83,7 +83,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
-              children: [
+              children: <Widget>[
                 const SizedBox(height: 40),
                 ProfileInputRow(
                   isSecure: !reauth.isValid(),
@@ -91,7 +91,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   name: emailInputName,
                   icon: Icons.email_outlined,
                   initialValue: user?.email ?? '',
-                  validator: MultiValidator([
+                  validator: MultiValidator(<FieldValidator<dynamic>>[
                     RequiredValidator(errorText: 'Email is required'),
                     EmailValidator(errorText: 'Must be a valid email address'),
                     ConfirmNoMatchValidator(user?.email ?? '',

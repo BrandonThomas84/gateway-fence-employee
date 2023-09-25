@@ -38,7 +38,7 @@ class _ShiftDayState extends State<ShiftDay> {
   late String _title = '';
   late String _subTitle = '';
   late Duration _totalDuration = const Duration();
-  late final List<Container> _shifts = [];
+  late final List<Container> _shifts = <Container>[];
 
   @override
   void initState() {
@@ -53,7 +53,7 @@ class _ShiftDayState extends State<ShiftDay> {
 
   /// Build the list of shifts
   void _buildShifts() {
-    for (var shift in widget.shifts) {
+    for (Shift shift in widget.shifts) {
       _totalDuration += shift.getDuration();
       _shifts.add(
         Container(
@@ -62,24 +62,24 @@ class _ShiftDayState extends State<ShiftDay> {
             vertical: 15,
           ),
           child: Column(
-            children: [
+            children: <Widget>[
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                children: <Widget>[
                   const Text('Start:'),
                   Text(shift.getStartTimeString()),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                children: <Widget>[
                   const Text('End:'),
                   Text(shift.getEndTimeString()),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                children: <Widget>[
                   const Text('Duration:'),
                   Text(getDurationString(shift.getDuration())),
                 ],
@@ -99,7 +99,7 @@ class _ShiftDayState extends State<ShiftDay> {
       child: ExpansionTile(
         shape: const Border(), // remove the border
         initiallyExpanded: widget.startExpanded,
-        onExpansionChanged: (isExpanded) {
+        onExpansionChanged: (bool isExpanded) {
           setState(() {
             _isExpanded = isExpanded;
           });
@@ -110,32 +110,32 @@ class _ShiftDayState extends State<ShiftDay> {
           allowEdit: false,
         ),
         subtitle: ShiftDaySubitle(_subTitle),
-        children: [
-          for (var shift in widget.shifts) ...[
+        children: <Widget>[
+          for (Shift shift in widget.shifts) ...<Widget>[
             Container(
               padding: const EdgeInsets.symmetric(
                 horizontal: 20,
                 vertical: 15,
               ),
               child: Column(
-                children: [
+                children: <Widget>[
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: <Widget>[
                       const Text('Clock In:'),
                       Text(shift.getStartTimeString()),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: <Widget>[
                       const Text('Clock Out:'),
                       Text(shift.getEndTimeString()),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: <Widget>[
                       const Text('Total Hours:'),
                       Text(getDurationString(shift.getDuration())),
                     ],

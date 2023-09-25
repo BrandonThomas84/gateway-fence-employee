@@ -18,7 +18,7 @@ import 'default_screen_scaffold.dart';
 
 GoRoute registerScreenGoRoute = GoRoute(
   path: '/register',
-  builder: (context, state) => const RegisterScreen(),
+  builder: (BuildContext context, GoRouterState state) => const RegisterScreen(),
 );
 
 class RegisterScreen extends StatefulWidget {
@@ -31,7 +31,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  late final _formkey = GlobalKey<FormState>();
+  late final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
 
@@ -48,11 +48,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Future<String> handleRegister() async {
     try {
       // ignore: unused_local_variable
-      final credential = await FirebaseAuth.instance
+      final UserCredential credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: _email, password: _password);
       return Future<String>.value('success');
     } on FirebaseAuthException catch (e) {
-      Logger.error('firebase registration error: ${e.toString()}', data: {
+      Logger.error('firebase registration error: ${e.toString()}', data: <String,String>{
         'code': e.code,
         'message': e.message ?? '',
         'error': e.toString(),
@@ -75,15 +75,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return DefaultScreenScaffold(
       title: 'Register',
       scaffoldKey: GlobalKey<ScaffoldState>(),
-      children: [
+      children: <Widget>[
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Center(
             child: Column(
-              children: [
+              children: <Widget>[
                 Form(
                   key: _formkey,
-                  child: Column(children: [
+                  child: Column(children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(35),
                       child: Image.asset(
@@ -103,28 +103,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         errorStyle: TextStyle(
                             color: Colors.red, fontWeight: FontWeight.w800),
                       ),
-                      validator: MultiValidator([
+                      validator: MultiValidator(<FieldValidator<dynamic>>[
                         RequiredValidator(errorText: 'Email is required'),
                         EmailValidator(
                             errorText: 'Enter a valid email address'),
                       ]).call,
-                      onChanged: (value) {
+                      onChanged: (String value) {
                         _email = value;
                       },
                     ),
                     const SizedBox(height: 20),
                     PasswordInput(
-                      onChanged: (value) {
+                      onChanged: (String value) {
                         _password = value;
                       },
                     ),
                     const SizedBox(height: 20),
                     PasswordInput(
-                      extraValidators: [
+                      extraValidators: <FieldValidator<dynamic>>[
                         ConfirmPasswordValidator(_password,
                             errorText: 'Passwords do not match')
                       ],
-                      onChanged: (value) {
+                      onChanged: (String value) {
                         _confirmPassword = value;
                       },
                     ),
@@ -139,10 +139,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       onPressed: () {
                         if (_formkey.currentState!.validate()) {
-                          handleRegister().then((str) {
-                            bool isSuccess = str == 'success';
+                          handleRegister().then((String str) {
+                            final bool isSuccess = str == 'success';
 
-                            SnackBarThemedType type = isSuccess
+                            final SnackBarThemedType type = isSuccess
                                 ? SnackBarThemedType.success
                                 : SnackBarThemedType.error;
 

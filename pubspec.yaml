@@ -45,6 +45,7 @@ dependencies:
   geolocator: ^10.0.1
   flutter_lints: ^2.0.3
   form_field_validator: ^1.1.0
+  nested: ^1.0.0
 
 dev_dependencies:
   flutter_test:

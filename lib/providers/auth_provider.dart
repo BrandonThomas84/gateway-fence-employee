@@ -41,8 +41,7 @@ class AuthProvider extends ChangeNotifier {
   bool _isAuthenticated = false;
   User? _user;
 
-  /// A list of keys that pertain to specified reauthentication requests
-  final Map<String, ReauthRequest> _availableReauths = {};
+  final Map<String, ReauthRequest> _availableReauths = <String, ReauthRequest> {};
 
   User? get user => _user;
   bool get isAuthenticated => _isAuthenticated;

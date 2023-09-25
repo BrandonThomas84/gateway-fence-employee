@@ -2,18 +2,18 @@
 import 'package:flutter/material.dart';
 
 class ShiftDaySubitle extends StatelessWidget {
-  final String subTitle;
-
   const ShiftDaySubitle(
     this.subTitle, {
     super.key,
   });
 
+  final String subTitle;
+
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
+      children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(
             left: 20,

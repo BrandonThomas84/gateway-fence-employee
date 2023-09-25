@@ -17,7 +17,7 @@ import 'default_screen_scaffold.dart';
 
 GoRoute reauthScreenGoRoute = GoRoute(
   path: '/reauth/:changeType',
-  builder: (context, state) =>
+  builder: (BuildContext context, GoRouterState state) =>
       ReauthScreen(changeType: state.pathParameters['changeType'] ?? 'INVALID'),
 );
 
@@ -41,21 +41,22 @@ class _ReauthScreenState extends State<ReauthScreen> {
   void initState() {
     super.initState();
     Logger.info('reauth screen initialized',
-        data: {'changeType': widget.changeType});
+        data: <String, String>{'changeType': widget.changeType});
     _formkey.currentState?.reset();
   }
 
   Future<String> handleReauthentication(AuthProvider? authProvider) async {
     if (!_formkey.currentState!.validate()) {
       Logger.info('reauthenticate form is invalid');
-      return Future.value('Please check your submission and try again.');
+      return Future<String>.value(
+          'Please check your submission and try again.');
     }
 
     if (authProvider?.user == null) {
       Logger.warn('no user available to reauthenticate in the auth provider');
       Provider.of<CurrentRouteProvider>(context, listen: false)
           .setCurrentRoute('/register', context);
-      return Future.value(
+      return Future<String>.value(
           'It apprears as though your session has ended. Please sign in again.');
     }
 
@@ -65,36 +66,36 @@ class _ReauthScreenState extends State<ReauthScreen> {
         email: authProvider!.user?.email ?? '',
         password: _password,
       )
-          .then((value) {
+          .then((UserCredential value) {
         Logger.info('reauthentication successful');
         authProvider.completeReauth(widget.changeType);
       });
-      return Future.value('success');
+      return Future<String>.value('success');
     } on FirebaseAuthException catch (e) {
-      Logger.error('firebase reauthentication error', data: {
+      Logger.error('firebase reauthentication error', data: <String, String>{
         'code': e.code,
         'message': e.message ?? '',
         'error': e.toString(),
       });
-      return Future.value(e.message);
+      return Future<String>.value(e.message);
     } catch (e) {
-      Logger.error('unknown reauthentication error', data: {
+      Logger.error('unknown reauthentication error', data: <String, String>{
         'error': e.toString(),
       });
     }
-    return Future.value(
+    return Future<String>.value(
         'We\'re sorry but an unknown error has occurred. Please try again later');
   }
 
   @override
   Widget build(BuildContext context) {
-    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    final AuthProvider authProvider = Provider.of<AuthProvider>(context);
 
     return DefaultScreenScaffold(
       title: 'Security Reauthentication',
       subtitle: 'Please re-enter your password to continue',
       scaffoldKey: GlobalKey<ScaffoldState>(),
-      children: [
+      children: <Widget>[
         Container(
           decoration: const BoxDecoration(
             color: AppColors.white,
@@ -108,10 +109,10 @@ class _ReauthScreenState extends State<ReauthScreen> {
           child: Center(
             child: Form(
               key: _formkey,
-              child: Column(children: [
+              child: Column(children: <Widget>[
                 const SizedBox(height: 20),
                 PasswordInput(
-                  onChanged: (value) {
+                  onChanged: (String value) {
                     _password = value;
                   },
                 ),
@@ -124,7 +125,7 @@ class _ReauthScreenState extends State<ReauthScreen> {
                             horizontal: 50, vertical: 15)),
                   ),
                   onPressed: () {
-                    handleReauthentication(authProvider).then((value) {
+                    handleReauthentication(authProvider).then((String value) {
                       // if successful
                       if (value == 'success') {
                         Provider.of<CurrentRouteProvider>(context,

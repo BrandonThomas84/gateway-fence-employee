@@ -17,7 +17,7 @@ import 'time_card.dart';
 final GoRouter routerConfig = GoRouter(
   initialLocation: '/',
   navigatorKey: GlobalKey<NavigatorState>(),
-  routes: [
+  routes: <RouteBase>[
     homeScreenGoRoute,
     loginScreenGoRoute,
     logoutScreenGoRoute,

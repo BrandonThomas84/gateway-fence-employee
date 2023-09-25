@@ -8,21 +8,21 @@ import 'int.dart';
 import 'time.dart';
 
 List<Shift> getMockShifts(Uuid owner, {int workingDays = 10}) {
-  List<Shift> shifts = [];
+  final List<Shift> shifts = <Shift>[];
 
   // set a current date to midnight so we can go back in time
-  DateTime now = DateTime.now();
+  final DateTime now = DateTime.now();
 
-  for (var i = 0; i < workingDays; i++) {
-    DateTime activeDay = now.subtract(Duration(days: i));
+  for (int i = 0; i < workingDays; i++) {
+    final DateTime activeDay = now.subtract(Duration(days: i));
 
-    String year = padd0(activeDay.year.toString());
-    String month = padd0(activeDay.month.toString());
-    String day = padd0(activeDay.day.toString());
+    final String year = padd0(activeDay.year.toString());
+    final String month = padd0(activeDay.month.toString());
+    final String day = padd0(activeDay.day.toString());
 
-    DateTime firstShiftStart = DateTime.parse(
+    final DateTime firstShiftStart = DateTime.parse(
         '$year-$month-$day 00:${padd0(getRandomInt(1, 59).toString())}:00');
-    DateTime firstShiftEnd = DateTime.parse(
+    final DateTime firstShiftEnd = DateTime.parse(
         '$year-$month-$day 05:${padd0(getRandomInt(1, 59).toString())}:00');
 
     // add a morning shift
@@ -57,9 +57,9 @@ List<Shift> getMockShifts(Uuid owner, {int workingDays = 10}) {
       continue;
     }
 
-    DateTime secondShiftStart = DateTime.parse(
+    final DateTime secondShiftStart = DateTime.parse(
         '$year-$month-$day 06:${padd0(getRandomInt(1, 59).toString())}:00');
-    DateTime secondShiftEnd = DateTime.parse(
+    final DateTime secondShiftEnd = DateTime.parse(
         '$year-$month-$day 11:${padd0(getRandomInt(1, 59).toString())}:00');
 
     // add lunch shift

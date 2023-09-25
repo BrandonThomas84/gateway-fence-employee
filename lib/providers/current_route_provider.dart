@@ -1,11 +1,9 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-
-// Package imports:
-import 'package:go_router/go_router.dart';
-
 // Project imports:
 import 'package:gateway_fence_employee/util/log.dart';
+// Package imports:
+import 'package:go_router/go_router.dart';
 
 /// Provider to keep track of the current route
 class CurrentRouteProvider extends ChangeNotifier {
@@ -19,7 +17,7 @@ class CurrentRouteProvider extends ChangeNotifier {
     _previousRoute = _currentRoute;
     _currentRoute = route;
     notifyListeners();
-    Logger.info('navigation', data: {
+    Logger.info('navigation', data: <String, String>{
       'previousRoute': _previousRoute,
       'currentRoute': _currentRoute,
     });

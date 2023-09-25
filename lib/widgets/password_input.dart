@@ -59,15 +59,15 @@ class _PasswordInputState extends State<PasswordInput> {
               });
             },
           )),
-      validator: MultiValidator([
+      validator: MultiValidator(<FieldValidator<dynamic>>[
         RequiredValidator(errorText: 'Password is required'),
         MinLengthValidator(8,
             errorText: 'Password must be at least 8 digits long'),
         PatternValidator(r'(?=.*?[#!@$%^&*-])',
             errorText: 'Password must contain at least one special character'),
-        ..._validators ?? [],
+        ..._validators ?? <FieldValidator<dynamic>>[],
       ]).call,
-      onChanged: (value) {
+      onChanged: (String value) {
         _password = value;
         widget.onChanged?.call(_password);
       },

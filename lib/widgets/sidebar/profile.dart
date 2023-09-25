@@ -11,22 +11,22 @@ import 'package:gateway_fence_employee/providers/auth_provider.dart';
 import 'header_image.dart';
 
 class Profile extends StatelessWidget {
-  final double imageSize;
-
   const Profile({
-    Key? key,
+    super.key,
     required this.imageSize,
-  }) : super(key: key);
+  });
+
+  final double imageSize;
 
   @override
   Widget build(BuildContext context) {
-    User? user = Provider.of<AuthProvider>(context).user;
+    final User? user = Provider.of<AuthProvider>(context).user;
 
     return Padding(
       padding: const EdgeInsets.only(top: 10, right: 20, left: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           HeaderImage(
             imageSize: imageSize,
             borderThickness: 12,
