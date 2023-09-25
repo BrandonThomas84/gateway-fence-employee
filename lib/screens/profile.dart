@@ -52,7 +52,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
       return Future<bool>.value(false);
     } on FirebaseException catch (e) {
-
 //       showDialog(
 //   context: context,
 //   builder: (BuildContext context) {
@@ -64,6 +63,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
       return Future<bool>.value(false);
     } catch (e) {
       Logger.error('unknown error updating email address: ${e.toString()}');
+
+      return Future<bool>.value(false);
+    }
+  }
+
+  Future<bool> onNameSave(User user, String? value) async {
+    if (value == null) {
+      return Future<bool>.value(false);
+    }
+
+    Logger.info('attempting to update display name to: $value');
+
+    try {
+      user.updateDisplayName(value).then((void val) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Successfully updated your display name')));
+      });
+      return Future<bool>.value(true);
+    } on FirebaseAuthException catch (e) {
+      // this should only happen if the user's refresh token is too old
+      // which the re-authentication should take care of
+      Logger.error('Firebase auth error: ${e.toString()}');
+
+      return Future<bool>.value(false);
+    } on FirebaseException catch (e) {
+      Logger.error(
+          'Firebase error while updating displayName: ${e.toString()}');
+      return Future<bool>.value(false);
+    } catch (e) {
+      Logger.error('unknown error updating displayName: ${e.toString()}');
 
       return Future<bool>.value(false);
     }
@@ -109,6 +138,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   // },
                 ),
                 const SizedBox(height: 40),
+                ProfileInputRow(
+                  name: 'Name',
+                  icon: Icons.person_2_outlined,
+                  initialValue: user!.displayName ?? '',
+                  onSavePress: (String? value) {
+                    return onNameSave(user, value);
+                  },
+                )
               ],
             ),
           ),
