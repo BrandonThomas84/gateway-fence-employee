@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:gateway_fence_employee/models/user.dart';
+// import 'package:gateway_fence_employee/models/user.dart';
 import 'package:gateway_fence_employee/util/log.dart';
 import 'package:provider/provider.dart';
+// import 'package:uuid/uuid.dart';
 
 class AuthProvider extends ChangeNotifier {
   User? _user;
@@ -24,16 +25,17 @@ class AuthProvider extends ChangeNotifier {
   }
 
   void updateUserDocument(User? user) {
-    final UserModel userModel = UserModel.fromJson(<String, dynamic>{
-      'userId': user?.uid,
-      'displayName': user?.displayName,
-      'email': user?.email,
-      'phone': user?.phoneNumber,
-      'created': user!.metadata.creationTime?.millisecondsSinceEpoch,
-      'modified': DateTime.now().millisecondsSinceEpoch,
-    });
+    // final UserModel userModel = UserModel.fromJson(<String, dynamic>{
+    //   'userId': user?.uid ?? const Uuid(),
+    //   'displayName': user?.displayName ?? '',
+    //   'email': user?.email ?? '',
+    //   'phone': user?.phoneNumber ?? '',
+    //   'created':
+    //       user?.metadata.creationTime?.millisecondsSinceEpoch.toString() ?? '',
+    //   'modified': DateTime.now().millisecondsSinceEpoch.toString(),
+    // });
 
-    Logger.info('Preparing to update user document:', data: userModel.toJson());
+    Logger.info('Preparing to update user document:');
   }
 }
 

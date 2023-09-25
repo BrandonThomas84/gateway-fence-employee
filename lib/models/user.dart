@@ -27,7 +27,6 @@ class UserModel {
         email: json['email'],
         phone: json['phone'],
         created: json['created'] ??
-            json['start'] ??
             DateTime.now()
                 .millisecondsSinceEpoch, // if created is null, use start, if start is null, use now
         modified: json['modified'],
@@ -38,8 +37,10 @@ class UserModel {
   String get getDisplayName => displayName!;
   String get getEmail => email!;
   String get getPhone => phone!;
-  DateTime? get getCreated => DateTime.parse(created!);
-  DateTime? get getModified => DateTime.parse(modified!);
+  DateTime get getCreated =>
+      created == null ? DateTime.now() : DateTime.parse(created!);
+  DateTime? get getModified =>
+      modified == null ? null : DateTime.parse(modified!);
 
   Uuid? userId;
   String? displayName;
@@ -55,7 +56,7 @@ class UserModel {
         'displayName': displayName,
         'email': email,
         'phone': phone,
-        'created': created != null ? getCreated!.millisecondsSinceEpoch : null,
+        'created': created != null ? getCreated.millisecondsSinceEpoch : null,
         'modified':
             modified != null ? getModified!.millisecondsSinceEpoch : null,
         'shifts': shifts != null
