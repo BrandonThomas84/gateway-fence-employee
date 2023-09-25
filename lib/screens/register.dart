@@ -76,105 +76,100 @@ class _RegisterScreenState extends State<RegisterScreen> {
       title: 'Register',
       scaffoldKey: GlobalKey<ScaffoldState>(),
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25),
-          child: Center(
-            child: Column(
-              children: <Widget>[
-                Form(
-                  key: _formkey,
-                  child: Column(children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(35),
-                      child: Image.asset(
-                        'assets/logo_transparent.png',
-                        width: 200,
-                      ),
-                    ),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Email',
-                        hintText: 'Enter your email address',
-                        prefixIcon: Icon(
-                          Icons.email_outlined,
-                          color: AppColors.blue,
-                        ),
-                        border: OutlineInputBorder(),
-                        errorStyle: TextStyle(
-                            color: Colors.red, fontWeight: FontWeight.w800),
-                      ),
-                      validator: MultiValidator(<FieldValidator<dynamic>>[
-                        RequiredValidator(errorText: 'Email is required'),
-                        EmailValidator(
-                            errorText: 'Enter a valid email address'),
-                      ]).call,
-                      onChanged: (String value) {
-                        _email = value;
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    PasswordInput(
-                      onChanged: (String value) {
-                        _password = value;
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    PasswordInput(
-                      extraValidators: <FieldValidator<dynamic>>[
-                        ConfirmPasswordValidator(_password,
-                            errorText: 'Passwords do not match')
-                      ],
-                      onChanged: (String value) {
-                        _confirmPassword = value;
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(AppColors.blue),
-                        padding: MaterialStateProperty.all(
-                            const EdgeInsets.symmetric(
-                                horizontal: 50, vertical: 15)),
-                      ),
-                      onPressed: () {
-                        if (_formkey.currentState!.validate()) {
-                          handleRegister().then((String str) {
-                            final bool isSuccess = str == 'success';
-
-                            final SnackBarThemedType type = isSuccess
-                                ? SnackBarThemedType.success
-                                : SnackBarThemedType.error;
-
-                            SnackBarThemed(
-                              context: context,
-                              message: isSuccess
-                                  ? 'Welcome! Please sign in with your credentials'
-                                  : str,
-                              type: type,
-                            ).show(durationSeconds: isSuccess ? 3 : 8);
-
-                            if (isSuccess) {
-                              redirectToLogin();
-                            }
-                          });
-                        }
-                      },
-                      child: const Text('Register'),
-                    ),
-                    const SizedBox(height: 20),
-                    TextButton(
-                      onPressed: redirectToLogin,
-                      child: const Text(
-                        'Already have an account? Login',
-                        style: TextStyle(color: AppColors.blue),
-                      ),
-                    ),
-                  ]),
+        Column(
+          children: <Widget>[
+            Form(
+              key: _formkey,
+              child: Column(children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(35),
+                  child: Image.asset(
+                    'assets/logo_transparent.png',
+                    width: 200,
+                  ),
                 ),
-              ],
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Email',
+                    hintText: 'Enter your email address',
+                    prefixIcon: Icon(
+                      Icons.email_outlined,
+                      color: AppColors.blue,
+                    ),
+                    border: OutlineInputBorder(),
+                    errorStyle: TextStyle(
+                        color: Colors.red, fontWeight: FontWeight.w800),
+                  ),
+                  validator: MultiValidator(<FieldValidator<dynamic>>[
+                    RequiredValidator(errorText: 'Email is required'),
+                    EmailValidator(
+                        errorText: 'Enter a valid email address'),
+                  ]).call,
+                  onChanged: (String value) {
+                    _email = value;
+                  },
+                ),
+                const SizedBox(height: 20),
+                PasswordInput(
+                  onChanged: (String value) {
+                    _password = value;
+                  },
+                ),
+                const SizedBox(height: 20),
+                PasswordInput(
+                  extraValidators: <FieldValidator<dynamic>>[
+                    ConfirmPasswordValidator(_password,
+                        errorText: 'Passwords do not match')
+                  ],
+                  onChanged: (String value) {
+                    _confirmPassword = value;
+                  },
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(AppColors.blue),
+                    padding: MaterialStateProperty.all(
+                        const EdgeInsets.symmetric(
+                            horizontal: 50, vertical: 15)),
+                  ),
+                  onPressed: () {
+                    if (_formkey.currentState!.validate()) {
+                      handleRegister().then((String str) {
+                        final bool isSuccess = str == 'success';
+
+                        final SnackBarThemedType type = isSuccess
+                            ? SnackBarThemedType.success
+                            : SnackBarThemedType.error;
+
+                        SnackBarThemed(
+                          context: context,
+                          message: isSuccess
+                              ? 'Welcome! Please sign in with your credentials'
+                              : str,
+                          type: type,
+                        ).show(durationSeconds: isSuccess ? 3 : 8);
+
+                        if (isSuccess) {
+                          redirectToLogin();
+                        }
+                      });
+                    }
+                  },
+                  child: const Text('Register'),
+                ),
+                const SizedBox(height: 20),
+                TextButton(
+                  onPressed: redirectToLogin,
+                  child: const Text(
+                    'Already have an account? Login',
+                    style: TextStyle(color: AppColors.blue),
+                  ),
+                ),
+              ]),
             ),
-          ),
+          ],
         ),
       ],
     );

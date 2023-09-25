@@ -107,48 +107,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
       subtitle: 'You can update your profile information here',
       scaffoldKey: GlobalKey<ScaffoldState>(),
       children: <Widget>[
-        Container(
-          decoration: const BoxDecoration(
-            color: AppColors.white,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: <Widget>[
-                const SizedBox(height: 40),
-                ProfileInputRow(
-                  name: emailInputName,
-                  icon: Icons.email_outlined,
-                  initialValue: user?.email ?? '',
-                  validator: MultiValidator(<FieldValidator<dynamic>>[
-                    RequiredValidator(errorText: 'Email is required'),
-                    EmailValidator(errorText: 'Must be a valid email address'),
-                    ConfirmNoMatchValidator(user?.email ?? '',
-                        errorText: 'Email cannot be the same as before')
-                  ]),
-                  onSavePress: (String? value) {
-                    return onEmailSave(user!, value);
-                  },
-                  // onEditPress: () {
-                  //   Logger.info('editing email');
-                  //   return onEditPress(user!);
-                  // },
-                  // onCancelPress: () {
-                  //   Logger.info('cancelling email edit');
-                  // },
-                ),
-                const SizedBox(height: 40),
-                ProfileInputRow(
-                  name: 'Name',
-                  icon: Icons.person_2_outlined,
-                  initialValue: user!.displayName ?? '',
-                  onSavePress: (String? value) {
-                    return onNameSave(user, value);
-                  },
-                )
-              ],
-            ),
-          ),
+        ProfileInputRow(
+          name: emailInputName,
+          icon: Icons.email_outlined,
+          initialValue: user?.email ?? '',
+          validator: MultiValidator(<FieldValidator<dynamic>>[
+            RequiredValidator(errorText: 'Email is required'),
+            EmailValidator(errorText: 'Must be a valid email address'),
+            ConfirmNoMatchValidator(user?.email ?? '',
+                errorText: 'Email cannot be the same as before')
+          ]),
+          onSavePress: (String? value) {
+            return onEmailSave(user!, value);
+          },
+          // onEditPress: () {
+          //   Logger.info('editing email');
+          //   return onEditPress(user!);
+          // },
+          // onCancelPress: () {
+          //   Logger.info('cancelling email edit');
+          // },
+        ),
+        ProfileInputRow(
+          name: 'Name',
+          icon: Icons.person_2_outlined,
+          initialValue: user!.displayName ?? '',
+          onSavePress: (String? value) {
+            return onNameSave(user, value);
+          },
         ),
       ],
     );

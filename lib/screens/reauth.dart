@@ -96,69 +96,56 @@ class _ReauthScreenState extends State<ReauthScreen> {
       subtitle: 'Please re-enter your password to continue',
       scaffoldKey: GlobalKey<ScaffoldState>(),
       children: <Widget>[
-        Container(
-          decoration: const BoxDecoration(
-            color: AppColors.white,
-            border: Border(
-              bottom: BorderSide(
-                color: AppColors.greyLight,
-                width: 1,
+        Form(
+          key: _formkey,
+          child: Column(children: <Widget>[
+            const SizedBox(height: 20),
+            PasswordInput(
+              onChanged: (String value) {
+                _password = value;
+              },
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(AppColors.blue),
+                padding: MaterialStateProperty.all(
+                    const EdgeInsets.symmetric(
+                        horizontal: 50, vertical: 15)),
               ),
-            ),
-          ),
-          child: Center(
-            child: Form(
-              key: _formkey,
-              child: Column(children: <Widget>[
-                const SizedBox(height: 20),
-                PasswordInput(
-                  onChanged: (String value) {
-                    _password = value;
-                  },
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(AppColors.blue),
-                    padding: MaterialStateProperty.all(
-                        const EdgeInsets.symmetric(
-                            horizontal: 50, vertical: 15)),
-                  ),
-                  onPressed: () {
-                    handleReauthentication(authProvider).then((String value) {
-                      // if successful
-                      if (value == 'success') {
-                        Provider.of<CurrentRouteProvider>(context,
-                                listen: false)
-                            .goBack(context);
-                        return;
-                      }
-                      SnackBarThemed(
-                        context: context,
-                        message: value,
-                        type: SnackBarThemedType.error,
-                      ).show(durationSeconds: 7);
-                    });
-                  },
-                  child: const Text('Reauthenticate'),
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.red),
-                    padding: MaterialStateProperty.all(
-                        const EdgeInsets.symmetric(
-                            horizontal: 50, vertical: 15)),
-                  ),
-                  onPressed: () {
-                    Provider.of<CurrentRouteProvider>(context, listen: false)
+              onPressed: () {
+                handleReauthentication(authProvider).then((String value) {
+                  // if successful
+                  if (value == 'success') {
+                    Provider.of<CurrentRouteProvider>(context,
+                            listen: false)
                         .goBack(context);
-                  },
-                  child: const Text('Cancel'),
-                ),
-              ]),
+                    return;
+                  }
+                  SnackBarThemed(
+                    context: context,
+                    message: value,
+                    type: SnackBarThemedType.error,
+                  ).show(durationSeconds: 7);
+                });
+              },
+              child: const Text('Reauthenticate'),
             ),
-          ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.red),
+                padding: MaterialStateProperty.all(
+                    const EdgeInsets.symmetric(
+                        horizontal: 50, vertical: 15)),
+              ),
+              onPressed: () {
+                Provider.of<CurrentRouteProvider>(context, listen: false)
+                    .goBack(context);
+              },
+              child: const Text('Cancel'),
+            ),
+          ]),
         ),
       ],
     );

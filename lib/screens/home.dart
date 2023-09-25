@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 // Project imports:
-import 'package:gateway_fence_employee/config/colors.dart';
 import 'package:gateway_fence_employee/providers/auth_provider.dart';
 import 'package:gateway_fence_employee/screens/login.dart';
 import 'package:gateway_fence_employee/util/config.dart';
@@ -31,21 +30,10 @@ class HomeScreen extends StatelessWidget {
     return DefaultScreenScaffold(
       title: companyName,
       scaffoldKey: GlobalKey<ScaffoldState>(),
-      children: <Widget>[
-        Container(
-          decoration: const BoxDecoration(
-            color: AppColors.white,
-            border: Border(
-              bottom: BorderSide(
-                color: AppColors.greyLight,
-                width: 1,
-              ),
-            ),
-          ),
-          child: const Center(
-            heightFactor: 30,
-            child: Text('You ARE logged in.'),
-          ),
+      children: const <Widget>[
+        Center(
+          heightFactor: 30,
+          child: Text('You ARE logged in.'),
         ),
       ],
     );

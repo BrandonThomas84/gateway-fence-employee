@@ -98,12 +98,14 @@ class _ProfileInputRowState extends State<ProfileInputRow> {
   Widget build(BuildContext context) {
     final User? user = Provider.of<AuthProvider>(context).user;
     final double inputWidth = MediaQuery.of(context).size.width * 0.7;
-    final double inputWidthWhenEditing = MediaQuery.of(context).size.width * 0.9;
+    final double inputWidthWhenEditing =
+        MediaQuery.of(context).size.width * 0.9;
 
     return Form(
       key: formKey,
       child: Column(
         children: <Widget>[
+          const SizedBox(height: 40),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -153,7 +155,8 @@ class _ProfileInputRowState extends State<ProfileInputRow> {
                     onPressed: () {
                       formKey.currentState!.reset();
                       if (widget.onCancelPress != null) {
-                        widget.onCancelPress!().then((void value) => doCancel());
+                        widget.onCancelPress!()
+                            .then((void value) => doCancel());
                       } else {
                         doCancel();
                       }

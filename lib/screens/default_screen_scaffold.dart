@@ -54,6 +54,9 @@ class _DefaultScreenScaffoldState extends State<DefaultScreenScaffold>
             constraints: const BoxConstraints(
               maxWidth: 1200,
             ),
+            decoration: const BoxDecoration(
+              color: AppColors.white,
+            ),
             child: ListView(
               children: <Widget>[
                 if (widget.title != null)
@@ -61,9 +64,18 @@ class _DefaultScreenScaffoldState extends State<DefaultScreenScaffold>
                     title: widget.title!,
                     subtitle: widget.subtitle,
                   ),
-                ...widget.children,
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0,
+                    vertical: 10.0,
+                  ),
+                  child: Column(
+                    children: widget.children,
+                  ),
+                ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.1),
                 const DevMenuTrigger(),
+                const SizedBox(height: 100),
                 // const DevMenu(), // only shows in dev mode
               ],
             ),

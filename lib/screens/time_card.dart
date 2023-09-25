@@ -46,64 +46,49 @@ class _TimeCardScreenState extends State<TimeCardScreen> {
       title: 'Time Card',
       scaffoldKey: GlobalKey<ScaffoldState>(),
       children: <Widget>[
-        Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 30,
-            vertical: 10,
-          ),
-          decoration: const BoxDecoration(
-            color: AppColors.white,
-            border: Border(
-              bottom: BorderSide(
-                color: AppColors.greyLight,
-                width: 1,
-              ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text(
+                  'Start:',
+                  style: TextStyle(fontSize: 14, color: AppColors.grey),
+                ),
+                Text(
+                  startDate,
+                  style: const TextStyle(fontSize: 14, color: AppColors.grey),
+                ),
+              ],
             ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  const Text(
-                    'Start:',
-                    style: TextStyle(fontSize: 14, color: AppColors.grey),
-                  ),
-                  Text(
-                    startDate,
-                    style: const TextStyle(fontSize: 14, color: AppColors.grey),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  const Text(
-                    'End:',
-                    style: TextStyle(fontSize: 14, color: AppColors.grey),
-                  ),
-                  Text(
-                    endDate,
-                    style: const TextStyle(fontSize: 14, color: AppColors.grey),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  const Text(
-                    'Total Hours:',
-                    style: TextStyle(fontSize: 14, color: AppColors.grey),
-                  ),
-                  Text(
-                    shiftGroup.getTotalHours(),
-                    style: const TextStyle(fontSize: 14, color: AppColors.grey),
-                  ),
-                ],
-              ),
-            ],
-          ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text(
+                  'End:',
+                  style: TextStyle(fontSize: 14, color: AppColors.grey),
+                ),
+                Text(
+                  endDate,
+                  style: const TextStyle(fontSize: 14, color: AppColors.grey),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text(
+                  'Total Hours:',
+                  style: TextStyle(fontSize: 14, color: AppColors.grey),
+                ),
+                Text(
+                  shiftGroup.getTotalHours(),
+                  style: const TextStyle(fontSize: 14, color: AppColors.grey),
+                ),
+              ],
+            ),
+          ],
         ),
         for (MapEntry<int, List<Shift>> entry in shiftGroup.getSorted().entries)
           ShiftDay(

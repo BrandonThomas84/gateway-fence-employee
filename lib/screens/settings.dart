@@ -23,31 +23,20 @@ class SettingsScreen extends StatelessWidget {
     return DefaultScreenScaffold(
       title: 'Settings',
       scaffoldKey: GlobalKey<ScaffoldState>(),
-      children: <Widget>[
-        Container(
-          decoration: const BoxDecoration(
-            color: AppColors.white,
-            border: Border(
-              bottom: BorderSide(
-                color: AppColors.greyLight,
-                width: 1,
-              ),
-            ),
-          ),
-          child: const Column(
-            children: <Widget>[
-              Text('setting #1'),
-              Text('setting #2'),
-              Text('setting #3'),
-              Text('setting #4'),
-              Text('setting #5'),
-              Text('setting #6'),
-              Text('setting #7'),
-              Text('setting #8'),
-              Text('setting #9'),
-              Text('setting #10'),
-            ],
-          ),
+      children: const <Widget>[
+        Column(
+          children: <Widget>[
+            Text('setting #1'),
+            Text('setting #2'),
+            Text('setting #3'),
+            Text('setting #4'),
+            Text('setting #5'),
+            Text('setting #6'),
+            Text('setting #7'),
+            Text('setting #8'),
+            Text('setting #9'),
+            Text('setting #10'),
+          ],
         ),
       ],
     );
