@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +21,8 @@ class ProfileInputRow extends StatefulWidget {
     this.onCancelPress,
     this.onEditPress,
     this.validator,
+    this.keyboardType,
+    this.inputFormatters,
   });
 
   /// The name of the input
@@ -33,6 +36,10 @@ class ProfileInputRow extends StatefulWidget {
 
   /// The validators that will be used to validate the input
   final MultiValidator? validator;
+
+  final TextInputType? keyboardType;
+
+  final List<TextInputFormatter>? inputFormatters;
 
   /// The function that will be called when the user presses save, it should
   /// return a `Future<bool>` that will determine whether or not the input
@@ -112,6 +119,9 @@ class _ProfileInputRowState extends State<ProfileInputRow> {
               SizedBox(
                 width: _editing ? inputWidthWhenEditing : inputWidth,
                 child: TextFormField(
+                  inputFormatters:
+                      widget.inputFormatters ?? <TextInputFormatter>[],
+                  keyboardType: widget.keyboardType ?? TextInputType.text,
                   validator: widget.validator?.call,
                   enabled: _editing,
                   initialValue: widget.initialValue,

@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:gateway_fence_employee/util/phone.dart';
 import 'package:gateway_fence_employee/widgets/reauth_dialog.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -103,6 +105,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  Future<bool> onPhoneSave(User user, String? value) async {
+    Logger.info('attempting to update phone number to: $value');
+    if (value == null) {
+      Logger.warn('value was null');
+      return Future<bool>.value(false);
+    }
+
+    Logger.info('NEED TO UPDATE THE USER DOCUMENTS WITH THE NEW PHONE NUMBER');
+
+    return Future<bool>.value(true);
+  }
+
   @override
   Widget build(BuildContext context) {
     final User? user = Provider.of<AuthProvider>(context).user;
@@ -125,13 +139,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           onSavePress: (String? value) {
             return onEmailSave(user!, value);
           },
-          // onEditPress: () {
-          //   Logger.info('editing email');
-          //   return onEditPress(user!);
-          // },
-          // onCancelPress: () {
-          //   Logger.info('cancelling email edit');
-          // },
         ),
         ProfileInputRow(
           name: 'Name',
@@ -139,6 +146,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
           initialValue: user!.displayName ?? '',
           onSavePress: (String? value) {
             return onNameSave(user, value);
+          },
+        ),
+        ProfileInputRow(
+          name: 'Phone Number',
+          icon: Icons.phone_android_outlined,
+          initialValue: user.phoneNumber ?? '',
+          inputFormatters: <TextInputFormatter>[PhoneNumberFormatter()],
+          keyboardType: TextInputType.phone,
+          onSavePress: (String? value) {
+            return onPhoneSave(user, value);
           },
         ),
       ],

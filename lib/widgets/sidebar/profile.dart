@@ -29,7 +29,7 @@ class Profile extends StatelessWidget {
         children: <Widget>[
           HeaderImage(
             imageSize: imageSize,
-            borderThickness: 12,
+            borderThickness: 2,
           ),
           const SizedBox(height: 10),
           Text(

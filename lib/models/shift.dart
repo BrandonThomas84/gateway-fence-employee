@@ -32,10 +32,7 @@ class Shift {
           : null,
       start: json['start'],
       end: json['end'],
-      created: json['created'] ??
-          json['start'] ??
-          DateTime.now()
-              .toIso8601String(), // if created is null, use start, if start is null, use now
+      created: json['created'] ?? DateTime.now().millisecondsSinceEpoch,
       updated: json['updated'],
     );
   }
@@ -65,7 +62,8 @@ class Shift {
     if (start == null) {
       return '';
     }
-    final int actualHour = getStart!.hour > 12 ? getStart!.hour - 12 : getStart!.hour;
+    final int actualHour =
+        getStart!.hour > 12 ? getStart!.hour - 12 : getStart!.hour;
     final String h = actualHour.toString().padLeft(2, '0');
     final String m = getStart!.minute.toString().padLeft(2, '0');
     final String a = getStart!.hour >= 12 ? 'PM' : 'AM';
@@ -95,12 +93,12 @@ class Shift {
   /// Get the duration of the shift as a json string
   Map<String, dynamic> toJson() => <String, dynamic>{
         'ownerID': userId.toString(),
-        'start': start != null ? getStart!.toIso8601String() : null,
-        'end': end != null ? getEnd!.toIso8601String() : null,
+        'start': start != null ? getStart!.millisecondsSinceEpoch : null,
+        'end': end != null ? getEnd!.millisecondsSinceEpoch : null,
         'startLocation': startLocation != null ? startLocation!.toJson() : null,
         'endLocation': endLocation != null ? endLocation!.toJson() : null,
-        'created': created != null ? getCreated!.toIso8601String() : null,
-        'updated': updated != null ? getUpdated!.toIso8601String() : null,
+        'created': created != null ? getCreated!.millisecondsSinceEpoch : null,
+        'updated': updated != null ? getUpdated!.millisecondsSinceEpoch : null,
       };
 
   // Save the shift to the database
