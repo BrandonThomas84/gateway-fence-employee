@@ -3,24 +3,21 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:gateway_fence_employee/util/log.dart';
 import 'package:provider/provider.dart';
 
 class AuthProvider extends ChangeNotifier {
-  bool _isAuthenticated = false;
   User? _user;
   User? get user => _user;
+
+  bool _isAuthenticated = false;
   bool get isAuthenticated => _isAuthenticated;
 
   /// Sets the user and updates the provider
   void setUser(User? user, String changeType) {
+    Logger.info('AuthProvider.setUser: $changeType');
     _user = user;
-
-    if (user != null) {
-      _isAuthenticated = true;
-    } else {
-      _isAuthenticated = false;
-    }
-
+    _isAuthenticated = user != null;
     notifyListeners();
   }
 }

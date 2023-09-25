@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:gateway_fence_employee/widgets/reauth_dialog.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -36,43 +37,51 @@ class _ProfileScreenState extends State<ProfileScreen> {
       return Future<bool>.value(false);
     }
 
-    Logger.info('attempting to update email address to: $value');
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const ReauthDialog();
+      },
+    );
+    return Future<bool>.value(false);
 
-    try {
-      user.updateEmail(value).then((void val) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Successfully updated your email address')));
-      });
-      return Future<bool>.value(true);
-    } on FirebaseAuthException catch (e) {
-      // this should only happen if the user's refresh token is too old
-      // which the re-authentication should take care of
-      Logger.error('Firebase auth error: ${e.toString()}');
+    // Logger.info('attempting to update email address to: $value');
 
-      return Future<bool>.value(false);
-    } on FirebaseException catch (e) {
-//       showDialog(
-//   context: context,
-//   builder: (BuildContext context) {
-//     return ReauthDialog();
-//   },
-// );
-      Logger.error(
-          'Firebase error while updating email address: ${e.toString()}');
-      return Future<bool>.value(false);
-    } catch (e) {
-      Logger.error('unknown error updating email address: ${e.toString()}');
+    // try {
+    //   user.updateEmail(value).then((void val) {
+    //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+    //         content: Text('Successfully updated your email address')));
+    //   });
+    //   return Future<bool>.value(true);
+    // } on FirebaseAuthException catch (e) {
+    //   // this should only happen if the user's refresh token is too old
+    //   // which the re-authentication should take care of
+    //   Logger.error('Firebase auth error: ${e.toString()}');
 
-      return Future<bool>.value(false);
-    }
+    //   return Future<bool>.value(false);
+    // } on FirebaseException catch (e) {
+    //   showDialog(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       return ReauthDialog();
+    //     },
+    //   );
+    //   Logger.error(
+    //       'Firebase error while updating email address: ${e.toString()}');
+    //   return Future<bool>.value(false);
+    // } catch (e) {
+    //   Logger.error('unknown error updating email address: ${e.toString()}');
+
+    //   return Future<bool>.value(false);
+    // }
   }
 
   Future<bool> onNameSave(User user, String? value) async {
+    Logger.info('attempting to update display name to: $value');
     if (value == null) {
+      Logger.warn('value was null');
       return Future<bool>.value(false);
     }
-
-    Logger.info('attempting to update display name to: $value');
 
     try {
       user.updateDisplayName(value).then((void val) {
@@ -81,10 +90,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       });
       return Future<bool>.value(true);
     } on FirebaseAuthException catch (e) {
-      // this should only happen if the user's refresh token is too old
-      // which the re-authentication should take care of
       Logger.error('Firebase auth error: ${e.toString()}');
-
       return Future<bool>.value(false);
     } on FirebaseException catch (e) {
       Logger.error(

@@ -18,7 +18,8 @@ import 'default_screen_scaffold.dart';
 
 GoRoute registerScreenGoRoute = GoRoute(
   path: '/register',
-  builder: (BuildContext context, GoRouterState state) => const RegisterScreen(),
+  builder: (BuildContext context, GoRouterState state) =>
+      const RegisterScreen(),
 );
 
 class RegisterScreen extends StatefulWidget {
@@ -34,6 +35,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
+  bool _doingRegister = false;
 
   // necessary for state comparison
   // ignore: unused_field
@@ -46,20 +48,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Future<String> handleRegister() async {
+    setState(() {
+      _doingRegister = true;
+    });
+
     try {
       // ignore: unused_local_variable
       final UserCredential credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: _email, password: _password);
+
+      setState(() {
+        _doingRegister = false;
+      });
+
       return Future<String>.value('success');
     } on FirebaseAuthException catch (e) {
-      Logger.error('firebase registration error: ${e.toString()}', data: <String,String>{
-        'code': e.code,
-        'message': e.message ?? '',
-        'error': e.toString(),
+      Logger.error('firebase registration error: ${e.toString()}',
+          data: <String, String>{
+            'code': e.code,
+            'message': e.message ?? '',
+            'error': e.toString(),
+          });
+
+      setState(() {
+        _doingRegister = false;
       });
+
       return Future<String>.value(e.message);
     } catch (e) {
       Logger.error('unknown registration error: ${e.toString()}');
+
+      setState(() {
+        _doingRegister = false;
+      });
+
       return Future<String>.value(
           'We\'re sorry but an unknown error has occurred. Please try again later');
     }
@@ -102,8 +124,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   validator: MultiValidator(<FieldValidator<dynamic>>[
                     RequiredValidator(errorText: 'Email is required'),
-                    EmailValidator(
-                        errorText: 'Enter a valid email address'),
+                    EmailValidator(errorText: 'Enter a valid email address'),
                   ]).call,
                   onChanged: (String value) {
                     _email = value;
@@ -128,13 +149,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 const SizedBox(height: 20),
                 ElevatedButton(
                   style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(AppColors.blue),
+                    backgroundColor: MaterialStateProperty.all(AppColors.blue),
                     padding: MaterialStateProperty.all(
                         const EdgeInsets.symmetric(
                             horizontal: 50, vertical: 15)),
                   ),
                   onPressed: () {
+                    if (_doingRegister) {
+                      return;
+                    }
+
                     if (_formkey.currentState!.validate()) {
                       handleRegister().then((String str) {
                         final bool isSuccess = str == 'success';

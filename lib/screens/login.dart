@@ -34,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
   late final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
+  bool _doingLogin = false;
 
   late final SnackBarThemed unknownUser;
 
@@ -46,12 +47,20 @@ class _LoginScreenState extends State<LoginScreen> {
   /// Handles the login button press
   /// Will return a string if there is an error or `success` if the login was successful
   Future<String> handleLoginPress(BuildContext context) async {
+    setState(() {
+      _doingLogin = true;
+    });
+
     if (!_formkey.currentState!.validate()) {
       return Future<String>.value('internal-invalid-form');
     }
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: _email, password: _password);
+
+      setState(() {
+        _doingLogin = false;
+      });
 
       return Future<String>.value('success');
     } on FirebaseAuthException catch (e) {
@@ -61,10 +70,18 @@ class _LoginScreenState extends State<LoginScreen> {
         'error': e.toString(),
       });
 
+      setState(() {
+        _doingLogin = false;
+      });
+
       return Future<String>.value(e.code);
     } catch (e) {
       Logger.error('unknown login error', data: <String, String>{
         'error': e.toString(),
+      });
+
+      setState(() {
+        _doingLogin = false;
       });
 
       return Future<String>.value('unknown');
@@ -133,6 +150,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             horizontal: 50, vertical: 15)),
                   ),
                   onPressed: () {
+                    if (_doingLogin) {
+                      return;
+                    }
+
                     if (_formkey.currentState!.validate()) {
                       handleLoginPress(context).then((String value) {
                         // if successful
@@ -158,7 +179,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       });
                     }
                   },
-                  child: const Text('Login'),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: <Widget>[
+                      if (_doingLogin) const CircularProgressIndicator(),
+                      Text(_doingLogin ? 'Logging in...' : 'Login'),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 20),
                 TextButton(
@@ -169,14 +196,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                // ElevatedButton(
-                //   onPressed: handleLoginPress,
-                //   child: const Text('Login'),
-                // ),
-                // ElevatedButton(
-                //   onPressed: handleRegisterPress,
-                //   child: const Text('Register'),
-                // ),
               ]),
             ),
           ),
