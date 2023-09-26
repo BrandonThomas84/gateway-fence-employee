@@ -1,9 +1,5 @@
 // Package imports:
 import 'package:firebase_database/firebase_database.dart';
-import 'package:uuid/uuid.dart';
-
-// Project imports:
-import 'shift.dart';
 
 class UserModel {
   UserModel(
@@ -13,7 +9,6 @@ class UserModel {
     this.phone,
     this.created,
     this.modified,
-    this.shifts,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -22,18 +17,17 @@ class UserModel {
       throw Exception('userId is missing from JSON data.');
     }
 
-    return UserModel(json['userId'],
-        displayName: json['displayName'],
-        email: json['email'],
-        phone: json['phone'],
-        created: json['created'] ??
-            DateTime.now()
-                .millisecondsSinceEpoch, // if created is null, use start, if start is null, use now
-        modified: json['modified'],
-        shifts: List<Shift>.from(json['shifts'] ?? <Shift>[]));
+    return UserModel(
+      json['userId'],
+      displayName: json['displayName'],
+      email: json['email'],
+      phone: json['phone'],
+      created: json['created'] ?? DateTime.now().millisecondsSinceEpoch.toString(),
+      modified: json['modified'],
+    );
   }
 
-  Uuid get getID => userId!;
+  String get getID => userId;
   String get getDisplayName => displayName!;
   String get getEmail => email!;
   String get getPhone => phone!;
@@ -42,33 +36,28 @@ class UserModel {
   DateTime? get getModified =>
       modified == null ? null : DateTime.parse(modified!);
 
-  Uuid? userId;
+  String userId;
   String? displayName;
   String? email;
   String? phone;
   String? created;
   String? modified;
-  List<Shift>? shifts;
 
-  // get user as json string
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'userId': userId,
-        'displayName': displayName,
-        'email': email,
-        'phone': phone,
-        'created': created != null ? getCreated.millisecondsSinceEpoch : null,
-        'modified':
-            modified != null ? getModified!.millisecondsSinceEpoch : null,
-        'shifts': shifts != null
-            ? shifts!.map((Shift e) => e.toJson()).toList()
-            : null,
-      };
-
-  // Save the shift to the database
   Future<void> save() async {
     final DatabaseReference ref =
-        FirebaseDatabase.instance.ref('/users/$userId');
+        FirebaseDatabase.instance.ref('users/$userId');
+    return await ref.set(toJson());
+  }
 
-    await ref.set(toJson()).then((void value) => null);
+  // get user as json string
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'userId': userId,
+      'displayName': displayName,
+      'email': email,
+      'phone': phone,
+      'created': created != null ? getCreated.millisecondsSinceEpoch.toString() : null,
+      'modified': modified != null ? getModified!.millisecondsSinceEpoch.toString() : null,
+    };
   }
 }

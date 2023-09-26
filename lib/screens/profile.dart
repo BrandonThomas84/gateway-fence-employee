@@ -1,10 +1,12 @@
 // Flutter imports:
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:gateway_fence_employee/models/user.dart';
 import 'package:gateway_fence_employee/util/phone.dart';
 import 'package:gateway_fence_employee/widgets/reauth_dialog.dart';
 import 'package:go_router/go_router.dart';
@@ -38,7 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   final int _maxAttempts = 3;
 
-  Future<bool> onEmailSave(User user, String? value) async {
+  Future<bool> onEmailSave(String? value, AuthProvider auth) async {
     if (value == null) {
       return Future<bool>.value(false);
     }
@@ -51,11 +53,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
       _emailAttempts++;
     });
-
-    AppLogger.info('attempting to update email address to: $value');
+    AppLogger.trace('attempting to update email address to: $value',
+        data: {'attempts': _emailAttempts});
 
     try {
-      user.updateEmail(value).then((void val) {
+      auth.user?.updateEmail(value).then((void val) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('Successfully updated your email address')));
       });
@@ -76,7 +78,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         builder: (BuildContext context) {
           return ReauthDialog(
             onSuccess: () {
-              onEmailSave(user, value);
+              onEmailSave(value, auth);
             },
           );
         },
@@ -89,7 +91,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Future<bool>.value(false);
   }
 
-  Future<bool> onNameSave(User user, String? value) async {
+  Future<bool> onNameSave(String? value, AuthProvider auth) async {
     AppLogger.trace('attempting to update display name to: $value');
     if (value == null) {
       AppLogger.warn('value was null');
@@ -97,7 +99,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
 
     try {
-      user.updateDisplayName(value).then((void val) {
+      auth.user?.updateDisplayName(value).then((void val) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('Successfully updated your display name')));
       });
@@ -116,22 +118,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  Future<bool> onPhoneSave(User user, String? value) async {
+  Future<bool> onPhoneSave(String? value, AuthProvider auth) async {
     AppLogger.trace('attempting to update phone number to: $value');
     if (value == null) {
       AppLogger.warn('value was null');
       return Future<bool>.value(false);
     }
 
-    AppLogger.trace(
-        'NEED TO UPDATE THE USER DOCUMENTS WITH THE NEW PHONE NUMBER');
+    final DatabaseReference ref =
+        FirebaseDatabase.instance.ref('users/${auth.user?.uid}');
+
+    final UserModel userModel = UserModel(
+      auth.user!.uid,
+      email: auth.user?.email,
+      displayName: auth.user?.displayName,
+      phone: value,
+    );
+
+    await ref.set(userModel.toJson());
 
     return Future<bool>.value(true);
   }
 
   @override
   Widget build(BuildContext context) {
-    final User? user = Provider.of<AuthProvider>(context).user;
+    final AuthProvider authProvider = Provider.of<AuthProvider>(context);
 
     return DefaultScreenScaffold(
       title: 'Profile',
@@ -141,33 +152,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ProfileInputRow(
           name: emailInputName,
           icon: Icons.email_outlined,
-          initialValue: user?.email ?? '',
+          initialValue: authProvider.user?.email ?? '',
           validator: MultiValidator(<FieldValidator<dynamic>>[
             RequiredValidator(errorText: 'Email is required'),
             EmailValidator(errorText: 'Must be a valid email address'),
-            ConfirmNoMatchValidator(user?.email ?? '',
+            ConfirmNoMatchValidator(authProvider.user?.email ?? '',
                 errorText: 'Email cannot be the same as before')
           ]),
           onSavePress: (String? value) {
-            return onEmailSave(user!, value);
+            return onEmailSave(value, authProvider);
           },
         ),
         ProfileInputRow(
           name: 'Name',
           icon: Icons.person_2_outlined,
-          initialValue: user!.displayName ?? '',
+          initialValue: authProvider.user!.displayName ?? '',
           onSavePress: (String? value) {
-            return onNameSave(user, value);
+            return onNameSave(value, authProvider);
           },
         ),
         ProfileInputRow(
           name: 'Phone Number',
           icon: Icons.phone_android_outlined,
-          initialValue: user.phoneNumber ?? '',
+          initialValue: authProvider.userModel?.phone ?? '',
           inputFormatters: <TextInputFormatter>[PhoneNumberFormatter()],
           keyboardType: TextInputType.phone,
           onSavePress: (String? value) {
-            return onPhoneSave(user, value);
+            return onPhoneSave(value, authProvider);
           },
         ),
       ],
