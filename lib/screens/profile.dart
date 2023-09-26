@@ -34,54 +34,65 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final String emailInputName = 'Email';
 
+  late int _emailAttempts = 0;
+
+  final int _maxAttempts = 3;
+
   Future<bool> onEmailSave(User user, String? value) async {
     if (value == null) {
       return Future<bool>.value(false);
     }
 
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return const ReauthDialog();
-      },
-    );
+    if (_emailAttempts > _maxAttempts) {
+      AppLogger.warn('Max email attempts reached');
+      return Future<bool>.value(false);
+    }
+
+    setState(() {
+      _emailAttempts++;
+    });
+
+    AppLogger.info('attempting to update email address to: $value');
+
+    try {
+      user.updateEmail(value).then((void val) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Successfully updated your email address')));
+      });
+      return Future<bool>.value(true);
+    } on FirebaseAuthException catch (e, stackTrace) {
+      AppLogger.error('Firebase auth error', error: e, stackTrace: stackTrace);
+
+      return Future<bool>.value(false);
+    } on FirebaseException catch (e, stackTrace) {
+      if (e.code != '') {
+        AppLogger.error('Firebase error while updating email address',
+            error: e, stackTrace: stackTrace);
+        return Future<bool>.value(false);
+      }
+
+      await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return ReauthDialog(
+            onSuccess: () {
+              onEmailSave(user, value);
+            },
+          );
+        },
+      );
+    } catch (e) {
+      AppLogger.error('unknown error updating email address: ${e.toString()}');
+
+      return Future<bool>.value(false);
+    }
     return Future<bool>.value(false);
-
-    // Logger.info('attempting to update email address to: $value');
-
-    // try {
-    //   user.updateEmail(value).then((void val) {
-    //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-    //         content: Text('Successfully updated your email address')));
-    //   });
-    //   return Future<bool>.value(true);
-    // } on FirebaseAuthException catch (e) {
-    //   // this should only happen if the user's refresh token is too old
-    //   // which the re-authentication should take care of
-    //   Logger.error('Firebase auth error: ${e.toString()}');
-
-    //   return Future<bool>.value(false);
-    // } on FirebaseException catch (e) {
-    //   showDialog(
-    //     context: context,
-    //     builder: (BuildContext context) {
-    //       return ReauthDialog();
-    //     },
-    //   );
-    //   Logger.error(
-    //       'Firebase error while updating email address: ${e.toString()}');
-    //   return Future<bool>.value(false);
-    // } catch (e) {
-    //   Logger.error('unknown error updating email address: ${e.toString()}');
-
-    //   return Future<bool>.value(false);
-    // }
   }
 
   Future<bool> onNameSave(User user, String? value) async {
-    Logger.info('attempting to update display name to: $value');
+    AppLogger.trace('attempting to update display name to: $value');
     if (value == null) {
-      Logger.warn('value was null');
+      AppLogger.warn('value was null');
       return Future<bool>.value(false);
     }
 
@@ -92,27 +103,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
       });
       return Future<bool>.value(true);
     } on FirebaseAuthException catch (e) {
-      Logger.error('Firebase auth error: ${e.toString()}');
+      AppLogger.error('Firebase auth error: ${e.toString()}');
       return Future<bool>.value(false);
     } on FirebaseException catch (e) {
-      Logger.error(
+      AppLogger.error(
           'Firebase error while updating displayName: ${e.toString()}');
       return Future<bool>.value(false);
     } catch (e) {
-      Logger.error('unknown error updating displayName: ${e.toString()}');
+      AppLogger.error('unknown error updating displayName: ${e.toString()}');
 
       return Future<bool>.value(false);
     }
   }
 
   Future<bool> onPhoneSave(User user, String? value) async {
-    Logger.info('attempting to update phone number to: $value');
+    AppLogger.trace('attempting to update phone number to: $value');
     if (value == null) {
-      Logger.warn('value was null');
+      AppLogger.warn('value was null');
       return Future<bool>.value(false);
     }
 
-    Logger.info('NEED TO UPDATE THE USER DOCUMENTS WITH THE NEW PHONE NUMBER');
+    AppLogger.trace(
+        'NEED TO UPDATE THE USER DOCUMENTS WITH THE NEW PHONE NUMBER');
 
     return Future<bool>.value(true);
   }

@@ -17,7 +17,7 @@ class CurrentRouteProvider extends ChangeNotifier {
     _previousRoute = _currentRoute;
     _currentRoute = route;
     notifyListeners();
-    Logger.info('navigation', data: <String, String>{
+    AppLogger.trace('navigation', data: <String, String>{
       'previousRoute': _previousRoute,
       'currentRoute': _currentRoute,
     });

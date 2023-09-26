@@ -11,7 +11,7 @@
       "flutterMode": "debug",
       "args": [
         "--dart-define=APPLICATION_ENVIRONMENT=dev",
-        "--dart-define=APPLICATION_LOG_LEVEL=info",
+        "--dart-define=APPLICATION_LOG_LEVEL=trace",
         "--dart-define=COMPANY_NAME=Gateway Fence"
       ],
     },
@@ -22,7 +22,7 @@
       "flutterMode": "profile",
       "args":[
         "--dart-define=APPLICATION_ENVIRONMENT=profile",
-        "--dart-define=APPLICATION_LOG_LEVEL=warn",
+        "--dart-define=APPLICATION_LOG_LEVEL=error",
         "--dart-define=COMPANY_NAME=Gateway Fence"
       ],
     },
@@ -33,7 +33,7 @@
       "flutterMode": "release",
       "args": [
         "--dart-define=APPLICATION_ENVIRONMENT=release",
-        "--dart-define=APPLICATION_LOG_LEVEL=error",
+        "--dart-define=APPLICATION_LOG_LEVEL=fatal",
         "--dart-define=COMPANY_NAME=Gateway Fence"
       ],
     }

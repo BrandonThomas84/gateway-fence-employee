@@ -106,7 +106,7 @@ class _ProfileInputRowState extends State<ProfileInputRow> {
     final User? user = Provider.of<AuthProvider>(context).user;
     final double inputWidth = MediaQuery.of(context).size.width * 0.7;
     final double inputWidthWhenEditing =
-        MediaQuery.of(context).size.width * 0.9;
+        MediaQuery.of(context).size.width * 0.8;
 
     return Form(
       key: formKey,

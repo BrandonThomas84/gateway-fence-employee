@@ -11,7 +11,7 @@ class DevProvider extends ChangeNotifier {
   DevProvider() {
     _isDevMode = appVarEnvironment == 'dev';
     if (_isDevMode) {
-      Logger.info('DevProvider initialized');
+      AppLogger.trace('DevProvider initialized');
     }
   }
   

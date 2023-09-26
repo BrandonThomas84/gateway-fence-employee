@@ -6,7 +6,7 @@
     {
       "label": "build apk",
       "type": "shell",
-      "command": "flutter build apk --split-per-abi -t lib\\main.dart --dart-define=APPLICATION_ENVIRONMENT=dev --dart-define=APPLICATION_LOG_LEVEL=info --dart-define=COMPANY_NAME=\"Gateway Fence\"",
+      "command": "flutter build apk --split-per-abi -t lib\\main.dart --dart-define=APPLICATION_ENVIRONMENT=dev --dart-define=APPLICATION_LOG_LEVEL=trace --dart-define=COMPANY_NAME=\"Gateway Fence\"",
       "problemMatcher": [
         "$dart-build_runner"
       ],

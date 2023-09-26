@@ -17,7 +17,7 @@ class AuthProvider extends ChangeNotifier {
 
   /// Sets the user and updates the provider
   void setUser(User? user, String changeType) {
-    Logger.info('AuthProvider.setUser: $changeType');
+    AppLogger.trace('AuthProvider.setUser: $changeType');
     _user = user;
     _isAuthenticated = user != null;
 
@@ -35,7 +35,7 @@ class AuthProvider extends ChangeNotifier {
     //   'modified': DateTime.now().millisecondsSinceEpoch.toString(),
     // });
 
-    Logger.info('Preparing to update user document:');
+    AppLogger.trace('Preparing to update user document:');
   }
 }
 

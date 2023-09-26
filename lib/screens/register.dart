@@ -63,7 +63,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       return Future<String>.value('success');
     } on FirebaseAuthException catch (e) {
-      Logger.error('firebase registration error: ${e.toString()}',
+      AppLogger.error('firebase registration error: ${e.toString()}',
           data: <String, String>{
             'code': e.code,
             'message': e.message ?? '',
@@ -76,7 +76,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       return Future<String>.value(e.message);
     } catch (e) {
-      Logger.error('unknown registration error: ${e.toString()}');
+      AppLogger.error('unknown registration error: ${e.toString()}');
 
       setState(() {
         _doingRegister = false;

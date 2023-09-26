@@ -43,7 +43,7 @@ class _ShiftDayState extends State<ShiftDay> {
   @override
   void initState() {
     super.initState();
-    Logger.info('shift day init state is running');
+    AppLogger.trace('shift day init state is running');
 
     _buildShifts();
 

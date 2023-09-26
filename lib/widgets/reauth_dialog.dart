@@ -13,7 +13,9 @@ import 'package:gateway_fence_employee/widgets/password_input.dart';
 import 'package:gateway_fence_employee/widgets/snack_bar_themed.dart';
 
 class ReauthDialog extends StatefulWidget {
-  const ReauthDialog({super.key});
+  const ReauthDialog({super.key, this.onSuccess});
+
+  final void Function()? onSuccess;
 
   @override
   State<ReauthDialog> createState() => _ReauthDialogState();
@@ -26,19 +28,20 @@ class _ReauthDialogState extends State<ReauthDialog> {
   @override
   void initState() {
     super.initState();
-    Logger.info('reauth dialog initialized');
+    AppLogger.trace('reauth dialog initialized');
     _formkey.currentState?.reset();
   }
 
   Future<String> handleReauthentication(AuthProvider? authProvider) async {
     if (!_formkey.currentState!.validate()) {
-      Logger.info('reauthenticate form is invalid');
+      AppLogger.trace('reauthenticate form is invalid');
       return Future<String>.value(
           'Please check your submission and try again.');
     }
 
     if (authProvider?.user == null) {
-      Logger.warn('no user available to reauthenticate in the auth provider');
+      AppLogger.warn(
+          'no user available to reauthenticate in the auth provider');
       Provider.of<CurrentRouteProvider>(context, listen: false)
           .setCurrentRoute('/register', context);
       return Future<String>.value(
@@ -48,25 +51,19 @@ class _ReauthDialogState extends State<ReauthDialog> {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(
-        email: authProvider!.user?.email ?? '',
-        password: _password,
-      )
+              email: authProvider!.user?.email ?? '', password: _password)
           .then((UserCredential value) {
-        Logger.info('reauthentication successful');
-        // authProvider.completeReauth(widget.changeType);
+        widget.onSuccess?.call();
+        AppLogger.trace('reauthentication successful');
       });
       return Future<String>.value('success');
-    } on FirebaseAuthException catch (e) {
-      Logger.error('firebase reauthentication error', data: <String, String>{
-        'code': e.code,
-        'message': e.message ?? '',
-        'error': e.toString(),
-      });
+    } on FirebaseAuthException catch (e, stackTrace) {
+      AppLogger.error('firebase reauthentication error',
+          error: e, stackTrace: stackTrace);
       return Future<String>.value(e.message);
-    } catch (e) {
-      Logger.error('unknown reauthentication error', data: <String, String>{
-        'error': e.toString(),
-      });
+    } catch (e, stackTrace) {
+      AppLogger.error('unknown reauthentication error',
+          error: e, stackTrace: stackTrace);
     }
     return Future<String>.value(
         'We\'re sorry but an unknown error has occurred. Please try again later');
@@ -74,11 +71,11 @@ class _ReauthDialogState extends State<ReauthDialog> {
 
   @override
   Widget build(BuildContext context) {
-    
     final AuthProvider authProvider = Provider.of<AuthProvider>(context);
 
     return Dialog(
       child: Container(
+        height: 350,
         decoration: const BoxDecoration(
           color: AppColors.white,
           border: Border(
@@ -91,51 +88,67 @@ class _ReauthDialogState extends State<ReauthDialog> {
         child: Center(
           child: Form(
             key: _formkey,
-            child: Column(children: <Widget>[
-              const SizedBox(height: 20),
-              PasswordInput(
-                onChanged: (String value) {
-                  _password = value;
-                },
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(AppColors.blue),
-                  padding: MaterialStateProperty.all(
-                      const EdgeInsets.symmetric(horizontal: 50, vertical: 15)),
-                ),
-                onPressed: () {
-                  handleReauthentication(authProvider).then((String value) {
-                    // if successful
-                    if (value == 'success') {
-                      Provider.of<CurrentRouteProvider>(context, listen: false)
-                          .goBack(context);
-                      return;
-                    }
-                    SnackBarThemed(
-                      context: context,
-                      message: value,
-                      type: SnackBarThemedType.error,
-                    ).show(durationSeconds: 7);
-                  });
-                },
-                child: const Text('Reauthenticate'),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.red),
-                  padding: MaterialStateProperty.all(
-                      const EdgeInsets.symmetric(horizontal: 50, vertical: 15)),
-                ),
-                onPressed: () {
-                  Provider.of<CurrentRouteProvider>(context, listen: false)
-                      .goBack(context);
-                },
-                child: const Text('Cancel'),
-              ),
-            ]),
+            child: ListView(
+                padding: const EdgeInsets.all(10.0),
+                children: <Widget>[
+                  SizedBox(
+                    width: 80,
+                    height: 80,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(40),
+                      child: Image.asset('assets/logo_transparent.png'),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Please re-enter your password to continue.',
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20),
+                  PasswordInput(
+                    onChanged: (String value) {
+                      _password = value;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          _formkey.currentState!.reset();
+                          Navigator.pop(context);
+                        },
+                        child: const Text(
+                          'Cancel',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          handleReauthentication(authProvider)
+                              .then((String value) {
+                            // if successful
+                            if (value == 'success') {
+                              Navigator.pop(context);
+                              return;
+                            }
+                            SnackBarThemed(
+                              context: context,
+                              message: value,
+                              type: SnackBarThemedType.error,
+                            ).show();
+                          });
+                        },
+                        child: const Text('Reauthenticate'),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                ]),
           ),
         ),
       ),

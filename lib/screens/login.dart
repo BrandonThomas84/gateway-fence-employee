@@ -64,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       return Future<String>.value('success');
     } on FirebaseAuthException catch (e) {
-      Logger.error('firebase login error', data: <String, String>{
+      AppLogger.error('firebase login error', data: <String, String>{
         'code': e.code,
         'message': e.message ?? '',
         'error': e.toString(),
@@ -76,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       return Future<String>.value(e.code);
     } catch (e) {
-      Logger.error('unknown login error', data: <String, String>{
+      AppLogger.error('unknown login error', data: <String, String>{
         'error': e.toString(),
       });
 
