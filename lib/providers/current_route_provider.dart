@@ -14,13 +14,21 @@ class CurrentRouteProvider extends ChangeNotifier {
   String get previousRoute => _previousRoute;
 
   void setCurrentRoute(String route, BuildContext context) {
+    if (_currentRoute == route) {
+      AppLogger.warn('route is already set to $route');
+      return;
+    }
+
     _previousRoute = _currentRoute;
     _currentRoute = route;
+
     notifyListeners();
-    AppLogger.trace('navigation', data: <String, String>{
+
+    AppLogger.trace('navigation request', data: <String, String>{
       'previousRoute': _previousRoute,
       'currentRoute': _currentRoute,
     });
+
     GoRouter.of(context).go(route);
   }
 

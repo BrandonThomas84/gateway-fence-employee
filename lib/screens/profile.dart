@@ -54,7 +54,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       _emailAttempts++;
     });
     AppLogger.trace('attempting to update email address to: $value',
-        data: {'attempts': _emailAttempts});
+        data: <String, int>{'attempts': _emailAttempts});
 
     try {
       auth.user?.updateEmail(value).then((void val) {
