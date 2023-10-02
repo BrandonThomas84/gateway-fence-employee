@@ -6,7 +6,7 @@
     {
       "label": "build apk",
       "type": "shell",
-      "command": "flutter build apk --split-per-abi",
+      "command": "flutter build apk --split-per-abi -t lib\\main.dart --dart-define=APPLICATION_ENVIRONMENT=dev --dart-define=APPLICATION_LOG_LEVEL=trace --dart-define=COMPANY_NAME=\"Gateway Fence\"",
       "problemMatcher": [
         "$dart-build_runner"
       ],
@@ -24,7 +24,16 @@
     {
       "label": "firebase emu start",
       "type": "shell",
-      "command": "firebase emulators:start",
+      "command": ".\\.scripts\\firebase\\start-emulators.bat",
+      "problemMatcher": [
+        "$dart-build_runner"
+      ],
+      "isBackground": true
+    },
+    {
+      "label": "firebase emu kill",
+      "type": "shell",
+      "command": ".\\.scripts\\firebase\\kill-emulators.bat",
       "problemMatcher": [
         "$dart-build_runner"
       ],

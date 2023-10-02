@@ -1,14 +1,15 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
 
 class ShiftDayTitle extends StatelessWidget {
-  final String title;
-  final bool allowEdit;
-
   const ShiftDayTitle({
     super.key,
     required this.title,
     required this.allowEdit,
   });
+
+  final String title;
+  final bool allowEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class ShiftDayTitle extends StatelessWidget {
 
     if (allowEdit) {
       iconStack = const Stack(
-        children: [
+        children: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 20),
             child: Tooltip(
@@ -35,7 +36,7 @@ class ShiftDayTitle extends StatelessWidget {
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
+      children: <Widget>[
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Text(

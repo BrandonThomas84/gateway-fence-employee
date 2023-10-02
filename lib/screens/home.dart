@@ -1,12 +1,23 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:gateway_fence_employee/config/colors.dart';
-import 'package:gateway_fence_employee/util/config.dart';
+
+// Package imports:
 import 'package:go_router/go_router.dart';
-import '_helper.dart';
+import 'package:provider/provider.dart';
+
+// Project imports:
+import 'package:gateway_fence_employee/providers/auth_provider.dart';
+import 'package:gateway_fence_employee/screens/login.dart';
+import 'package:gateway_fence_employee/util/config.dart';
+import 'default_screen_scaffold.dart';
 
 GoRoute homeScreenGoRoute = GoRoute(
   path: '/',
-  builder: (context, state) => const HomeScreen(),
+  builder: (BuildContext context, GoRouterState state) {
+    return Provider.of<AuthProvider>(context).isAuthenticated
+        ? const HomeScreen()
+        : const LoginScreen();
+  },
 );
 
 class HomeScreen extends StatelessWidget {
@@ -18,22 +29,11 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultScreenScaffold(
       title: companyName,
-      children: [
-        Container(
-          decoration: const BoxDecoration(
-            color: AppColors.white,
-            border: Border(
-              bottom: BorderSide(
-                color: AppColors.greyLight,
-                width: 1,
-              ),
-            ),
-          ),
-          child: const Column(
-            children: [
-              Text("some stuff"),
-            ],
-          ),
+      scaffoldKey: GlobalKey<ScaffoldState>(),
+      children: const <Widget>[
+        Center(
+          heightFactor: 30,
+          child: Text('You ARE logged in.'),
         ),
       ],
     );

@@ -1,18 +1,19 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
 
 class ShiftDaySubitle extends StatelessWidget {
-  final String subTitle;
-
   const ShiftDaySubitle(
     this.subTitle, {
     super.key,
   });
 
+  final String subTitle;
+
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
+      children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(
             left: 20,
@@ -21,7 +22,7 @@ class ShiftDaySubitle extends StatelessWidget {
             bottom: 5,
           ),
           child: Text(
-            "Total Hours: $subTitle",
+            'Total Hours: $subTitle',
             style: const TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w400,

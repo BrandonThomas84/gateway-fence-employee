@@ -1,74 +1,94 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:gateway_fence_employee/screens/_helper.dart';
+
+// Package imports:
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+// Project imports:
+import 'package:gateway_fence_employee/providers/auth_provider.dart';
+import 'package:gateway_fence_employee/providers/current_route_provider.dart';
 import 'menu_item.dart';
 
+class MenutItemConfig {
+  MenutItemConfig({
+    required this.title,
+    required this.icon,
+    required this.route,
+  });
+
+  final String title;
+  final IconData icon;
+  final String route;
+}
+
 class Menu extends StatelessWidget {
-  const Menu({
+  Menu({
     super.key,
   });
 
+  final List<MenutItemConfig> secureItems = <MenutItemConfig>[
+    MenutItemConfig(
+      title: 'Home',
+      icon: Icons.home_outlined,
+      route: '/',
+    ),
+    MenutItemConfig(
+      title: 'Time Card',
+      icon: Icons.timer_outlined,
+      route: '/time-card',
+    ),
+    MenutItemConfig(
+      title: 'Profile',
+      icon: Icons.person_2_outlined,
+      route: '/profile',
+    ),
+    MenutItemConfig(
+      title: 'Settings',
+      icon: Icons.settings_outlined,
+      route: '/settings',
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
+    final bool isAuthenticated =
+        Provider.of<AuthProvider>(context).isAuthenticated;
+
     return SizedBox(
       height: (MediaQuery.of(context).size.height * .75) - 120,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        children: <Widget>[
           Column(
-            children: [
-              MenuItem(
-                title: 'Home',
-                icon: Icons.home_outlined,
-                onTap: () {
-                  Provider.of<CurrentRouteProvider>(context, listen: false)
-                      .setCurrentRoute('/');
-                  // navigate to profile page
-                  context.go('/');
-                },
-                isActive: GoRouterState.of(context).fullPath == '/',
-              ),
-              MenuItem(
-                title: 'Time Card',
-                icon: Icons.timer_rounded,
-                onTap: () {
-                  Provider.of<CurrentRouteProvider>(context, listen: false)
-                      .setCurrentRoute('/time-card');
-                  // navigate to profile page
-                  context.go('/time-card');
-                },
-                isActive: GoRouterState.of(context).fullPath == '/time-card',
-              ),
-              MenuItem(
-                title: 'Settings',
-                icon: Icons.settings,
-                onTap: () {
-                  Provider.of<CurrentRouteProvider>(context, listen: false)
-                      .setCurrentRoute('/settings');
-                  // navigate to profile page
-                  context.go('/settings');
-                },
-                isActive: GoRouterState.of(context).fullPath == '/settings',
-              ),
+            children: <Widget>[
+              if (isAuthenticated)
+                for (MenutItemConfig item in secureItems)
+                  MenuItem(
+                    title: item.title,
+                    icon: item.icon,
+                    onTap: () {
+                      Provider.of<CurrentRouteProvider>(context, listen: false)
+                          .setCurrentRoute(item.route, context);
+                    },
+                    isActive: GoRouterState.of(context).fullPath == item.route,
+                  ),
+              if (isAuthenticated)
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: MenuItem(
+                    title: 'Logout',
+                    icon: Icons.logout_rounded,
+                    onTap: () {
+                      Provider.of<CurrentRouteProvider>(context, listen: false)
+                          .setCurrentRoute('/logout', context);
+                    },
+                  ),
+                )
             ],
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: MenuItem(
-              title: 'Logout',
-              icon: Icons.logout_rounded,
-              onTap: () {
-                  Provider.of<CurrentRouteProvider>(context, listen: false)
-                      .setCurrentRoute('/logout');
-                // navigate to profile page
-                context.go('/logout');
-              },
-            ),
-          )
         ],
       ),
     );

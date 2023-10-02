@@ -42,9 +42,15 @@
       "port": 9299
     },
     "ui": {
-      "enabled": true
+      "port": 4001
     },
-    "singleProjectMode": true
+    "singleProjectMode": false
+  },
+  "database": {
+    "rules": "database.rules.json"
+  },
+  "firestore": {
+    "rules": "firestore.rules"
   },
   "storage": {
     "rules": "storage.rules"

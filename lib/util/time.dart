@@ -1,26 +1,19 @@
-import 'dart:math';
-
 /// Returns the end time of the timer in the format HH:MM:SS.
 String prettyDate(DateTime date, bool includeTime) {
-  final day = padd0(date.day.toString());
-  final month = getMonthfromInt(date.month);
-  final year = date.year.toString();
+  final String day = padd0(date.day.toString());
+  final String month = getMonthfromInt(date.month);
+  final String year = date.year.toString();
 
-  String d = '$month $day, $year';
+  final String d = '$month $day, $year';
   if (!includeTime) {
     return d;
   }
 
-  final hours = date.hour.toString().padLeft(2, '0');
-  final minutes = date.minute.toString().padLeft(2, '0');
-  final seconds = date.second.toString().padLeft(2, '0');
+  final String hours = date.hour.toString().padLeft(2, '0');
+  final String minutes = date.minute.toString().padLeft(2, '0');
+  final String seconds = date.second.toString().padLeft(2, '0');
 
   return '$d $hours:$minutes:$seconds';
-}
-
-/// Returns a random integer between min and max.
-int getRandomInt(int min, int max) {
-  return min + Random().nextInt(max - min + 1);
 }
 
 /// Returns the month name from an integer.
@@ -62,5 +55,5 @@ String padd0(String datePart) {
 
 /// Returns a duration as a string in the format HHh MMm.
 String getDurationString(Duration d) {
-  return "${d.inHours}h ${d.inMinutes.remainder(60)}m";
+  return '${d.inHours}h ${d.inMinutes.remainder(60)}m';
 }

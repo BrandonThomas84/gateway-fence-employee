@@ -1,12 +1,10 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:gateway_fence_employee/config/colors.dart';
 
 class MenuItem extends StatelessWidget {
-  final String title;
-  final IconData icon;
-  final VoidCallback? onTap;
-  final bool isActive;
-
   const MenuItem({
     super.key,
     required this.title,
@@ -15,10 +13,15 @@ class MenuItem extends StatelessWidget {
     this.isActive = false,
   });
 
+  final String title;
+  final IconData icon;
+  final VoidCallback? onTap;
+  final bool isActive;
+
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: [
+      children: <Widget>[
         Padding(
           padding: const EdgeInsets.symmetric(
             vertical: 15,

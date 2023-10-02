@@ -1,8 +1,10 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:gateway_fence_employee/config/colors.dart';
 
-import 'menu.dart';
+// Project imports:
+import 'package:gateway_fence_employee/config/colors.dart';
 import 'header.dart';
+import 'menu.dart';
 
 class Sidebar extends StatelessWidget {
   const Sidebar({
@@ -15,9 +17,9 @@ class Sidebar extends StatelessWidget {
       child: Container(
         width: MediaQuery.of(context).size.width * .75,
         color: AppColors.white,
-        child: const Column(
-          children: [
-            Header(),
+        child: Column(
+          children: <Widget>[
+            const Header(),
             Menu(),
           ],
         ),

@@ -1,6 +1,8 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:gateway_fence_employee/config/colors.dart';
 
+// Project imports:
+import 'package:gateway_fence_employee/config/colors.dart';
 import 'pause_button.dart';
 import 'timer_body.dart';
 
@@ -20,7 +22,7 @@ class StatusTimer extends StatelessWidget {
         ),
         padding: const EdgeInsets.all(5),
         child: const Row(
-          children: [
+          children: <Widget>[
             PauseButton(),
             SizedBox(width: 10),
             TimerBody(),

@@ -1,3 +1,4 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
 
 class TimerBody extends StatelessWidget {
@@ -10,7 +11,7 @@ class TimerBody extends StatelessWidget {
     return const Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+      children: <Widget>[
         Text(
           'CLOCK STARTED: 12:34:45 PM',
           style: TextStyle(

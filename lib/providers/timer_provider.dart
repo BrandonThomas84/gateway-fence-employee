@@ -1,3 +1,4 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
 
 class Timer with ChangeNotifier {
@@ -41,10 +42,10 @@ class Timer with ChangeNotifier {
       return '00:00:00';
     }
     if (_endTime == null) {
-      final duration = DateTime.now().difference(_startTime!);
+      final Duration duration = DateTime.now().difference(_startTime!);
       return _formatDuration(duration);
     }
-    final duration = _endTime!.difference(_startTime!);
+    final Duration duration = _endTime!.difference(_startTime!);
     return _formatDuration(duration);
   }
 
@@ -53,9 +54,9 @@ class Timer with ChangeNotifier {
     if (_startTime == null) {
       return '00:00:00';
     }
-    final hours = _startTime!.hour.toString().padLeft(2, '0');
-    final minutes = _startTime!.minute.toString().padLeft(2, '0');
-    final seconds = _startTime!.second.toString().padLeft(2, '0');
+    final String hours = _startTime!.hour.toString().padLeft(2, '0');
+    final String minutes = _startTime!.minute.toString().padLeft(2, '0');
+    final String seconds = _startTime!.second.toString().padLeft(2, '0');
     return '$hours:$minutes:$seconds';
   }
 
@@ -64,9 +65,9 @@ class Timer with ChangeNotifier {
     if (_endTime == null) {
       return '00:00:00';
     }
-    final hours = _endTime!.hour.toString().padLeft(2, '0');
-    final minutes = _endTime!.minute.toString().padLeft(2, '0');
-    final seconds = _endTime!.second.toString().padLeft(2, '0');
+    final String hours = _endTime!.hour.toString().padLeft(2, '0');
+    final String minutes = _endTime!.minute.toString().padLeft(2, '0');
+    final String seconds = _endTime!.second.toString().padLeft(2, '0');
     return '$hours:$minutes:$seconds';
   }
 
@@ -74,9 +75,9 @@ class Timer with ChangeNotifier {
 
   /// Formats a [Duration] into a string of the format HH:MM:SS.
   String _formatDuration(Duration duration) {
-    final hours = duration.inHours.toString().padLeft(2, '0');
-    final minutes = (duration.inMinutes % 60).toString().padLeft(2, '0');
-    final seconds = (duration.inSeconds % 60).toString().padLeft(2, '0');
+    final String hours = duration.inHours.toString().padLeft(2, '0');
+    final String minutes = (duration.inMinutes % 60).toString().padLeft(2, '0');
+    final String seconds = (duration.inSeconds % 60).toString().padLeft(2, '0');
     return '$hours:$minutes:$seconds';
   }
 }

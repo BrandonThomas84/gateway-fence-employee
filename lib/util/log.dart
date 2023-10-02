@@ -1,92 +1,136 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_classes_with_only_static_members
 
-import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
+// Project imports:
 import 'package:gateway_fence_employee/util/config.dart';
+import 'package:logger/logger.dart';
 
-enum LogLevel {
-  error,
-  warn,
-  debug,
-  info,
+// start the logger
+Logger logger = Logger(
+    printer: PrettyPrinter(
+      methodCount: 0,
+      errorMethodCount: 8,
+      lineLength: 120,
+      colors: true,
+      printEmojis: true,
+      printTime: true,
+    ),
+    level: getLogLevelFromString(appVarLogLevel));
+
+/// Returns a [Level] from a string
+Level getLogLevelFromString(String loglevel) {
+  switch (loglevel) {
+    case 'trace':
+      return Level.trace;
+    case 'debug':
+      return Level.debug;
+    case 'info':
+      return Level.info;
+    case 'warning':
+      return Level.warning;
+    case 'error':
+      return Level.error;
+    case 'fatal':
+      return Level.fatal;
+    case 'off':
+      return Level.off;
+    case 'all':
+      return Level.all;
+    default:
+      return Level.fatal;
+  }
 }
 
-class Logger {
-  /// Write a controlled log output in json format
-  static void log({
-    required String message,
-    LogLevel level = LogLevel.error,
-    Map<String, dynamic>? data,
-  }) {
-    // check the level to determine if the log should be made
-    try {
-      LogLevel logAt = _getLogLevelFromString(appVarLogLevel);
-      if (level.index > logAt.index) {
-        return;
-      }
-    } catch (e) {
-      // print the error only in debug mode
-      if (kDebugMode) {
-        print('[EXCEPTION] $e');
-        print('Invalid log level - using error level');
-      }
-
-      // if it was an error then log, if not the discard
-      if (level.index > LogLevel.error.index) {
-        print('log requested too low of a level (exception) - discarding');
-        return;
-      }
-    }
-
-    // create the general log output
-    Map<String, dynamic> output = {
-      'level': level.toString().split('.').last,
-      'message': message,
-    };
-
-    // add data to the output
+class AppLogger {
+  static dynamic prepareMessage(String message, Map<String, dynamic>? data) {
     if (data != null) {
-      output['data'] = {};
-      output['data'].addAll(data);
+      data['message'] = message;
+      return data;
+    } else {
+      return message;
     }
-
-    // add the timestamp to the end of the output 
-    output['utc'] = DateTime.now().toUtc().toIso8601String();
-
-    // log the output
-    print(jsonEncode(output));
   }
 
-  /// Write a controlled log output in json format at the error level
-  static void error(String message, {Map<String, dynamic>? data}) =>
-      log(message: message, level: LogLevel.error, data: data);
+  static void trace(
+    String message, {
+    Map<String, dynamic>? data,
+    Object? error,
+    StackTrace? stackTrace,
+  }) {
+    logger.t(
+      prepareMessage(message, data),
+      error: error,
+      stackTrace: stackTrace,
+      time: DateTime.now(),
+    );
+  }
 
-  /// Write a controlled log output in json format at the warn level
-  static void warn(String message, {Map<String, dynamic>? data}) =>
-      log(message: message, level: LogLevel.warn, data: data);
+  static void debug(
+    String message, {
+    Map<String, dynamic>? data,
+    Object? error,
+    StackTrace? stackTrace,
+  }) {
+    logger.d(
+      prepareMessage(message, data),
+      error: error,
+      stackTrace: stackTrace,
+      time: DateTime.now(),
+    );
+  }
 
-  /// Write a controlled log output in json format at the debug level
-  static void debug(String message, {Map<String, dynamic>? data}) =>
-      log(message: message, level: LogLevel.debug, data: data);
+  static void info(
+    String message, {
+    Map<String, dynamic>? data,
+    Object? error,
+    StackTrace? stackTrace,
+  }) {
+    logger.i(
+      prepareMessage(message, data),
+      error: error,
+      stackTrace: stackTrace,
+      time: DateTime.now(),
+    );
+  }
 
-  /// Write a controlled log output in json format at the info level
-  static void info(String message, {Map<String, dynamic>? data}) =>
-      log(message: message, level: LogLevel.info, data: data);
+  static void warn(
+    String message, {
+    Map<String, dynamic>? data,
+    Object? error,
+    StackTrace? stackTrace,
+  }) {
+    logger.w(
+      prepareMessage(message, data),
+      error: error,
+      stackTrace: stackTrace,
+      time: DateTime.now(),
+    );
+  }
 
-  /// Returns the LogLevel enum value from a string or error if the string is not valid
-  static LogLevel _getLogLevelFromString(String loglevel) {
-    switch (loglevel) {
-      case 'error':
-        return LogLevel.error;
-      case 'warn':
-        return LogLevel.warn;
-      case 'debug':
-        return LogLevel.debug;
-      case 'info':
-        return LogLevel.info;
-      default:
-        throw Exception('Invalid log level');
-    }
+  static void error(
+    String message, {
+    Map<String, dynamic>? data,
+    Object? error,
+    StackTrace? stackTrace,
+  }) {
+    logger.e(
+      prepareMessage(message, data),
+      error: error,
+      stackTrace: stackTrace,
+      time: DateTime.now(),
+    );
+  }
+
+  static void fatal(
+    String message, {
+    Map<String, dynamic>? data,
+    Object? error,
+    StackTrace? stackTrace,
+  }) {
+    logger.f(
+      prepareMessage(message, data),
+      error: error,
+      stackTrace: stackTrace,
+      time: DateTime.now(),
+    );
   }
 }
