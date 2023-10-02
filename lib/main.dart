@@ -30,7 +30,8 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  final FirebaseDatabase _ = FirebaseDatabase.instance;
+  final FirebaseDatabase db = FirebaseDatabase.instance;
+  db.setPersistenceEnabled(true);
 
   /// this is for local testing and the port should be updated if
   /// the port is changed in the firebase.json file

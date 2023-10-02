@@ -1,4 +1,7 @@
 // Flutter imports:
+// import 'dart:ffi';
+
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -56,6 +59,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
       // ignore: unused_local_variable
       final UserCredential credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: _email, password: _password);
+
+      // create the firebase database user record
+      if (credential.user == null){
+        throw Exception('no credential user found');
+      }
+
+      // create a new key for the user
+      final String? userKey = FirebaseDatabase.instance.ref('users').push().key;
+      if (userKey == null) {
+        throw Exception('failed to push for new user key');
+      }
+      FirebaseDatabase.instance.ref('users/$userKey').set(
+        <String, dynamic>{
+          'uid': credential.user!.uid,
+          'email': credential.user!.email,
+          'verified': credential.user!.emailVerified,
+          'phone': credential.user!.phoneNumber,
+          'created': DateTime.now().millisecondsSinceEpoch.toString(),
+        },
+      // ignore: always_specify_types
+      ).then((value) {
+        AppLogger.info('successfully created the user record: users/$userKey');
+      // ignore: always_specify_types
+      }).catchError((err) {
+        AppLogger.error('failed to write user recod to DB, message: $err');
+
+        throw Exception(err);
+      });
 
       setState(() {
         _doingRegister = false;

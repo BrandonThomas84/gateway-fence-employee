@@ -3,7 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 
 class UserModel {
   UserModel(
-    this.userId, {
+    this.uid, {
     this.displayName,
     this.email,
     this.phone,
@@ -13,12 +13,12 @@ class UserModel {
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     // insure ownerID is present
-    if (!json.containsKey('userId')) {
-      throw Exception('userId is missing from JSON data.');
+    if (!json.containsKey('uid')) {
+      throw Exception('uid is missing from JSON data.');
     }
 
     return UserModel(
-      json['userId'],
+      json['uid'],
       displayName: json['displayName'],
       email: json['email'],
       phone: json['phone'],
@@ -27,7 +27,7 @@ class UserModel {
     );
   }
 
-  String get getID => userId;
+  String get getID => uid;
   String get getDisplayName => displayName!;
   String get getEmail => email!;
   String get getPhone => phone!;
@@ -36,7 +36,7 @@ class UserModel {
   DateTime? get getModified =>
       modified == null ? null : DateTime.parse(modified!);
 
-  String userId;
+  String uid;
   String? displayName;
   String? email;
   String? phone;
@@ -45,14 +45,14 @@ class UserModel {
 
   Future<void> save() async {
     final DatabaseReference ref =
-        FirebaseDatabase.instance.ref('users/$userId');
+        FirebaseDatabase.instance.ref('users/$uid');
     return await ref.set(toJson());
   }
 
   // get user as json string
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
-      'userId': userId,
+      'userId': uid,
       'displayName': displayName,
       'email': email,
       'phone': phone,

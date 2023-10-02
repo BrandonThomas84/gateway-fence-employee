@@ -13,11 +13,16 @@ class DevMenuTrigger extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!Provider.of<DevProvider>(context).isDevMode) {
-      return Container();
+      return const SizedBox(height: 100);
     }
-    return TextButton(
-      child: const Text('Dev Menu'),
-      onPressed: () => <void>{Scaffold.of(context).openEndDrawer()},
+    return Column(
+      children: <Widget>[
+        TextButton(
+          child: const Text('Dev Menu'),
+          onPressed: () => <void>{Scaffold.of(context).openEndDrawer()},
+        ),
+        const SizedBox(height: 100),
+      ],
     );
   }
 }

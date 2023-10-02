@@ -75,7 +75,6 @@ class _DefaultScreenScaffoldState extends State<DefaultScreenScaffold>
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.1),
                 const DevMenuTrigger(),
-                const SizedBox(height: 100),
                 // const DevMenu(), // only shows in dev mode
               ],
             ),

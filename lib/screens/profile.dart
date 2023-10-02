@@ -166,7 +166,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ProfileInputRow(
           name: 'Name',
           icon: Icons.person_2_outlined,
-          initialValue: authProvider.user!.displayName ?? '',
+          initialValue: authProvider.user?.displayName ?? '',
           onSavePress: (String? value) {
             return onNameSave(value, authProvider);
           },
